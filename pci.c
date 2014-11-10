@@ -8,6 +8,7 @@
 #include <sys/mman.h>
 
 #define STRING_SIZE 256
+#define MAP_SIZE 4096UL /* One page */
 
 #define EXIT_WITH_ERROR(MESSAGE) \
   do { \
@@ -44,8 +45,8 @@ int pci_resource_open(char *vendor_code, int base_address_register) {
   return resource_file;
 }
 
-void *pci_resource_map(int resource_file, size_t map_size) {
-  void *map_base = mmap(0, map_size, PROT_READ | PROT_WRITE, MAP_SHARED, resource_file, 0);
+void *pci_resource_map(int resource_file) {
+  void *map_base = mmap(0, MAP_SIZE, PROT_READ | PROT_WRITE, MAP_SHARED, resource_file, 0);
   if (map_base == MAP_FAILED) EXIT_WITH_ERROR("Map failed");
 
   return map_base;
@@ -64,7 +65,7 @@ int main( int argc, char *argv[] )
   int resource_file;
   void *resource_base;
   resource_file = pci_resource_open("0xDACA", 0);
-  resource_base = pci_resource_map(resource_file, 4096UL);
+  resource_base = pci_resource_map(resource_file);
   pci_resource_unmap(resource_base);
   pci_resource_close(resource_file);
 }
