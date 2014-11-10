@@ -22,7 +22,7 @@ void command_execute(char *result, char *command) {
 
   if (fgets(result, STRING_SIZE, process) == NULL) EXIT_WITH_ERROR("No result");
 
-  result[strlen(result)-1] = 0; // Strips newline
+  result[strlen(result)-1] = 0; /* Strips newline */
 
   pclose(process);
 }
