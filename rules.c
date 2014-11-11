@@ -4,6 +4,7 @@
 
 struct RuleStruct create_rule_grow_x (void) {
   struct RuleStruct rule;
+
   rule.valid = TRUE;
   rule.type = GROWTH;
 
@@ -43,7 +44,7 @@ struct RuleStruct create_rule_grow_x (void) {
   rule.center.type_dc = FALSE;
   rule.center.type_value = 0;
 
-  // result    
+  // result
   rule.dont_change_state = TRUE;
   rule.result.copyFrom = WEST;
   return rule;
@@ -51,6 +52,7 @@ struct RuleStruct create_rule_grow_x (void) {
 
 struct RuleStruct create_rule_grow_y (void) {
   struct RuleStruct rule;
+
   rule.valid = TRUE;
   rule.type = GROWTH;
 
@@ -90,7 +92,7 @@ struct RuleStruct create_rule_grow_y (void) {
   rule.center.type_dc = FALSE;
   rule.center.type_value = 0;
 
-  // result    
+  // result
   rule.dont_change_state = TRUE;
   rule.result.copyFrom = NORTH;
   return rule;
@@ -98,6 +100,7 @@ struct RuleStruct create_rule_grow_y (void) {
 
 struct RuleStruct create_rule_change (void) {
   struct RuleStruct rule;
+
   rule.valid = TRUE;
   rule.type = CHANGE;
 
@@ -137,7 +140,7 @@ struct RuleStruct create_rule_change (void) {
   rule.center.type_dc = FALSE;
   rule.center.type_value = 1;
 
-  // result      
+  // result
   rule.dont_change_state = FALSE;
   rule.result.change.type = 3;
   rule.result.change.state = 1;
@@ -193,7 +196,8 @@ struct RuleStruct create_rule_change_a (void) {
   rule.center.state_value = FALSE;
   rule.center.type_dc = TRUE;
   rule.center.type_value = 0;
-  // result      
+
+  // result
   rule.dont_change_state = TRUE;
   rule.result.change.type = 1;
   rule.result.change.state = 0;
@@ -232,6 +236,7 @@ struct RuleStruct create_rule_change_b (voidr) {
   rule.east.state_value = FALSE;
   rule.east.type_dc = TRUE;
   rule.east.type_value = 0;
+
   rule.west.state_dc = TRUE;
   rule.west.state_value = FALSE;
   rule.west.type_dc = FALSE;
@@ -292,10 +297,10 @@ struct RuleStruct create_rule_grow_north (void) {
   rule.center.type_dc = FALSE;
   rule.center.type_value = 0;
 
-  // result    
+  // result
   rule.dont_change_state = TRUE;
   rule.result.copyFrom = NORTH;
-  
+
   return rule;
 }
 
@@ -447,9 +452,10 @@ struct RuleStruct create_rule_grow_west (void) {
 
 struct RuleStruct create_rule_grow_west_1 (void) {
   struct RuleStruct rule;
+
   rule.valid = TRUE;
   rule.type = CHANGE;
-  
+
   // precondition
   rule.up.state_dc = TRUE;
   rule.up.state_value = FALSE;
@@ -496,9 +502,10 @@ struct RuleStruct create_rule_grow_west_1 (void) {
 
 struct RuleStruct create_rule_grow_north_1 (void) {
   struct RuleStruct rule;
+
   rule.valid = TRUE;
   rule.type = CHANGE;
-  
+
   // precondition
   rule.up.state_dc = TRUE;
   rule.up.state_value = FALSE;
@@ -544,9 +551,10 @@ struct RuleStruct create_rule_grow_north_1 (void) {
 }
 struct RuleStruct create_rule_grow_east_1 (void) {
   struct RuleStruct rule;
+
   rule.valid = TRUE;
   rule.type = CHANGE;
-  
+
   // precondition
   rule.up.state_dc = TRUE;
   rule.up.state_value = FALSE;
@@ -593,9 +601,10 @@ struct RuleStruct create_rule_grow_east_1 (void) {
 
 struct RuleStruct create_rule_grow_south_1 (void) {
   struct RuleStruct rule;
+
   rule.valid = TRUE;
   rule.type = CHANGE;
-  
+
   // precondition
   rule.up.state_dc = TRUE;
   rule.up.state_value = FALSE;
@@ -641,9 +650,10 @@ struct RuleStruct create_rule_grow_south_1 (void) {
 }
 struct RuleStruct create_rule_grow_west_2 (void) {
   struct RuleStruct rule;
+
   rule.valid = TRUE;
   rule.type = CHANGE;
-  
+
   // precondition
   rule.up.state_dc = TRUE;
   rule.up.state_value = FALSE;
@@ -690,9 +700,10 @@ struct RuleStruct create_rule_grow_west_2 (void) {
 
 struct RuleStruct create_rule_grow_north_2 (void) {
   struct RuleStruct rule;
+
   rule.valid = TRUE;
   rule.type = CHANGE;
-  
+
   // precondition
   rule.up.state_dc = TRUE;
   rule.up.state_value = FALSE;
@@ -738,9 +749,10 @@ struct RuleStruct create_rule_grow_north_2 (void) {
 }
 struct RuleStruct create_rule_grow_east_2 (void) {
   struct RuleStruct rule;
+
   rule.valid = TRUE;
   rule.type = CHANGE;
-  
+
   // precondition
   rule.up.state_dc = TRUE;
   rule.up.state_value = FALSE;
@@ -787,9 +799,10 @@ struct RuleStruct create_rule_grow_east_2 (void) {
 
 struct RuleStruct create_rule_grow_south_2 (void) {
   struct RuleStruct rule;
+
   rule.valid = TRUE;
   rule.type = CHANGE;
-  
+
   // precondition
   rule.up.state_dc = TRUE;
   rule.up.state_value = FALSE;
@@ -875,7 +888,8 @@ struct RuleStruct create_rule_change_a_1 (void) {
   rule.center.state_value = FALSE;
   rule.center.type_dc = FALSE;
   rule.center.type_value = 1;
-  // result      
+
+  // result
   rule.dont_change_state = TRUE;
   rule.result.change.type = 1;
   rule.result.change.state = 0;
@@ -924,7 +938,8 @@ struct RuleStruct create_rule_change_a_2 (void) {
   rule.center.state_value = FALSE;
   rule.center.type_dc = FALSE;
   rule.center.type_value = 2;
-  // result      
+
+  // result
   rule.dont_change_state = TRUE;
   rule.result.change.type = 1;
   rule.result.change.state = 0;
@@ -963,6 +978,7 @@ struct RuleStruct create_rule_change_b_1 (voidr) {
   rule.east.state_value = FALSE;
   rule.east.type_dc = TRUE;
   rule.east.type_value = 0;
+
   rule.west.state_dc = TRUE;
   rule.west.state_value = FALSE;
   rule.west.type_dc = FALSE;
@@ -1012,6 +1028,7 @@ struct RuleStruct create_rule_change_b_2 (voidr) {
   rule.east.state_value = FALSE;
   rule.east.type_dc = TRUE;
   rule.east.type_value = 0;
+
   rule.west.state_dc = TRUE;
   rule.west.state_value = FALSE;
   rule.west.type_dc = FALSE;
