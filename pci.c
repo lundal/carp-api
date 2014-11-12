@@ -60,6 +60,7 @@ void pci_resource_close(int resource_file) {
   close(resource_file);
 }
 
+/*
 int main( int argc, char *argv[] )
 {
   int resource_file;
@@ -69,4 +70,5 @@ int main( int argc, char *argv[] )
   pci_resource_unmap(resource_base);
   pci_resource_close(resource_file);
 }
+*/
 
