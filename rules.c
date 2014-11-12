@@ -1,7 +1,6 @@
 #include "types.h"
 #include "sblocklib.h"
 
-
 struct RuleStruct create_rule_grow_x (void) {
   struct RuleStruct rule;
 
@@ -149,10 +148,11 @@ struct RuleStruct create_rule_change (void) {
 }
 
 struct RuleStruct create_rule_empty (void) {
-  struct RuleStruct emptyRule;
+  struct RuleStruct rule;
 
-  emptyRule.valid = FALSE;
-  return emptyRule;
+  rule.valid = FALSE;
+
+  return rule;
 }
 
 struct RuleStruct create_rule_change_a (void) {
