@@ -19,10 +19,11 @@
 
 /* size of DMA buffers
    this may be changed to whatever is suitable */
-#define BUFFER_SIZE 2048*2//1024 
+#define BUFFER_SIZE (4096/8) /* One page of 64bit integers */
 
 /* memory used for transferring data from user-FPGA
    After a readDMA() this buffer should hold the read data */
+extern uint64_t sendBuffer[BUFFER_SIZE];
 extern uint64_t receiveBuffer[BUFFER_SIZE];
 
 /*****************************************************************************/
@@ -31,10 +32,10 @@ extern uint64_t receiveBuffer[BUFFER_SIZE];
 */
 
 /* select a card and open it */
-//bool_t openCard (int number);
+void openCard (void);
 
 /* close card after it is no longer used */
-//void closeCard (void);
+void closeCard (void);
 
 /* configure user FPGA */
 //bool_t configureCard (char* bitfilename);
@@ -52,7 +53,7 @@ inline void flushDMA (void);
      instructions are pending in the send buffer
    - "words" is number of words to receive, and must be less than
      BUFFER_SIZE */
-//inline void readDMA (int words);
+inline void readDMA (int words);
 
 /*****************************************************************************/
 /* - instructions

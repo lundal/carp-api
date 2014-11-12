@@ -15,18 +15,32 @@
 
 #include "sblocklib.h"
 
-#define PCI_CLK    2
-#define PCI_FREQ  40
-
-#define CLK     1
-#define FREQ   80
-
 static int bufferPtr;
-static uint64_t sendBuffer[BUFFER_SIZE];
+
+uint64_t sendBuffer[BUFFER_SIZE];
 uint64_t receiveBuffer[BUFFER_SIZE];
 
+int resource0_file;
+volatile uint64_t *resource0_base;
+
+void openCard() {
+  /* Resource 0 is used to transfer data to/from CA */
+  resource0_file = pci_resource_open("0xDACA", 0);
+  resource0_base = pci_resource_map(resource_file);
+}
+
+void closeCard() {
+  pci_resource_unmap(resource0_base);
+  pci_resource_close(resource0_file);
+  //pci_resource_unmap(resource1_base);
+  //pci_resource_close(resource1_file);
+}
 
 void flushDMA (void) {
+  int i;
+  for (i = 0; i < bufferPtr; i++) {
+    resource_0_base[i] = sendBuffer[i];
+  }
   bufferPtr = 0;
 }
 
@@ -35,6 +49,13 @@ void insertDMA (uint64_t data) {
 
   if (bufferPtr == BUFFER_SIZE) {
     flushDMA();
+  }
+}
+
+void readDMA(int words) {
+  int i;
+  for (i = 0; i < words; i++) {
+    receiveBuffer[i] = resource_0_base[i];
   }
 }
 
