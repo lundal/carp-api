@@ -69,7 +69,7 @@ void doFitness(uint32_t number){
   insertDMA(0x000000000000001A | (number << 8));
 }
 
-void store (uint_t addr) {
+void store (uint32_t addr) {
   insertDMA (0x000000000000000e | (addr << 8));
 }  
 
@@ -81,7 +81,7 @@ inline void nop (void) {
   insertDMA (0x0000000000000000);
 }
 
-void jump (uint_t addr) {
+void jump (uint32_t addr) {
   insertDMA (0x000000000000000c | (addr << 8));
 }
 
@@ -249,3 +249,4 @@ void saveSendBuffer (char* modelsim) {
     }
   }
 }
+

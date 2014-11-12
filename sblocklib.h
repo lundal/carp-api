@@ -10,49 +10,9 @@
 #ifndef SBLOCKLIB_H
 #define SBLOCKLIB_H
 
+#include "rules.h"
 #include "types.h"
 #include <stdio.h>
-
-/*****************************************************************************/
-/* enums and structs used to specify a rule */
-
-enum ruleTypes {
-  CHANGE, GROWTH
-};
-
-enum directions {
-  UP, DOWN, NORTH, SOUTH, EAST, WEST
-};
-
-struct precond {
-  bool_t state_dc;
-  bool_t state_value;
-  bool_t type_dc;
-  int type_value;
-};
-
-struct RuleStruct {
-  bool_t valid;
-  int type;
-
-  struct precond up;
-  struct precond down;
-  struct precond north;
-  struct precond south;
-  struct precond east;
-  struct precond west;
-  struct precond center;
-                
-  bool_t dont_change_state;
-
-  union {
-    struct {
-      bool_t state;
-      int type;
-    } change;
-    int copyFrom;
-  } result;
-};
 
 /*****************************************************************************/
 /* constants and globals */
@@ -105,7 +65,7 @@ inline void clearBRAM (uint64_t type, bool_t state);
 inline void config (void);
 inline void devstep (void);
 inline void end (void);
-inline void jump (uint_t addr);
+inline void jump (uint32_t addr);
 inline void nop (void);
 inline void readback (void);
 inline void readState (int x, int y, int z);
@@ -121,7 +81,7 @@ inline void readFitness(void);
 inline void doFitness(uint32_t number);
 inline void run (int cycles);
 inline void setNumberOfLastRule (int numberOfLastRule);
-inline void store (uint_t addr);
+inline void store (uint32_t addr);
 inline void switchSBMs (void);
 inline void writeLUTConv (uint64_t lut_lo, uint64_t lut_hi, uint64_t number);
 inline void writeRule (struct RuleStruct rule, int number);
@@ -139,3 +99,4 @@ inline void startDFT (int addr);
 void saveSendBuffer (char* modelsim);
 
 #endif
+

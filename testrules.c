@@ -1,5 +1,4 @@
-#include "types.h"
-#include "sblocklib.h"
+#include "testrules.h"
 
 struct RuleStruct create_rule_grow_x (void) {
   struct RuleStruct rule;
@@ -1046,3 +1045,4 @@ struct RuleStruct create_rule_change_b_2 (voidr) {
 
   return rule;
 }
+

@@ -10,3 +10,4 @@ void pci_resource_unmap(void *map_base);
 void pci_resource_close(int resource_file);
 
 #endif
+

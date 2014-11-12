@@ -1,25 +1,45 @@
+#ifndef RULES_H
+#define RULES_H
+
 #include "types.h"
 
-struct RuleStruct create_rule_grow_x (void);
-struct RuleStruct create_rule_grow_y (void);
-struct RuleStruct create_rule_change (void);
+enum ruleTypes {
+  CHANGE, GROWTH
+};
 
-struct RuleStruct create_rule_empty (void);
-struct RuleStruct create_rule_change_a (void) ;
-struct RuleStruct create_rule_change_b (void) ;
-struct RuleStruct create_rule_grow_north (void);
-struct RuleStruct create_rule_grow_south (void) ;
-struct RuleStruct create_rule_grow_east (void) ;
-struct RuleStruct create_rule_grow_west (void) ;
-struct RuleStruct create_rule_grow_west_1 (void) ;
-struct RuleStruct create_rule_grow_west_2 (void) ;
-struct RuleStruct create_rule_grow_north_1 (void) ;
-struct RuleStruct create_rule_grow_north_2 (void) ;
-struct RuleStruct create_rule_grow_east_1 (void) ;
-struct RuleStruct create_rule_grow_east_2 (void) ;
-struct RuleStruct create_rule_grow_south_1 (void) ;
-struct RuleStruct create_rule_grow_south_2 (void) ;
-struct RuleStruct create_rule_change_a_1 (void) ;
-struct RuleStruct create_rule_change_a_2 (void) ;
-struct RuleStruct create_rule_change_b_1 (void) ;
-struct RuleStruct create_rule_change_b_2 (void) ;
+enum directions {
+  UP, DOWN, NORTH, SOUTH, EAST, WEST
+};
+
+struct precond {
+  bool_t state_dc;
+  bool_t state_value;
+  bool_t type_dc;
+  int type_value;
+};
+
+struct RuleStruct {
+  bool_t valid;
+  int type;
+
+  struct precond up;
+  struct precond down;
+  struct precond north;
+  struct precond south;
+  struct precond east;
+  struct precond west;
+  struct precond center;
+
+  bool_t dont_change_state;
+
+  union {
+    struct {
+      bool_t state;
+      int type;
+    } change;
+    int copyFrom;
+  } result;
+};
+
+#endif
+

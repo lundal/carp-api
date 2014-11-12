@@ -26,15 +26,6 @@
 /*****************************************************************************/
 /* protos */
 
-/* write some specific rules to rule storage */
-void writeRule_empty (int number);
-void writeRule_change_a (int number);
-void writeRule_change_b (int number);
-void writeRule_grow_north (int number);
-void writeRule_grow_south (int number);
-void writeRule_grow_east (int number);
-void writeRule_grow_west (int number);
-
 /* write a specific state pattern to BRAM-0 */
 void setStatesAlternating (void);
 
@@ -46,7 +37,7 @@ void store_program_test_fitness(void);
 void store_program_test_fitness_speed_new(int runstep);
 
 /*****************************************************************************/
-
+/* globals */
 
 enum test_t {TEST_FUNCT = 0, TEST_SPEED, TEST_RULE, TEST_FITNESS, TEST_FITNESS_SPEED_NEW};
 enum test_t test;
@@ -67,20 +58,20 @@ int main (int argc, char* argv[]) {
     fflush(stdout);
     
     /* write to lut conv table */
-    writeLUTConv (EMPTY_LO, EMPTY_HI, 0); /* sblock type 0 is empty */
-    writeLUTConv (XOR4_LO, XOR4_HI, 1);  /* sblock type 1 is XOR4 */
-    writeLUTConv (OR4_LO, OR4_HI, 2);   /* sblock type 2 is OR4 */
-    writeLUTConv (AND4_LO, AND4_HI, 3);  /* sblock type 3 is AND4 */
+    writeLUTConv(EMPTY_LO, EMPTY_HI, 0); /* sblock type 0 is empty */
+    writeLUTConv(XOR4_LO, XOR4_HI, 1);   /* sblock type 1 is XOR4 */
+    writeLUTConv(OR4_LO, OR4_HI, 2);     /* sblock type 2 is OR4 */
+    writeLUTConv(AND4_LO, AND4_HI, 3);   /* sblock type 3 is AND4 */
 
     /* write rules to rule storage */
-    writeRule(create_rule_grow_south_1(),0);
-    writeRule(create_rule_grow_south_2(),1);
-    writeRule(create_rule_grow_east_1(),2);
-    writeRule(create_rule_grow_east_2(),3);
-    writeRule(create_rule_grow_north_1(),4);
-    writeRule(create_rule_grow_north_2(),5);
-    writeRule(create_rule_grow_west_1(),6);
-    writeRule(create_rule_grow_west_2(),7);
+    writeRule(create_rule_grow_south_1(), 0);
+    writeRule(create_rule_grow_south_2(), 1);
+    writeRule(create_rule_grow_east_1(), 2);
+    writeRule(create_rule_grow_east_2(), 3);
+    writeRule(create_rule_grow_north_1(), 4);
+    writeRule(create_rule_grow_north_2(), 5);
+    writeRule(create_rule_grow_west_1(), 6);
+    writeRule(create_rule_grow_west_2(), 7);
     writeRule(create_rule_change_a_1(), 8);
     writeRule(create_rule_change_a_2(), 9);
     writeRule(create_rule_change_b_1(), 10);
@@ -156,7 +147,6 @@ void store_program_test_rule(){
     jump(PROGRAM_ADDRESS);
   }end();
   jump(PROGRAM_ADDRESS);
-
 }
 
 void store_program_test_funct(){
@@ -274,3 +264,4 @@ void store_program_test_fitness_speed_new(int runstep){
   }end();
   jump(PROGRAM_ADDRESS);
 }
+
