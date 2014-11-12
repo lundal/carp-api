@@ -90,7 +90,7 @@ inline void writeState (bool_t state, int x, int y, int z);
 inline void writeStates (uint64_t states, int x, int y, int z);
 inline void writeType (uint64_t type, int x, int y, int z);
 inline void writeTypes (uint64_t types, int x, int y, int z);
-inline void startDFT (int addr);
+inline void startDFT (uint64_t addr);
 
 /*****************************************************************************/
 /* utility functions */

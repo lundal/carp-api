@@ -21,7 +21,7 @@ void readDMATypes (void) {
   int x;
 
   /* read types */
-//  readDMA (ROWS * COLUMNS / 4);
+  readDMA (ROWS * COLUMNS / 4);
   for (x = 0; x < ROWS * COLUMNS / 4; x++) {
     uint32_t type;
 
@@ -41,7 +41,7 @@ void readDMAStates (void) {
   int x, y;
 
   /* read states */
-//  readDMA (ROWS * COLUMNS / 32);
+  readDMA (ROWS * COLUMNS / 32);
   for (x = 0; x < ROWS * COLUMNS / 32; x++) {
     uint32_t state;
 
@@ -94,7 +94,7 @@ void printStates (FILE *outputfile) {
 
 void readDMASums(int n){
   int i;
-//  readDMA(n/2);
+  readDMA(n/2);
   for(i = 0; i < n/2; i++){
     //fprintf(outputfile, "%x ", receiveBuffer[i]); fflush(stdout);
     sumArray[2*i  ] = receiveBuffer[i] & 0x0000ffff;
@@ -118,7 +118,7 @@ void readDMAUsedRules(void){
   int x;
 
   /* read types */
-//  readDMA (ROWS * COLUMNS / 4);
+  readDMA (ROWS * COLUMNS / 4);
   for (x = 0; x < ROWS * COLUMNS/4; x++) {
     uint32_t rules;
 
@@ -154,7 +154,7 @@ void readDMAVector(int n){
   int i, j;
   //256 bit each vector = 8 * 32 bit
   for(i = 0; i < n; i++){
-//    readDMA(8);
+    readDMA(8);
     for(j = 0; j < 8; j++){
       ruleVector[i][j] = receiveBuffer[j];
     }
@@ -187,7 +187,7 @@ void printVector(int n, FILE *outputfile){
 }
 
 void readAndPrintFitness(FILE *outputfile){
-//  readDMA(1);
+  readDMA(1);
   fprintf(outputfile, "Fitness register: 0x%08x (%3i)\n", receiveBuffer[0], receiveBuffer[0]);
   fflush(stdout);
 }

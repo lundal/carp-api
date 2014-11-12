@@ -14,6 +14,7 @@
    in sblocklib.h */
 
 #include "sblocklib.h"
+#include "pci.h"
 
 static int bufferPtr;
 
@@ -24,22 +25,19 @@ int resource0_file;
 volatile uint64_t *resource0_base;
 
 void openCard() {
-  /* Resource 0 is used to transfer data to/from CA */
   resource0_file = pci_resource_open("0xDACA", 0);
-  resource0_base = pci_resource_map(resource_file);
+  resource0_base = (uint64_t*)pci_resource_map(resource0_file);
 }
 
 void closeCard() {
-  pci_resource_unmap(resource0_base);
+  pci_resource_unmap((void*)resource0_base);
   pci_resource_close(resource0_file);
-  //pci_resource_unmap(resource1_base);
-  //pci_resource_close(resource1_file);
 }
 
 void flushDMA (void) {
   int i;
   for (i = 0; i < bufferPtr; i++) {
-    resource_0_base[i] = sendBuffer[i];
+    resource0_base[i] = sendBuffer[i];
   }
   bufferPtr = 0;
 }
@@ -55,7 +53,7 @@ void insertDMA (uint64_t data) {
 void readDMA(int words) {
   int i;
   for (i = 0; i < words; i++) {
-    receiveBuffer[i] = resource_0_base[i];
+    receiveBuffer[i] = resource0_base[i];
   }
 }
 
@@ -235,7 +233,7 @@ void clearBRAM (uint64_t type, bool_t state) {
   insertDMA (0x0000000000000013 | (type << 32) | (state ? (1UL << 63) : 0));
 }
 
-void startDFT (int addr) {
+void startDFT (uint64_t addr) {
   insertDMA (0x0000000000000038 | (addr << 32));
 }
 
@@ -257,7 +255,7 @@ void saveSendBuffer (char* modelsim) {
           "force -freeze sim:/toplevel_tb/pciempty 1 0\n"
           "noforce sim:/toplevel_tb/pcidata\n"
           "run 200ns\n\n",
-          (uint64_t)sendBuffer[i]>>32, (uint64_t)sendBuffer[i]);
+          sendBuffer[i]>>32, sendBuffer[i]);
         if ( (sendBuffer[i] & 0x000000000000003F) == 0x0000000000000013 ) {
           fprintf(modelsimfile, "run 1000ns\n\n");
         }
