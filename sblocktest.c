@@ -49,7 +49,7 @@ void store_program_test_fitness_speed_new(int runstep);
 
 
 enum test_t {TEST_FUNCT = 0, TEST_SPEED, TEST_RULE, TEST_FITNESS, 
-	     TEST_FITNESS_SPEED_NEW};
+       TEST_FITNESS_SPEED_NEW};
 enum test_t test;
 
 int card;
@@ -65,63 +65,63 @@ int main (int argc, char* argv[]) {
     modelsim = argv[2];
 
     printf("Test: \t\t%i\nModelsim: \t%s\n\n", 
-	   test, modelsim);
+     test, modelsim);
     fflush(stdout);
     
-	  /* write to lut conv table */
-	  writeLUTConv (EMPTY_LO, EMPTY_HI, 0); /* sblock type 0 is empty */
-	  writeLUTConv (XOR4_LO, XOR4_HI, 1);  /* sblock type 1 is XOR4 */
-	  writeLUTConv (OR4_LO, OR4_HI, 2);   /* sblock type 2 is OR4 */ 
-	  writeLUTConv (AND4_LO, AND4_HI, 3);  /* sblock type 3 is AND4 */
-	  
-	  /* write rules to rule storage */
-	  writeRule(create_rule_grow_south_1(),0);
-	  writeRule(create_rule_grow_south_2(),1);
-	  writeRule(create_rule_grow_east_1(),2);
-	  writeRule(create_rule_grow_east_2(),3);
-	  writeRule(create_rule_grow_north_1(),4);
-	  writeRule(create_rule_grow_north_2(),5);
-	  writeRule(create_rule_grow_west_1(),6);
-	  writeRule(create_rule_grow_west_2(),7);
-	  writeRule(create_rule_change_a_1(), 8);
-	  writeRule(create_rule_change_a_2(), 9);
-	  writeRule(create_rule_change_b_1(), 10);
-	  writeRule(create_rule_change_b_2(), 11);
-	  
-	  setNumberOfLastRule  (11);
+    /* write to lut conv table */
+    writeLUTConv (EMPTY_LO, EMPTY_HI, 0); /* sblock type 0 is empty */
+    writeLUTConv (XOR4_LO, XOR4_HI, 1);  /* sblock type 1 is XOR4 */
+    writeLUTConv (OR4_LO, OR4_HI, 2);   /* sblock type 2 is OR4 */
+    writeLUTConv (AND4_LO, AND4_HI, 3);  /* sblock type 3 is AND4 */
+
+    /* write rules to rule storage */
+    writeRule(create_rule_grow_south_1(),0);
+    writeRule(create_rule_grow_south_2(),1);
+    writeRule(create_rule_grow_east_1(),2);
+    writeRule(create_rule_grow_east_2(),3);
+    writeRule(create_rule_grow_north_1(),4);
+    writeRule(create_rule_grow_north_2(),5);
+    writeRule(create_rule_grow_west_1(),6);
+    writeRule(create_rule_grow_west_2(),7);
+    writeRule(create_rule_change_a_1(), 8);
+    writeRule(create_rule_change_a_2(), 9);
+    writeRule(create_rule_change_b_1(), 10);
+    writeRule(create_rule_change_b_2(), 11);
+
+    setNumberOfLastRule  (11);
     resetDevCounter();
-	  clearBRAM(0, 0);
-	  
-	  switch (test){
-	  case TEST_FUNCT:
-	    printf("Test Function\n");
-	    store_program_test_funct();
-	    saveSendBuffer (modelsim);
-	    break;
-	  case TEST_SPEED:
-	    printf("Test Speed\n");
-	    store_program_test_speed();
-	    saveSendBuffer (modelsim);
-	    break;
-	  case TEST_RULE:
-	    printf("Test Rule\n");
-	    store_program_test_rule();
-	    saveSendBuffer (modelsim);
-	    break;
-	  case TEST_FITNESS:
-	    printf("Test Fitness\n");
-	    store_program_test_fitness();
-	    saveSendBuffer(modelsim);
-	    break;
-	  case TEST_FITNESS_SPEED_NEW:
-	    printf("Test Fitness speed new\n");
-	    store_program_test_fitness_speed_new(1000);
-	    saveSendBuffer(modelsim);
-	    break;
-	  default:
-	    break;
-	  }
-	
+    clearBRAM(0, 0);
+
+    switch (test){
+    case TEST_FUNCT:
+      printf("Test Function\n");
+      store_program_test_funct();
+      saveSendBuffer (modelsim);
+      break;
+    case TEST_SPEED:
+      printf("Test Speed\n");
+      store_program_test_speed();
+      saveSendBuffer (modelsim);
+      break;
+    case TEST_RULE:
+      printf("Test Rule\n");
+      store_program_test_rule();
+      saveSendBuffer (modelsim);
+      break;
+    case TEST_FITNESS:
+      printf("Test Fitness\n");
+      store_program_test_fitness();
+      saveSendBuffer(modelsim);
+      break;
+    case TEST_FITNESS_SPEED_NEW:
+      printf("Test Fitness speed new\n");
+      store_program_test_fitness_speed_new(1000);
+      saveSendBuffer(modelsim);
+      break;
+    default:
+      break;
+    }
+
   } else fprintf (stderr, "Arguments: <test> <modelsim scriptfile>\n");
   return 0;
 }
