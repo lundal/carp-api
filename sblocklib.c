@@ -41,7 +41,6 @@ void insertDMA (uint64_t data) {
 /*****************************************************************************/
 /* instructions */
 
-//Kaa
 void readSums(uint32_t numberOfReadbacks){
   insertDMA(0x0000000000000014 | (numberOfReadbacks << 8));
 }
@@ -69,8 +68,6 @@ void readFitness(void){
 void doFitness(uint32_t number){
   insertDMA(0x000000000000001A | (number << 8));
 }
-
-//Kaa
 
 void store (uint_t addr) {
   insertDMA (0x000000000000000e | (addr << 8));
@@ -214,8 +211,7 @@ void setNumberOfLastRule (int numberOfLastRule) {
 }
 
 void clearBRAM (uint64_t type, bool_t state) {
-  uint64_t one = 1;
-  insertDMA (0x0000000000000013 | (type << 32) | (state ? (one << 63) : 0));
+  insertDMA (0x0000000000000013 | (type << 32) | (state ? (1UL << 63) : 0));
 }
 
 void startDFT (int addr) {
@@ -233,17 +229,17 @@ void saveSendBuffer (char* modelsim) {
     if ((modelsimfile = fopen (modelsim, "wb"))) {
       fprintf(modelsimfile, "run 250ns\n");
       for (i = 0; i < bufferPtr; i++) {
-	fprintf (modelsimfile, "force -freeze sim:/toplevel_tb/pciempty 0 0\n"
-		 "run 25ns\n"
-		 "force -drive sim:/toplevel_tb/pcidata 16#%08X%08X 0\n"
-		 "run 25ns\n"
-		 "force -freeze sim:/toplevel_tb/pciempty 1 0\n"
-		 "noforce sim:/toplevel_tb/pcidata\n"
-		 "run 200ns\n\n",
-		 (uint64_t)sendBuffer[i]>>32,(uint64_t)sendBuffer[i]);
-		    if ( (sendBuffer[i] & 0x000000000000003F) == 0x0000000000000013 ){
-		      fprintf(modelsimfile, "run 1000ns\n\n");
-		    }
+        fprintf(modelsimfile, "force -freeze sim:/toplevel_tb/pciempty 0 0\n"
+          "run 25ns\n"
+          "force -drive sim:/toplevel_tb/pcidata 16#%08X%08X 0\n"
+          "run 25ns\n"
+          "force -freeze sim:/toplevel_tb/pciempty 1 0\n"
+          "noforce sim:/toplevel_tb/pcidata\n"
+          "run 200ns\n\n",
+          (uint64_t)sendBuffer[i]>>32, (uint64_t)sendBuffer[i]);
+        if ( (sendBuffer[i] & 0x000000000000003F) == 0x0000000000000013 ) {
+          fprintf(modelsimfile, "run 1000ns\n\n");
+        }
       }
       fprintf(modelsimfile,"run 200000ns\n\n");
       fclose (modelsimfile);

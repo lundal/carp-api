@@ -112,7 +112,6 @@ inline void readState (int x, int y, int z);
 inline void readStates (void);
 inline void readType (int x, int y, int z);
 inline void readTypes (void);
-//Kaa
 inline void readSums(uint32_t numberOfReadbacks);
 inline void readUsedRules(void);
 inline void resetDevCounter(void);
@@ -120,7 +119,6 @@ inline void jumpEqual(uint64_t value, uint32_t addr);
 inline void readRuleVector(uint32_t number);
 inline void readFitness(void);
 inline void doFitness(uint32_t number);
-//Kaa
 inline void run (int cycles);
 inline void setNumberOfLastRule (int numberOfLastRule);
 inline void store (uint_t addr);
