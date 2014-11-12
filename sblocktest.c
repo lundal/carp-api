@@ -48,8 +48,7 @@ void store_program_test_fitness_speed_new(int runstep);
 /*****************************************************************************/
 
 
-enum test_t {TEST_FUNCT = 0, TEST_SPEED, TEST_RULE, TEST_FITNESS, 
-       TEST_FITNESS_SPEED_NEW};
+enum test_t {TEST_FUNCT = 0, TEST_SPEED, TEST_RULE, TEST_FITNESS, TEST_FITNESS_SPEED_NEW};
 enum test_t test;
 
 int card;
@@ -64,8 +63,7 @@ int main (int argc, char* argv[]) {
     test = atoi(argv[1]);
     modelsim = argv[2];
 
-    printf("Test: \t\t%i\nModelsim: \t%s\n\n", 
-     test, modelsim);
+    printf("Test: \t\t%i\nModelsim: \t%s\n\n", test, modelsim);
     fflush(stdout);
     
     /* write to lut conv table */
