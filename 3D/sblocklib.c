@@ -14,7 +14,7 @@
    in sblocklib.h */
 
 #include "sblocklib.h"
-#include "pci.h"
+#include "../common/pci.h"
 
 static int bufferPtr;
 
