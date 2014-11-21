@@ -12,8 +12,8 @@
 
 #define EXIT_WITH_ERROR(MESSAGE) \
   do { \
-    fprintf(stderr, "Error in file %s at line %d: %s\n", \
-    __FILE__, __LINE__, MESSAGE); exit(1); \
+    fprintf(stderr, "Error: %s (%s line %d)\n", \
+    MESSAGE, __FILE__, __LINE__); exit(1); \
   } while(0)
 
 void command_execute(char *result, char *command) {
