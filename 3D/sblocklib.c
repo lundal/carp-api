@@ -233,7 +233,7 @@ void clearBRAM (uint64_t type, bool_t state) {
   insertDMA (0x0000000000000013 | (type << 32) | (state ? (1UL << 63) : 0));
 }
 
-void startDFT (uint64_t addr) {
+void startDFT (uint32_t addr) {
   insertDMA (0x0000000000000038 | (addr << 32));
 }
 

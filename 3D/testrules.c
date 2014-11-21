@@ -45,6 +45,7 @@ struct RuleStruct create_rule_grow_x (void) {
   // result
   rule.dont_change_state = TRUE;
   rule.result.copyFrom = WEST;
+
   return rule;
 }
 
@@ -93,6 +94,7 @@ struct RuleStruct create_rule_grow_y (void) {
   // result
   rule.dont_change_state = TRUE;
   rule.result.copyFrom = NORTH;
+
   return rule;
 }
 
