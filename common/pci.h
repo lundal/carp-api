@@ -1,3 +1,12 @@
+/*****************************************************************************
+ * PCI interface
+ *
+ * Allows communication with PCI devices by memory-mapping the resource file
+ * automaticly created by the Linux kernel. A driver is thus unnecessary.
+ *
+ * Per Thomas Lundal 2014
+ *****************************************************************************/
+
 #ifndef PCI_H
 #define PCI_H
 
