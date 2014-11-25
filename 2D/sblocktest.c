@@ -12,12 +12,14 @@
  * Stripped down to just generate a modelsim script file for the tests
  */
 
+#include "constants.h"
 #include "sblocklib.h"
 #include "read_print.h"
-#include "types.h"
 #include "rules.h"
+#include "testrules.h"
 
 #include <stdio.h>
+#include <stdint.h>
 #include <stdlib.h>
 #include <math.h>
 #include <unistd.h>

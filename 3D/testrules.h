@@ -2,7 +2,9 @@
 #define TESTRULES_H
 
 #include "rules.h"
-#include "types.h"
+
+#include <stdint.h>
+#include <stdbool.h>
 
 struct RuleStruct create_rule_grow_x (void);
 struct RuleStruct create_rule_grow_y (void);

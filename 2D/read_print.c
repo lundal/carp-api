@@ -6,13 +6,12 @@
  * Kjetil Aamodt, 2005
  */
 
+#include "constants.h"
 #include "read_print.h"
-#include "types.h"
 #include "sblocklib.h"
 
-
 static int typeArray[ROWS][COLUMNS];
-static bool_t stateArray[ROWS][COLUMNS];
+static bool stateArray[ROWS][COLUMNS];
 static int ruleArray[ROWS*COLUMNS];
 static int sumArray[BUFFER_SIZE];
 static int ruleVector[256][8]; //max 256 vectors in BRAM          

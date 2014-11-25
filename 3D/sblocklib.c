@@ -190,30 +190,30 @@ void writeRule (struct RuleStruct rule, int number) {
   insertDMA (rule_hi);
 }
 
-void writeState (bool_t state, int x, int y, int z) {
+void writeState (bool state, uint64_t x, uint64_t y, uint64_t z) {
   uint64_t one = 1;
   insertDMA (0x0000000000000004 | (state ? (one << 63) : 0) | (z << 24) | (y << 16) | (x << 8));
 }
 
-void writeStates (uint64_t states, int x, int y, int z) {
+void writeStates (uint64_t states, uint64_t x, uint64_t y, uint64_t z) {
   insertDMA (0x0000000000000064 | (z << 24) | (y << 16) | (x << 8));
   insertDMA (0x0000000000000000 | states);
 }
 
-void readState (int x, int y, int z) {
+void readState (uint64_t x, uint64_t y, uint64_t z) {
   insertDMA (0x0000000000000005 | (z << 24) | (y << 16) | (x << 8));
 }
 
-void writeType (uint64_t type, int x, int y, int z) {
+void writeType (uint64_t type, uint64_t x, uint64_t y, uint64_t z) {
   insertDMA (0x0000000000000001 | (type << 32) | (z << 24) | (y << 16) | (x << 8));
 }
 
-void writeTypes (uint64_t types, int x, int y, int z) {
+void writeTypes (uint64_t types, uint64_t x, uint64_t y, uint64_t z) {
   insertDMA (0x0000000000000061 | (z << 24) | (y << 16) | (x << 8));
   insertDMA (0x0000000000000000 | types);
 }
 
-void readType (int x, int y, int z) {
+void readType (uint64_t x, uint64_t y, uint64_t z) {
   insertDMA (0x0000000000000002 | (z << 24) | (y << 16) | (x << 8));
 }
 
@@ -229,11 +229,11 @@ void setNumberOfLastRule (int numberOfLastRule) {
   insertDMA (0x0000000000000012 | (numberOfLastRule << 8));
 }
 
-void clearBRAM (uint64_t type, bool_t state) {
+void clearBRAM (uint64_t type, bool state) {
   insertDMA (0x0000000000000013 | (type << 32) | (state ? (1UL << 63) : 0));
 }
 
-void startDFT (uint32_t addr) {
+void startDFT (uint64_t addr) {
   insertDMA (0x0000000000000038 | (addr << 32));
 }
 

@@ -11,8 +11,9 @@
 #define SBLOCKLIB_H
 
 #include "rules.h"
-#include "types.h"
 #include <stdio.h>
+#include <stdint.h>
+#include <stdbool.h>
 
 /*****************************************************************************/
 /* constants and globals */
@@ -38,7 +39,7 @@ void openCard (void);
 void closeCard (void);
 
 /* configure user FPGA */
-//bool_t configureCard (char* bitfilename);
+//bool configureCard (char* bitfilename);
 
 /* - insert word into send buffer.
    - all words in send buffer will be sent at once when flushDMA() is called */
@@ -62,16 +63,16 @@ inline void readDMA (int words);
    - for more information about these instructions, see master thesis report
 */
 inline void break_prg (void);
-inline void clearBRAM (uint64_t type, bool_t state);
+inline void clearBRAM (uint64_t type, bool state);
 inline void config (void);
 inline void devstep (void);
 inline void end (void);
 inline void jump (uint32_t addr);
 inline void nop (void);
 inline void readback (void);
-inline void readState (int x, int y, int z);
+inline void readState (uint64_t x, uint64_t y, uint64_t z);
 inline void readStates (void);
-inline void readType (int x, int y, int z);
+inline void readType (uint64_t x, uint64_t y, uint64_t z);
 inline void readTypes (void);
 inline void readSums(uint32_t numberOfReadbacks);
 inline void readUsedRules(void);
@@ -86,11 +87,11 @@ inline void store (uint32_t addr);
 inline void switchSBMs (void);
 inline void writeLUTConv (uint64_t lut_lo, uint64_t lut_hi, uint64_t number);
 inline void writeRule (struct RuleStruct rule, int number);
-inline void writeState (bool_t state, int x, int y, int z);
-inline void writeStates (uint64_t states, int x, int y, int z);
-inline void writeType (uint64_t type, int x, int y, int z);
-inline void writeTypes (uint64_t types, int x, int y, int z);
-inline void startDFT (uint32_t addr);
+inline void writeState (bool state, uint64_t x, uint64_t y, uint64_t z);
+inline void writeStates (uint64_t states, uint64_t x, uint64_t y, uint64_t z);
+inline void writeType (uint64_t type, uint64_t x, uint64_t y, uint64_t z);
+inline void writeTypes (uint64_t types, uint64_t x, uint64_t y, uint64_t z);
+inline void startDFT (uint64_t addr);
 
 /*****************************************************************************/
 /* utility functions */

@@ -7,6 +7,8 @@
  */
 
 #include <stdio.h>
+#include <stdint.h>
+#include <stdbool.h>
 
 void readDMASums(int n);
 void printSums(int n, FILE *outputfile);

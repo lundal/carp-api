@@ -1,7 +1,8 @@
 #ifndef RULES_H
 #define RULES_H
 
-#include "types.h"
+#include <stdint.h>
+#include <stdbool.h>
 
 enum ruleTypes {
   CHANGE, GROWTH
@@ -12,14 +13,14 @@ enum directions {
 };
 
 struct precond {
-  bool_t state_dc;
-  bool_t state_value;
-  bool_t type_dc;
+  bool state_dc;
+  bool state_value;
+  bool type_dc;
   int type_value;
 };
 
 struct RuleStruct {
-  bool_t valid;
+  bool valid;
   int type;
 
   struct precond north;
@@ -28,11 +29,11 @@ struct RuleStruct {
   struct precond west;
   struct precond center;
 
-  bool_t dont_change_state;
+  bool dont_change_state;
 
   union {
     struct {
-      bool_t state;
+      bool state;
       int type;
     } change;
     int copyFrom;
