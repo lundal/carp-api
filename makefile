@@ -4,7 +4,7 @@
 #
 # Asbjørn Djupdal 2003
 # Kjetil Aamodt 2005
-# Ola Martin Tiseth Stoevneng 2014
+# Ola Martin Tiseth Støvneng 2014
 # Per Thomas Lundal 2014
 #
 ###############################################################################
