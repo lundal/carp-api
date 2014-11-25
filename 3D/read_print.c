@@ -187,7 +187,7 @@ void printVector(int n, FILE *outputfile){
 
 void readAndPrintFitness(FILE *outputfile){
   readDMA(1);
-  fprintf(outputfile, "Fitness register: 0x%08x (%3i)\n", receiveBuffer[0], receiveBuffer[0]);
+  fprintf(outputfile, "Fitness register: 0x%08x (%3i)\n", (uint32_t)(receiveBuffer[0]), (uint32_t)(receiveBuffer[0]));
   fflush(stdout);
 }
 

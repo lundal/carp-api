@@ -255,7 +255,7 @@ void saveSendBuffer (char* modelsim) {
           "force -freeze sim:/toplevel_tb/pciempty 1 0\n"
           "noforce sim:/toplevel_tb/pcidata\n"
           "run 200ns\n\n",
-          sendBuffer[i]>>32, sendBuffer[i]);
+          (uint32_t)(sendBuffer[i]>>32), (uint32_t)(sendBuffer[i]));
         if ( (sendBuffer[i] & 0x000000000000003F) == 0x0000000000000013 ) {
           fprintf(modelsimfile, "run 1000ns\n\n");
         }
