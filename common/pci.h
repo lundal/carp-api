@@ -1,9 +1,13 @@
 #ifndef PCI_H
 #define PCI_H
 
+/* Executes a command and returns the first line */
 void command_execute(char *result, char *command);
 
+/* Returns a command that will print the path of specified resource */
 void pci_resource_command(char *command, char *vendor_code, int base_address_register);
+
+/* External interface */
 int pci_resource_open(char *vendor_code, int base_address_register);
 void *pci_resource_map(int resource_file);
 void pci_resource_unmap(void *map_base);
