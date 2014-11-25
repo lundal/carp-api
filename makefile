@@ -33,7 +33,7 @@ OBJ = $(SRC:.c=.o)
 all: $(OBJ)
 
 # Compile object file from code
-.c.o:
+%.o: %.c
 	$(CC) $(CCFLAGS) -c $< -o $@
 
 # Remove all generated files
