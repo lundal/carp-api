@@ -2,6 +2,8 @@
 #
 # CARP Makefile
 #
+# Requires GNU make and GCC
+#
 # Asbjørn Djupdal 2003
 # Kjetil Aamodt 2005
 # Ola Martin Tiseth Støvneng 2014
