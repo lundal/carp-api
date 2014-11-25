@@ -70,15 +70,3 @@ void pci_resource_close(int resource_file) {
   close(resource_file);
 }
 
-/*
-int main( int argc, char *argv[] )
-{
-  int resource_file;
-  void *resource_base;
-  resource_file = pci_resource_open("0xDACA", 0);
-  resource_base = pci_resource_map(resource_file);
-  pci_resource_unmap(resource_base);
-  pci_resource_close(resource_file);
-}
-*/
-
