@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <sys/mman.h>
+#include <unistd.h>
 
 #define STRING_SIZE 256
 #define MAP_SIZE 4096UL /* One page */
