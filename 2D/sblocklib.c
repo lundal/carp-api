@@ -1,25 +1,26 @@
-/* sblocklib.c
+/*****************************************************************************
+ * SBlock library
  *
- * Sblocklib is an abstraction layer above FUSE API for controlling the
- * coprosessor 
- * 
- * Asbjorn Djupdal 2003
+ * An abstraction layer above the communication interface for controlling the
+ * coprocessor
+ *
+ * Asbjørn Djupdal 2003
  * Kjetil Aamodt 2005
- * Ola Martin Tiseth Stoevneng 2014
- *
- * Stripped down to just generate a modelsim script file for the tests
- */
-
-/* For information about functions in this file, see comments
-   in sblocklib.h */
+ * Ola Martin Tiseth Støvneng 2014
+ * Per Thomas Lundal 2014
+ *****************************************************************************/
 
 #include "sblocklib.h"
 #include "../common/com.h"
+
+/* Globals */
 
 static int bufferPtr;
 
 uint64_t sendBuffer[BUFFER_SIZE];
 uint64_t receiveBuffer[BUFFER_SIZE];
+
+/* Card control */
 
 void openCard() {
   com_open();
@@ -46,18 +47,17 @@ void readDMA(int words) {
   com_receive(receiveBuffer, words);
 }
 
-/*****************************************************************************/
-/* instructions */
+/* Instructions */
 
 void readSums(uint32_t numberOfReadbacks){
   insertDMA(0x0000000000000014 | (numberOfReadbacks << 8));
 }
 
-void readUsedRules(void){
+void readUsedRules(){
   insertDMA(0x0000000000000015);
 }
 
-void resetDevCounter(void){
+void resetDevCounter(){
   insertDMA(0x0000000000000017);
 }
 
@@ -69,7 +69,7 @@ void readRuleVector(uint32_t number){
   insertDMA(0x0000000000000018 | (number << 8));
 }
 
-void readFitness(void){
+void readFitness(){
   insertDMA(0x0000000000000019);
 }
 
@@ -77,52 +77,52 @@ void doFitness(uint32_t number){
   insertDMA(0x000000000000001A | (number << 8));
 }
 
-void store (uint32_t addr) {
-  insertDMA (0x000000000000000e | (addr << 8));
+void store(uint32_t addr) {
+  insertDMA(0x000000000000000e | (addr << 8));
 }  
 
-void end (void) {
-  insertDMA (0x000000000000000f);
+void end() {
+  insertDMA(0x000000000000000f);
 }
 
-inline void nop (void) {
-  insertDMA (0x0000000000000000);
+void nop() {
+  insertDMA(0x0000000000000000);
 }
 
-void jump (uint32_t addr) {
-  insertDMA (0x000000000000000c | (addr << 8));
+void jump(uint32_t addr) {
+  insertDMA(0x000000000000000c | (addr << 8));
 }
 
-void break_prg (void) {
-  insertDMA (0x000000000000000d);
+void break_prg() {
+  insertDMA(0x000000000000000d);
 }
 
-void switchSBMs (void) {
-  insertDMA (0x0000000000000003);
+void switchSBMs() {
+  insertDMA(0x0000000000000003);
 }
 
-void run (int cycles) {
-  insertDMA (0x0000000000000009 | (cycles << 8));
+void run(int cycles) {
+  insertDMA(0x0000000000000009 | (cycles << 8));
 }  
 
-void writeLUTConv (uint64_t lut, uint64_t number) {
-  insertDMA (0x0000000000000046 | (number << 32));
-  insertDMA (0x0000000000000000 | lut);
+void writeLUTConv(uint64_t lut, uint64_t number) {
+  insertDMA(0x0000000000000046 | (number << 32));
+  insertDMA(0x0000000000000000 | lut);
 }
 
-void config (void) {
-  insertDMA (0x0000000000000007);
+void config() {
+  insertDMA(0x0000000000000007);
 }
 
-void readback (void) {
-  insertDMA (0x0000000000000008);
+void readback() {
+  insertDMA(0x0000000000000008);
 }
 
-void devstep (void) {
-  insertDMA (0x000000000000000a);
+void devstep() {
+  insertDMA(0x000000000000000a);
 }
 
-void writeRule (struct RuleStruct rule, int number) {
+void writeRule(struct RuleStruct rule, int number) {
   uint64_t rule_hi = 0L;
   uint64_t rule_lo = 0L;
 
@@ -164,62 +164,60 @@ void writeRule (struct RuleStruct rule, int number) {
     rule_lo |= (uint64_t)(rule.result.copyFrom & 3) << 39;
   }
 
-  insertDMA (0x000000000000004b | ((number & 0xff) << 8) | rule_lo);
-  insertDMA (rule_hi);
+  insertDMA(0x000000000000004b | ((number & 0xff) << 8) | rule_lo);
+  insertDMA(rule_hi);
 }
 
-void writeState (bool state, uint64_t x, uint64_t y) {
-  uint64_t one = 1;
-  insertDMA (0x0000000000000004 | (state ? (one << 63) : 0) | (y << 16) | (x << 8));
+void writeState(bool state, uint64_t x, uint64_t y) {
+  insertDMA(0x0000000000000004 | (state ? (1UL << 63) : 0) | (y << 16) | (x << 8));
 }
 
-void writeStates (uint64_t states, uint64_t x, uint64_t y) {
-  insertDMA (0x0000000000000024 | (states << (64-16)) | (y << 16) | (x << 8));
+void writeStates(uint64_t states, uint64_t x, uint64_t y) {
+  insertDMA(0x0000000000000024 | (states << (64-16)) | (y << 16) | (x << 8));
 }
 
-void readState (uint64_t x, uint64_t y) {
-  insertDMA (0x0000000000000005 | (y << 16) | (x << 8));
+void readState(uint64_t x, uint64_t y) {
+  insertDMA(0x0000000000000005 | (y << 16) | (x << 8));
 }
 
-void writeType (uint64_t type, uint64_t x, uint64_t y) {
-  insertDMA (0x0000000000000001 | (type << 32) | (y << 16) | (x << 8));
+void writeType(uint64_t type, uint64_t x, uint64_t y) {
+  insertDMA(0x0000000000000001 | (type << 32) | (y << 16) | (x << 8));
 }
 
-void writeTypes (uint64_t types, uint64_t x, uint64_t y) {
-  insertDMA (0x0000000000000021 | (types << 32) | (y << 16) | (x << 8));
+void writeTypes(uint64_t types, uint64_t x, uint64_t y) {
+  insertDMA(0x0000000000000021 | (types << 32) | (y << 16) | (x << 8));
 }
 
-void readType (uint64_t x, uint64_t y) {
-  insertDMA (0x0000000000000002 | (y << 16) | (x << 8));
+void readType(uint64_t x, uint64_t y) {
+  insertDMA(0x0000000000000002 | (y << 16) | (x << 8));
 }
 
-void readStates (void) {
-  insertDMA (0x0000000000000011);
+void readStates() {
+  insertDMA(0x0000000000000011);
 }
 
-void readTypes (void) {
-  insertDMA (0x0000000000000010);
+void readTypes() {
+  insertDMA(0x0000000000000010);
 }
 
-void setNumberOfLastRule (int numberOfLastRule) {
-  insertDMA (0x0000000000000012 | (numberOfLastRule << 8));
+void setNumberOfLastRule(int numberOfLastRule) {
+  insertDMA(0x0000000000000012 | (numberOfLastRule << 8));
 }
 
-void clearBRAM (uint64_t type, bool state) {
-  insertDMA (0x0000000000000013 | (type << 32) | (state ? (1UL << 63) : 0));
+void clearBRAM(uint64_t type, bool state) {
+  insertDMA(0x0000000000000013 | (type << 32) | (state ? (1UL << 63) : 0));
 }
 
-void startDFT (uint64_t addr) {
-  insertDMA (0x0000000000000038 | (addr << 32));
+void startDFT(uint64_t addr) {
+  insertDMA(0x0000000000000038 | (addr << 32));
 }
 
-/*****************************************************************************/
-/* utility functions */
+/* Utility functions */
 
-void saveSendBuffer (char* modelsim) {
+void saveSendBuffer(char* modelsim) {
   FILE* modelsimfile;
 
-  if(modelsim[0] != ' '){ //save buffer only if filename is given
+  if(modelsim[0] != ' '){ /* save buffer only if filename is given */
     if ((modelsimfile = fopen (modelsim, "wb"))) {
       fprintf(modelsimfile, "run 250ns\n");
       for (int i = 0; i < bufferPtr; i++) {
