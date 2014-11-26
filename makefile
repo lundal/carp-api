@@ -17,7 +17,7 @@ COORD_SIZE_Y = 3
 COORD_SIZE_Z = 3
 
 # Source files
-COMMON = common/pci.c
+COMMON = common/pci.c common/com.c
 2D = 2D/sblocklib.c 2D/testrules.c 2D/read_print.c 2D/sblocktest.c
 3D = 3D/sblocklib.c 3D/testrules.c 3D/read_print.c 3D/sblocktest.c
 

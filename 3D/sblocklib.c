@@ -14,35 +14,27 @@
    in sblocklib.h */
 
 #include "sblocklib.h"
-#include "../common/pci.h"
+#include "../common/com.h"
 
 static int bufferPtr;
 
 uint64_t sendBuffer[BUFFER_SIZE];
 uint64_t receiveBuffer[BUFFER_SIZE];
 
-int resource0_file;
-volatile uint64_t *resource0_base;
-
 void openCard() {
-  resource0_file = pci_resource_open("0xDACA", 0);
-  resource0_base = (uint64_t*)pci_resource_map(resource0_file);
+  com_open();
 }
 
 void closeCard() {
-  pci_resource_unmap((void*)resource0_base);
-  pci_resource_close(resource0_file);
+  com_close();
 }
 
-void flushDMA (void) {
-  int i;
-  for (i = 0; i < bufferPtr; i++) {
-    resource0_base[i] = sendBuffer[i];
-  }
+void flushDMA() {
+  com_send(sendBuffer, bufferPtr);
   bufferPtr = 0;
 }
 
-void insertDMA (uint64_t data) {
+void insertDMA(uint64_t data) {
   sendBuffer[bufferPtr++] = data;
 
   if (bufferPtr == BUFFER_SIZE) {
@@ -51,10 +43,7 @@ void insertDMA (uint64_t data) {
 }
 
 void readDMA(int words) {
-  int i;
-  for (i = 0; i < words; i++) {
-    receiveBuffer[i] = resource0_base[i];
-  }
+  com_receive(receiveBuffer, words);
 }
 
 /*****************************************************************************/
