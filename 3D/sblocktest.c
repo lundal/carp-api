@@ -44,14 +44,12 @@ void store_program_test_fitness_speed_new(int runstep);
 enum test_t {TEST_FUNCT = 0, TEST_SPEED, TEST_RULE, TEST_FITNESS, TEST_FITNESS_SPEED_NEW};
 enum test_t test;
 
-int card;
 char *modelsim;
 
 /*****************************************************************************/
 /* functions */
 
 int main (int argc, char* argv[]) {
-  card = 1; //default
   if(argc > 1){
     test = atoi(argv[1]);
     modelsim = argv[2];
