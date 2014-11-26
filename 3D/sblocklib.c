@@ -130,25 +130,25 @@ void writeRule(struct RuleStruct rule, int number) {
   rule_hi |= (uint64_t)(rule.valid ? 1 : 0) << 63;
   rule_hi |= (uint64_t)(rule.type  ? 1 : 0) << 62;
 
-  rule_hi |= (uint64_t)(rule.north.state_dc        ? 1 : 0) << 61;
-  rule_hi |= (uint64_t)(rule.north.state_value     ? 1 : 0) << 60;
-  rule_hi |= (uint64_t)(rule.north.type_dc         ? 1 : 0) << 59;
-  rule_hi |= (uint64_t)(rule.north.type_value      & 0x1f)  << 51;
+  rule_hi |= (uint64_t)(rule.up.state_dc        ? 1 : 0) << 61;
+  rule_hi |= (uint64_t)(rule.up.state_value     ? 1 : 0) << 60;
+  rule_hi |= (uint64_t)(rule.up.type_dc         ? 1 : 0) << 59;
+  rule_hi |= (uint64_t)(rule.up.type_value      & 0x1f)  << 51;
 
-  rule_hi |= (uint64_t)(rule.south.state_dc      ? 1 : 0) << 50;
-  rule_hi |= (uint64_t)(rule.south.state_value   ? 1 : 0) << 49;
-  rule_hi |= (uint64_t)(rule.south.type_dc       ? 1 : 0) << 48;
-  rule_hi |= (uint64_t)(rule.south.type_value    & 0x1f)  << 40;
+  rule_hi |= (uint64_t)(rule.down.state_dc      ? 1 : 0) << 50;
+  rule_hi |= (uint64_t)(rule.down.state_value   ? 1 : 0) << 49;
+  rule_hi |= (uint64_t)(rule.down.type_dc       ? 1 : 0) << 48;
+  rule_hi |= (uint64_t)(rule.down.type_value    & 0x1f)  << 40;
 
-  rule_hi |= (uint64_t)(rule.up.state_dc     ? 1 : 0) << 39;
-  rule_hi |= (uint64_t)(rule.up.state_value  ? 1 : 0) << 38;
-  rule_hi |= (uint64_t)(rule.up.type_dc      ? 1 : 0) << 37;
-  rule_hi |= (uint64_t)(rule.up.type_value   & 0x1f)  << 29;
+  rule_hi |= (uint64_t)(rule.north.state_dc     ? 1 : 0) << 39;
+  rule_hi |= (uint64_t)(rule.north.state_value  ? 1 : 0) << 38;
+  rule_hi |= (uint64_t)(rule.north.type_dc      ? 1 : 0) << 37;
+  rule_hi |= (uint64_t)(rule.north.type_value   & 0x1f)  << 29;
 
-  rule_hi |= (uint64_t)(rule.down.state_dc     ? 1 : 0) << 28;
-  rule_hi |= (uint64_t)(rule.down.state_value  ? 1 : 0) << 27;
-  rule_hi |= (uint64_t)(rule.down.type_dc      ? 1 : 0) << 26;
-  rule_hi |= (uint64_t)(rule.down.type_value   & 0x1f)  << 18;
+  rule_hi |= (uint64_t)(rule.south.state_dc     ? 1 : 0) << 28;
+  rule_hi |= (uint64_t)(rule.south.state_value  ? 1 : 0) << 27;
+  rule_hi |= (uint64_t)(rule.south.type_dc      ? 1 : 0) << 26;
+  rule_hi |= (uint64_t)(rule.south.type_value   & 0x1f)  << 18;
 
   rule_hi |= (uint64_t)(rule.east.state_dc      ? 1 : 0) << 17;
   rule_hi |= (uint64_t)(rule.east.state_value   ? 1 : 0) << 16;
