@@ -20,7 +20,7 @@ enum ruleTypes {
 };
 
 enum directions {
-  UP, DOWN, NORTH, SOUTH, EAST, WEST
+  NORTH, SOUTH, EAST, WEST
 };
 
 struct precond {
