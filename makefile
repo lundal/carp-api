@@ -36,7 +36,7 @@ OBJECTS_3D = $(COMMON:.c=.o) $(3D:.c=.o)
 
 # Compiler
 CC = gcc
-CCFLAGS = -Wall -g -O3 $(SETTINGS)
+CCFLAGS = -Wall -g -std=gnu11 -O3 $(SETTINGS)
 
 # Linker
 LD = gcc

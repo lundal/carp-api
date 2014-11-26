@@ -43,10 +43,10 @@ void closeCard (void);
 
 /* - insert word into send buffer.
    - all words in send buffer will be sent at once when flushDMA() is called */
-inline void insertDMA (uint64_t data);
+void insertDMA (uint64_t data);
 
 /* send all data currently waiting in send buffer to card */
-inline void flushDMA (void);
+void flushDMA (void);
 
 /* - transfer data from card and place in receiveBuffer
    - data in receiveBuffer will be overwritten
@@ -54,7 +54,7 @@ inline void flushDMA (void);
      instructions are pending in the send buffer
    - "words" is number of words to receive, and must be less than
      BUFFER_SIZE */
-inline void readDMA (int words);
+void readDMA (int words);
 
 /*****************************************************************************/
 /* - instructions
@@ -62,36 +62,36 @@ inline void readDMA (int words);
      places it into the send buffer
    - for more information about these instructions, see master thesis report
 */
-inline void break_prg (void);
-inline void clearBRAM (uint64_t type, bool state);
-inline void config (void);
-inline void devstep (void);
-inline void end (void);
-inline void jump (uint32_t addr);
-inline void nop (void);
-inline void readback (void);
-inline void readState (uint64_t x, uint64_t y, uint64_t z);
-inline void readStates (void);
-inline void readType (uint64_t x, uint64_t y, uint64_t z);
-inline void readTypes (void);
-inline void readSums(uint32_t numberOfReadbacks);
-inline void readUsedRules(void);
-inline void resetDevCounter(void);
-inline void jumpEqual(uint64_t value, uint32_t addr);
-inline void readRuleVector(uint32_t number);
-inline void readFitness(void);
-inline void doFitness(uint32_t number);
-inline void run (int cycles);
-inline void setNumberOfLastRule (int numberOfLastRule);
-inline void store (uint32_t addr);
-inline void switchSBMs (void);
-inline void writeLUTConv (uint64_t lut_lo, uint64_t lut_hi, uint64_t number);
-inline void writeRule (struct RuleStruct rule, int number);
-inline void writeState (bool state, uint64_t x, uint64_t y, uint64_t z);
-inline void writeStates (uint64_t states, uint64_t x, uint64_t y, uint64_t z);
-inline void writeType (uint64_t type, uint64_t x, uint64_t y, uint64_t z);
-inline void writeTypes (uint64_t types, uint64_t x, uint64_t y, uint64_t z);
-inline void startDFT (uint64_t addr);
+void break_prg (void);
+void clearBRAM (uint64_t type, bool state);
+void config (void);
+void devstep (void);
+void end (void);
+void jump (uint32_t addr);
+void nop (void);
+void readback (void);
+void readState (uint64_t x, uint64_t y, uint64_t z);
+void readStates (void);
+void readType (uint64_t x, uint64_t y, uint64_t z);
+void readTypes (void);
+void readSums(uint32_t numberOfReadbacks);
+void readUsedRules(void);
+void resetDevCounter(void);
+void jumpEqual(uint64_t value, uint32_t addr);
+void readRuleVector(uint32_t number);
+void readFitness(void);
+void doFitness(uint32_t number);
+void run (int cycles);
+void setNumberOfLastRule (int numberOfLastRule);
+void store (uint32_t addr);
+void switchSBMs (void);
+void writeLUTConv (uint64_t lut_lo, uint64_t lut_hi, uint64_t number);
+void writeRule (struct RuleStruct rule, int number);
+void writeState (bool state, uint64_t x, uint64_t y, uint64_t z);
+void writeStates (uint64_t states, uint64_t x, uint64_t y, uint64_t z);
+void writeType (uint64_t type, uint64_t x, uint64_t y, uint64_t z);
+void writeTypes (uint64_t types, uint64_t x, uint64_t y, uint64_t z);
+void startDFT (uint64_t addr);
 
 /*****************************************************************************/
 /* utility functions */

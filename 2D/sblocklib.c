@@ -217,13 +217,12 @@ void startDFT (uint64_t addr) {
 /* utility functions */
 
 void saveSendBuffer (char* modelsim) {
-  int i;
   FILE* modelsimfile;
 
   if(modelsim[0] != ' '){ //save buffer only if filename is given
     if ((modelsimfile = fopen (modelsim, "wb"))) {
       fprintf(modelsimfile, "run 250ns\n");
-      for (i = 0; i < bufferPtr; i++) {
+      for (int i = 0; i < bufferPtr; i++) {
         fprintf(modelsimfile, "force -freeze sim:/toplevel_tb/pciempty 0 0\n"
           "run 25ns\n"
           "force -drive sim:/toplevel_tb/pcidata 16#%08X%08X 0\n"
