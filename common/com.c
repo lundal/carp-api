@@ -1,7 +1,7 @@
 /*****************************************************************************
  * Communication interface
  *
- * TODO
+ * An abstraction layer above the pci interface
  *
  * Per Thomas Lundal 2014
  *****************************************************************************/
@@ -18,7 +18,8 @@ int resource1_file;
 volatile uint64_t *resource0_base;
 volatile uint32_t *resource1_base;
 
-/* Main interface */
+/* Main interface
+ * Note: The vendor id is currently set do 0xDACA in the PCIe core */
 
 void com_open() {
   resource0_file = pci_resource_open("0xDACA", 0);
@@ -52,7 +53,9 @@ void com_receive(uint64_t *buffer, int words) {
   }
 }
 
-/* Special requests */
+/* Special requests
+ * Note: The special request handler reports the number of words in the
+ * communication buffers, which are 32 bit wide. Hence the divide by two. */
 
 uint32_t com_tx_count() {
   return resource1_base[0] / 2;

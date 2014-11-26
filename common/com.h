@@ -1,7 +1,7 @@
 /*****************************************************************************
  * Communication interface
  *
- * TODO
+ * An abstraction layer above the pci interface
  *
  * Per Thomas Lundal 2014
  *****************************************************************************/
