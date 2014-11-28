@@ -9,6 +9,7 @@
 #include "com.h"
 #include "pci.h"
 
+#include <stdio.h>
 #include <unistd.h>
 
 /* Globals */
@@ -37,6 +38,8 @@ void com_close() {
 
 void com_send(uint64_t *buffer, int words) {
   while (com_rx_space() < words) {
+    printf("Waiting for buffer space... (%d/%d)\n", com_rx_space(), words);
+    fflush(stdout);
     sleep(1);
   }
   for (int i = 0; i < words; i++) {
@@ -46,6 +49,8 @@ void com_send(uint64_t *buffer, int words) {
 
 void com_receive(uint64_t *buffer, int words) {
   while (com_tx_count() < words) {
+    printf("Waiting for buffer data... (%d/%d)\n", com_tx_count(), words);
+    fflush(stdout);
     sleep(1);
   }
   for (int i = 0; i < words; i++) {
