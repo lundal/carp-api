@@ -29,9 +29,9 @@ void readDMATypes (void) {
 
     type = receiveBuffer[x];
 
-    typeArray[yy][xx + 0] = (type >> 15) & 0x1f;
-    typeArray[yy][xx + 1] = (type >> 10) & 0x1f;
-    typeArray[yy][xx + 2] = (type >> 5) & 0x1f;
+    typeArray[yy][xx + 0] = (type >> 24) & 0x1f;
+    typeArray[yy][xx + 1] = (type >> 16) & 0x1f;
+    typeArray[yy][xx + 2] = (type >> 8) & 0x1f;
     typeArray[yy][xx + 3] = type & 0x1f;
   }
 }
