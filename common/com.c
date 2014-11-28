@@ -67,14 +67,14 @@ uint32_t com_tx_count() {
 }
 
 uint32_t com_tx_space() {
-  return resource1_base[4] / 2;
+  return resource1_base[1] / 2;
 }
 
 uint32_t com_rx_count() {
-  return resource1_base[8] / 2;
+  return resource1_base[2] / 2;
 }
 
 uint32_t com_rx_space() {
-  return resource1_base[12] / 2;
+  return resource1_base[3] / 2;
 }
 
