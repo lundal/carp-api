@@ -31,6 +31,7 @@ void closeCard() {
 }
 
 void flushDMA() {
+  printSendBuffer();
   com_send(sendBuffer, bufferPtr);
   bufferPtr = 0;
 }
@@ -227,6 +228,15 @@ void startDFT(uint64_t addr) {
 }
 
 /* Utility functions */
+
+void printSendBuffer() {
+  printf("Send buffer contents:\n");
+  for (int i = 0; i < bufferPtr; i++) {
+    printf("%02d: %08X%08X\n", i, (uint32_t)(sendBuffer[i]>>32), (uint32_t)(sendBuffer[i]));
+  }
+  printf("\n");
+  fflush(stdout);
+}
 
 void saveSendBuffer(char* modelsim) {
   FILE* modelsimfile;

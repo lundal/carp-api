@@ -76,6 +76,7 @@ void startDFT(uint64_t addr);
 
 /* Utility functions */
 
+void printSendBuffer();
 void saveSendBuffer(char* modelsim); /* Creates ModelSim file from sendBuffer */
 
 #endif
