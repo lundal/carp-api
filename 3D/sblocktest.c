@@ -26,31 +26,21 @@ void printAllTypes();
 void test_write_read_types();
 void test_development();
 
-/* Globals */
-
-enum test_t {TEST_WRITE_READ_TYPES, TEST_DEVELOPMENT};
-enum test_t test;
-
 /* Main */
 
 int main (int argc, char* argv[]) {
   if (argc > 1) {
-    test = atoi(argv[1]);
-
-    printf("Test: %i\n", test);
-    fflush(stdout);
+    int test = atoi(argv[1]);
 
     openCard();
 
     reset();
 
     switch (test) {
-    case TEST_WRITE_READ_TYPES:
-      printf("Test Write Read Types\n");
+    case 0:
       test_write_read_types();
       break;
-    case TEST_DEVELOPMENT:
-      printf("Test Development\n");
+    case 1:
       test_development();
       break;
     default:
@@ -60,7 +50,7 @@ int main (int argc, char* argv[]) {
     closeCard();
   }
   else {
-    fprintf(stderr, "Arguments: <test>\n");
+    fprintf(stderr, "Arguments: <0-1>\n");
   }
   return 0;
 }
@@ -94,6 +84,8 @@ void printAllTypes() {
 /* Tests */
 
 void test_write_read_types() {
+  printf("Test Write Read Types\n");
+
   writeType(0, 0,0,0);
   writeType(1, 1,1,0);
   writeType(2, 2,2,0);
@@ -107,6 +99,8 @@ void test_write_read_types() {
 }
 
 void test_development() {
+  printf("Test Development\n");
+
   writeRule(create_rule_1_to_2(), 0);
   writeRule(create_rule_2_to_3(), 1);
   setNumberOfLastRule(1);
