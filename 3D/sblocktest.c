@@ -60,6 +60,7 @@ int main (int argc, char* argv[]) {
 void reset() {
   clearBRAM(0, 0);
   resetDevCounter();
+  config();
   flushDMA();
 }
 
