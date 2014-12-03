@@ -6,13 +6,12 @@
  * Kjetil Aamodt, 2005
  */
 
+#include "constants.h"
 #include "read_print.h"
-#include "types.h"
 #include "sblocklib.h"
 
-
 static int typeArray[ROWS][COLUMNS];
-static bool_t stateArray[ROWS][COLUMNS];
+static bool stateArray[ROWS][COLUMNS];
 static int ruleArray[ROWS*COLUMNS];
 static int sumArray[BUFFER_SIZE];
 static int ruleVector[256][8]; //max 256 vectors in BRAM          
@@ -30,9 +29,9 @@ void readDMATypes (void) {
 
     type = receiveBuffer[x];
 
-    typeArray[yy][xx + 0] = (type >> 15) & 0x1f;
-    typeArray[yy][xx + 1] = (type >> 10) & 0x1f;
-    typeArray[yy][xx + 2] = (type >> 5) & 0x1f;
+    typeArray[yy][xx + 0] = (type >> 24) & 0x1f;
+    typeArray[yy][xx + 1] = (type >> 16) & 0x1f;
+    typeArray[yy][xx + 2] = (type >> 8) & 0x1f;
     typeArray[yy][xx + 3] = type & 0x1f;
   }
 }
@@ -188,7 +187,7 @@ void printVector(int n, FILE *outputfile){
 
 void readAndPrintFitness(FILE *outputfile){
   readDMA(1);
-  fprintf(outputfile, "Fitness register: 0x%08x (%3i)\n", receiveBuffer[0], receiveBuffer[0]);
+  fprintf(outputfile, "Fitness register: 0x%08x (%3i)\n", (uint32_t)(receiveBuffer[0]), (uint32_t)(receiveBuffer[0]));
   fflush(stdout);
 }
 

@@ -1,38 +1,22 @@
-/* types.h
+/* constants.h
  *
  * Kjetil Aamodt, 2005
  */
 
-#ifndef TYPES_H
-#define TYPES_H
+#ifndef CONSTANTS_H
+#define CONSTANTS_H
 
-typedef unsigned char bool_t;
-typedef unsigned char uint8_t;
-typedef unsigned int  uint32_t;
-typedef unsigned long uint64_t;
-
-#define FALSE 0
-#define TRUE  (~FALSE)
-//#define NULL 0L
-
-#endif
-
-// define sblock_matrix size and program start address
-#ifndef PROGRAM
-#define PROGRAM
-
-#define PROGRAM_ADDRESS 0
+// CA size
 
 #define ROWS    (1 << COORD_SIZE_Y) /* from Makefile */
 #define COLUMNS (1 << COORD_SIZE_X) /* from Makefile */
 #define LAYERS  (1 << COORD_SIZE_Z) /* from Makefile */
 
-#endif
+// Program start address
 
+#define PROGRAM_ADDRESS 0
 
-// values used in LUT
-#ifndef LUT
-#define LUT
+// LUT values
 
 #define EMPTY_LO    0x0000000000000000
 #define EMPTY_HI    0xffffffffffffffff

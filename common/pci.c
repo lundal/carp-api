@@ -1,3 +1,12 @@
+/*****************************************************************************
+ * PCI interface
+ *
+ * Allows communication with PCI devices by memory-mapping the resource file
+ * automaticly created by the Linux kernel. A driver is thus unnecessary.
+ *
+ * Per Thomas Lundal 2014
+ *****************************************************************************/
+
 #include "pci.h"
 
 #include <errno.h>
@@ -6,14 +15,15 @@
 #include <stdlib.h>
 #include <string.h>
 #include <sys/mman.h>
+#include <unistd.h>
 
 #define STRING_SIZE 256
 #define MAP_SIZE 4096UL /* One page */
 
 #define EXIT_WITH_ERROR(MESSAGE) \
   do { \
-    fprintf(stderr, "Error in file %s at line %d: %s\n", \
-    __FILE__, __LINE__, MESSAGE); exit(1); \
+    fprintf(stderr, "Error: %s (%s line %d)\n", \
+    MESSAGE, __FILE__, __LINE__); exit(1); \
   } while(0)
 
 void command_execute(char *result, char *command) {
@@ -59,16 +69,4 @@ void pci_resource_unmap(void *map_base) {
 void pci_resource_close(int resource_file) {
   close(resource_file);
 }
-
-/*
-int main( int argc, char *argv[] )
-{
-  int resource_file;
-  void *resource_base;
-  resource_file = pci_resource_open("0xDACA", 0);
-  resource_base = pci_resource_map(resource_file);
-  pci_resource_unmap(resource_base);
-  pci_resource_close(resource_file);
-}
-*/
 
