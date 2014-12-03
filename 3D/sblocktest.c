@@ -12,15 +12,10 @@
 #include "constants.h"
 #include "sblocklib.h"
 #include "read_print.h"
-#include "rules.h"
 #include "testrules.h"
 
 #include <stdio.h>
-#include <stdint.h>
 #include <stdlib.h>
-#include <math.h>
-#include <unistd.h>
-#include <sys/time.h>
 
 /* Protypes */
 
