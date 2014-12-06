@@ -14,7 +14,7 @@ static int typeArray[ROWS][COLUMNS];
 static bool stateArray[ROWS][COLUMNS];
 static int ruleArray[ROWS*COLUMNS];
 static int sumArray[BUFFER_SIZE];
-static int ruleVector[256][8]; //max 256 vectors in BRAM          
+static long ruleVector[256][4]; //max 256 vectors in BRAM
 
 void readDMATypes (void) {
   int x;
@@ -151,10 +151,10 @@ void printUsedRules(FILE *outputfile){
 
 void readDMAVector(int n){
   int i, j;
-  //256 bit each vector = 8 * 32 bit
+  //256 bit each vector = 4 * 64 bit
   for(i = 0; i < n; i++){
-    readDMA(8);
-    for(j = 0; j < 8; j++){
+    readDMA(4);
+    for(j = 0; j < 4; j++){
       ruleVector[i][j] = receiveBuffer[j];
     }
     //fprintf(outputfile, "\n"); fflush(stdout); 
@@ -170,12 +170,12 @@ void printVector(int n, FILE *outputfile){
   for(i = 0; i < n; i++){
     fprintf(outputfile, "Rulevector: %i\n", i); fflush(stdout);
 
-    for(j = 0; j < 8; j++){
+    for(j = 0; j < 4; j++){
       value = ruleVector[i][j];
-      for(k = 0; k < 32; k++){
+      for(k = 0; k < 64; k++){
         if (value & 0x01){
-          fprintf(outputfile, "%i", k+j*32); fflush(stdout);
-          if(k+j*32 != 255) fprintf(outputfile, ", "); fflush(stdout);
+          fprintf(outputfile, "%i", k+j*64); fflush(stdout);
+          if(k+j*64 != 255) fprintf(outputfile, ", "); fflush(stdout);
         }
         value = value >> 1;
       }
