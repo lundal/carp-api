@@ -238,6 +238,19 @@ void printSendBuffer() {
   fflush(stdout);
 }
 
+void printSendBufferForTestbench() {
+  for (int i = 0; i < bufferPtr; i++) {
+    printf("    wait for clock_period;\n");
+    printf("    rx_buffer_write <= '1';\n");
+    printf("    rx_buffer_data <= x\"%08X\";\n", (uint32_t)(sendBuffer[i]));
+    printf("    wait for clock_period;\n");
+    printf("    rx_buffer_write <= '1';\n");
+    printf("    rx_buffer_data <= x\"%08X\";\n", (uint32_t)(sendBuffer[i]>>32));
+    printf("    \n");
+  }
+  fflush(stdout);
+}
+
 void saveSendBuffer(char* modelsim) {
   FILE* modelsimfile;
 
