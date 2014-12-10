@@ -84,6 +84,15 @@ void printAllTypes() {
   }
 }
 
+void printRemainingData() {
+  printf("Remaining data: (force cancel when waiting)\n");
+  for (int i = 0; true; i++) {
+    readDMA(1);
+    printf("%02d: %08X%08X\n", i, (uint32_t)(receiveBuffer[0]>>32), (uint32_t)(receiveBuffer[0]));
+    fflush(stdout);
+  }
+}
+
 /* Tests */
 
 void test_write_read_types() {
@@ -121,5 +130,7 @@ void test_development() {
   flushDMA();
 
   printAllTypes();
+
+  printRemainingData();
 }
 
