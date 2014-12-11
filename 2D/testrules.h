@@ -30,5 +30,8 @@ struct RuleStruct create_rule_change_a_2 (void);
 struct RuleStruct create_rule_change_b_1 (void);
 struct RuleStruct create_rule_change_b_2 (void);
 
+struct RuleStruct create_rule_1_to_2 (void);
+struct RuleStruct create_rule_2_to_3 (void);
+
 #endif
 
