@@ -63,7 +63,7 @@ int main (int argc, char* argv[]) {
     closeCard();
   }
   else {
-    fprintf(stderr, "Arguments: <0-1>\n");
+    fprintf(stderr, "Arguments: <test number>\n");
   }
   return 0;
 }
