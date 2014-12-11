@@ -20,19 +20,23 @@ void readDMATypes (void) {
   int x;
 
   /* read types */
-  readDMA (ROWS * COLUMNS / 4);
-  for (x = 0; x < ROWS * COLUMNS / 4; x++) {
-    uint32_t type;
+  readDMA (ROWS * COLUMNS / 8);
+  for (x = 0; x < ROWS * COLUMNS / 8; x++) {
+    uint64_t type;
 
-    int xx = (4 * x) % COLUMNS;
-    int yy = (4 * x) / COLUMNS;
+    int xx = (8 * x) % COLUMNS;
+    int yy = (8 * x) / COLUMNS;
 
     type = receiveBuffer[x];
 
-    typeArray[yy][xx + 0] = (type >> 24) & 0x1f;
-    typeArray[yy][xx + 1] = (type >> 16) & 0x1f;
-    typeArray[yy][xx + 2] = (type >> 8) & 0x1f;
-    typeArray[yy][xx + 3] = type & 0x1f;
+    typeArray[yy][xx + 0] = (type >> 56) & 0x1f;
+    typeArray[yy][xx + 1] = (type >> 48) & 0x1f;
+    typeArray[yy][xx + 2] = (type >> 40) & 0x1f;
+    typeArray[yy][xx + 3] = (type >> 32) & 0x1f;
+    typeArray[yy][xx + 4] = (type >> 24) & 0x1f;
+    typeArray[yy][xx + 5] = (type >> 16) & 0x1f;
+    typeArray[yy][xx + 6] = (type >> 8) & 0x1f;
+    typeArray[yy][xx + 7] = (type >> 0) & 0x1f;
   }
 }
 
@@ -40,18 +44,18 @@ void readDMAStates (void) {
   int x, y;
 
   /* read states */
-  readDMA (ROWS * COLUMNS / 32);
-  for (x = 0; x < ROWS * COLUMNS / 32; x++) {
-    uint32_t state;
+  readDMA (ROWS * COLUMNS / 64);
+  for (x = 0; x < ROWS * COLUMNS / 64; x++) {
+    uint64_t state;
 
-    int xx = (32 * x) % COLUMNS;
-    int yy = (32 * x) / COLUMNS;
+    int xx = (64 * x) % COLUMNS;
+    int yy = (64 * x) / COLUMNS;
 
     state = receiveBuffer[x];
 
-    for (y = 0; y < 32; y++) {
+    for (y = 0; y < 64; y++) {
       stateArray[yy + (y / COLUMNS)][xx + (y % COLUMNS)] =
-        (state >> (31 - y)) & 1;
+        (state >> (63 - y)) & 1;
     }
   }
 }
