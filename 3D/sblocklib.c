@@ -79,7 +79,7 @@ void doFitness(uint32_t number){
 
 void store(uint32_t addr) {
   insertDMA(0x000000000000000e | (addr << 8));
-}  
+}
 
 void end() {
   insertDMA(0x000000000000000f);
@@ -103,7 +103,7 @@ void switchSBMs() {
 
 void run(int cycles) {
   insertDMA(0x0000000000000009 | (cycles << 8));
-}  
+}
 
 void writeLUTConv(uint64_t lut_lo, uint64_t lut_hi, uint64_t number) {
   insertDMA(0x0000000000000086 | (number << 32));
