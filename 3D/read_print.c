@@ -12,7 +12,7 @@
 
 static int typeArray[ROWS][COLUMNS];
 static bool stateArray[ROWS][COLUMNS];
-static int ruleArray[ROWS*COLUMNS];
+static int ruleArray[ROWS*COLUMNS*LAYERS];
 static int sumArray[BUFFER_SIZE];
 static long ruleVector[256][4]; //max 256 vectors in BRAM
 
@@ -116,8 +116,8 @@ void printSums(int n, FILE *outputfile){
 void readDMAUsedRules(void){
   int x;
 
-  /* read types */
-  readDMA (ROWS * COLUMNS / 4);
+  /* read rules */
+  readDMA (ROWS * COLUMNS * LAYERS / 4);
   for (x = 0; x < ROWS * COLUMNS/4; x++) {
     uint32_t rules;
 
