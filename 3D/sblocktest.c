@@ -179,6 +179,8 @@ void test_development() {
 }
 
 void test_config_readback() {
+  /* Expected output:
+   * 1 */
   printf("Test config and readback\n");
 
   writeState(true, 1,1,0);
