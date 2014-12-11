@@ -22,6 +22,7 @@
 void reset();
 void setStatesAlternating();
 void printAllTypes();
+void printAllStates();
 
 void test_write_read_types();
 void test_development();
@@ -89,6 +90,14 @@ void printAllTypes() {
     printf("Layer %d:\n", z);
     readDMATypes();
     printTypes(stdout);
+  }
+}
+
+void printAllStates() {
+  for (int z = 0; z < LAYERS; z++) {
+    printf("Layer %d:\n", z);
+    readDMAStates();
+    printStates(stdout);
   }
 }
 
