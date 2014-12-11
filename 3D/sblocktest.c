@@ -25,6 +25,8 @@ void printAllTypes();
 
 void test_write_read_types();
 void test_development();
+void test_config_readback();
+void test_sblockmatrix();
 
 /* Main */
 
@@ -42,6 +44,12 @@ int main (int argc, char* argv[]) {
       break;
     case 1:
       test_development();
+      break;
+    case 2:
+      test_config_readback();
+      break;
+    case 3:
+      test_sblockmatrix();
       break;
     default:
       break;
@@ -126,10 +134,77 @@ void test_development() {
   switchSBMs();
 
   readTypes();
+  readRuleVector(1);
 
   flushDMA();
 
   printAllTypes();
+
+  printRemainingData();
+}
+
+void test_config_readback() {
+  printf("Test config and readback\n");
+
+  writeState(true, 1,1,0);
+
+  switchSBMs();
+
+  config();
+  readback();
+
+  switchSBMs();
+
+  readState(1,1,0);
+
+  flushDMA();
+
+  printRemainingData();
+}
+
+void test_sblockmatrix() {
+  /* Matrix:
+   * 010
+   * 0+0
+   * 1*1
+   * 010
+   * Expected output:
+   * 1
+   * 0
+   * 1
+   * 1 */
+  printf("Test Sblockmatrix\n");
+
+  writeLUTConv(EMPTY_LO, EMPTY_HI, 0);
+  writeLUTConv(AND4_LO, AND4_HI, 1);
+  writeLUTConv(OR4_LO, OR4_HI, 2);
+
+  writeType(1, 1,1,0);
+  writeType(2, 1,2,0);
+
+  writeState(true, 1,0,0);
+  writeState(true, 0,2,0);
+  writeState(true, 2,2,0);
+  writeState(true, 1,3,0);
+
+  switchSBMs();
+  config();
+
+  run(1);
+  readback();
+
+  switchSBMs();
+  readState(1,1,0);
+  readState(1,2,0);
+
+  run(1);
+  readback();
+
+  switchSBMs();
+  readState(1,1,0);
+  readState(1,2,0);
+
+  flushDMA();
 
   printRemainingData();
 }
