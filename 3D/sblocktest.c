@@ -30,6 +30,7 @@ void test_development();
 void test_config_readback();
 void test_sblockmatrix();
 void test_instruction_storage();
+void test_development_counter();
 
 /* Main */
 
@@ -59,6 +60,9 @@ int main (int argc, char* argv[]) {
       break;
     case 5:
       test_instruction_storage();
+      break;
+    case 6:
+      test_development_counter();
       break;
     default:
       break;
@@ -267,6 +271,33 @@ void test_instruction_storage() {
 
   jump(PROGRAM_ADDRESS);
   jump(PROGRAM_ADDRESS);
+  jump(PROGRAM_ADDRESS);
+
+  flushDMA();
+
+  printRemainingData();
+}
+
+void test_development_counter() {
+  /* Expected output:
+   * 1
+   * 1
+   * 1 */
+  printf("Test development counter\n");
+
+  writeState(true, 1,1,0);
+
+  store(PROGRAM_ADDRESS);
+    readState(1,1,0);
+    devstep();
+    jumpEqual(3, PROGRAM_ADDRESS + 20);
+    jump(PROGRAM_ADDRESS);
+  end();
+
+  store(PROGRAM_ADDRESS + 20);
+    break_prg();
+  end();
+
   jump(PROGRAM_ADDRESS);
 
   flushDMA();
