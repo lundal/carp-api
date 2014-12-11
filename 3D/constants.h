@@ -24,8 +24,8 @@
 #define OR4_HI      0xfffefffefffefffe
 #define XOR4_LO     0x6996699669966996
 #define XOR4_HI     0x6996699669966996
-#define AND4_LO     0x0001000100010001
-#define AND4_HI     0x0001000100010001
+#define AND4_LO     0x1000100010001000
+#define AND4_HI     0x1000100010001000
 
 #endif
 
