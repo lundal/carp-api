@@ -31,7 +31,6 @@ void closeCard() {
 }
 
 void flushDMA() {
-  printSendBuffer();
   com_send(sendBuffer, bufferPtr);
   bufferPtr = 0;
 }
