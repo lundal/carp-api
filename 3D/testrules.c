@@ -360,7 +360,7 @@ struct RuleStruct create_rule_grow_east (void) {
   rule.valid = true;
   rule.type = GROWTH;
 
-  // precondition 
+  // precondition
   rule.up.state_dc = true;
   rule.up.state_value = false;
   rule.up.type_dc = true;

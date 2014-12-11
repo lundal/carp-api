@@ -63,7 +63,7 @@ void resetDevCounter(){
 
 void jumpEqual(uint64_t value, uint32_t addr){
   insertDMA(0x0000000000000016 | (value << 48) | (addr << 8));
-} 
+}
 
 void readRuleVector(uint32_t number){
   insertDMA(0x0000000000000018 | (number << 8));
@@ -79,7 +79,7 @@ void doFitness(uint32_t number){
 
 void store(uint32_t addr) {
   insertDMA(0x000000000000000e | (addr << 8));
-}  
+}
 
 void end() {
   insertDMA(0x000000000000000f);
@@ -103,7 +103,7 @@ void switchSBMs() {
 
 void run(int cycles) {
   insertDMA(0x0000000000000009 | (cycles << 8));
-}  
+}
 
 void writeLUTConv(uint64_t lut, uint64_t number) {
   insertDMA(0x0000000000000046 | (number << 32));
