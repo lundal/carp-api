@@ -63,7 +63,7 @@ void resetDevCounter(){
 
 void jumpEqual(uint64_t value, uint32_t addr){
   insertDMA(0x0000000000000016 | (value << 48) | (addr << 8));
-} 
+}
 
 void readRuleVector(uint32_t number){
   insertDMA(0x0000000000000018 | (number << 8));
