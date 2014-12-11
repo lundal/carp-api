@@ -29,6 +29,7 @@ void test_write_read_states();
 void test_development();
 void test_config_readback();
 void test_sblockmatrix();
+void test_instruction_storage();
 
 /* Main */
 
@@ -55,6 +56,9 @@ int main (int argc, char* argv[]) {
       break;
     case 4:
       test_sblockmatrix();
+      break;
+    case 5:
+      test_instruction_storage();
       break;
     default:
       break;
@@ -241,6 +245,29 @@ void test_sblockmatrix() {
   switchSBMs();
   readState(1,1,0);
   readState(1,2,0);
+
+  flushDMA();
+
+  printRemainingData();
+}
+
+void test_instruction_storage() {
+  /* Expected output:
+   * 1
+   * 1
+   * 1 */
+  printf("Test instruction storage\n");
+
+  writeState(true, 1,1,0);
+
+  store(PROGRAM_ADDRESS);
+    readState(1,1,0);
+    break_prg();
+  end();
+
+  jump(PROGRAM_ADDRESS);
+  jump(PROGRAM_ADDRESS);
+  jump(PROGRAM_ADDRESS);
 
   flushDMA();
 
