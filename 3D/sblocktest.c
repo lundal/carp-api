@@ -25,6 +25,7 @@ void printAllTypes();
 void printAllStates();
 
 void test_write_read_types();
+void test_write_read_states();
 void test_development();
 void test_config_readback();
 void test_sblockmatrix();
@@ -44,12 +45,15 @@ int main (int argc, char* argv[]) {
       test_write_read_types();
       break;
     case 1:
-      test_development();
+      test_write_read_states();
       break;
     case 2:
-      test_config_readback();
+      test_development();
       break;
     case 3:
+      test_config_readback();
+      break;
+    case 4:
       test_sblockmatrix();
       break;
     default:
@@ -120,13 +124,35 @@ void test_write_read_types() {
   writeType(2, 2,2,0);
   writeType(3, 3,3,0);
 
+  writeTypes(0x3333333333333333, 0,4,0);
+
   readTypes();
 
   flushDMA();
 
   printAllTypes();
+
+  printRemainingData();
 }
 
+void test_write_read_states() {
+  printf("Test Write Read States\n");
+
+  writeState(true, 0,0,0);
+  writeState(true, 1,1,0);
+  writeState(true, 2,2,0);
+  writeState(true, 3,3,0);
+
+  writeStates(0x3333333333333333, 0,4,0);
+
+  readStates();
+
+  flushDMA();
+
+  printAllStates();
+
+  printRemainingData();
+}
 void test_development() {
   printf("Test Development\n");
 
