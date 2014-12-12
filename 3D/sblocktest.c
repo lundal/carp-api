@@ -19,13 +19,20 @@
 
 /* Protypes */
 
+void test_run(int test_number);
+
 void reset();
 void setStatesAlternating();
 void printAllTypes();
 void printAllStates();
+void printRemainingData();
 
+void test_write_read_type();
 void test_write_read_types();
+void test_write_read_state();
 void test_write_read_states();
+void test_clearBRAM();
+void test_switch();
 void test_development();
 void test_config_readback();
 void test_sblockmatrix();
@@ -35,45 +42,63 @@ void test_development_counter();
 /* Main */
 
 int main (int argc, char* argv[]) {
-  if (argc > 1) {
-    int test = atoi(argv[1]);
-
-    openCard();
-
-    reset();
-
-    switch (test) {
-    case 0:
-      test_write_read_types();
-      break;
-    case 1:
-      test_write_read_states();
-      break;
-    case 2:
-      test_development();
-      break;
-    case 3:
-      test_config_readback();
-      break;
-    case 4:
-      test_sblockmatrix();
-      break;
-    case 5:
-      test_instruction_storage();
-      break;
-    case 6:
-      test_development_counter();
-      break;
-    default:
-      break;
-    }
-
-    closeCard();
-  }
-  else {
+  if (argc < 2) {
     fprintf(stderr, "Arguments: <test number>\n");
+    return 0;
   }
+
+  openCard();
+
+  test_run(atoi(argv[1]));
+
+  closeCard();
+
   return 0;
+}
+
+void test_run(int test_number) {
+  reset();
+
+  switch (test_number) {
+  case 0:
+    test_write_read_type();
+    break;
+  case 1:
+    test_write_read_types();
+    break;
+  case 2:
+    test_write_read_state();
+    break;
+  case 3:
+    test_write_read_states();
+    break;
+  case 4:
+    test_clearBRAM();
+    break;
+  case 5:
+    test_switch();
+    break;
+  case 6:
+    test_development();
+    break;
+  case 7:
+    test_config_readback();
+    break;
+  case 8:
+    test_sblockmatrix();
+    break;
+  case 9:
+    test_instruction_storage();
+    break;
+  case 10:
+    test_development_counter();
+    break;
+  default:
+    printf("Unknown test %d\n", test_number);
+    break;
+  }
+
+  printRemainingData();
 }
 
 /* Utility */
@@ -124,46 +149,130 @@ void printRemainingData() {
 
 /* Tests */
 
+void test_write_read_type() {
+  printf("Test: Write and read type\n");
+  printf("- Verifies instructions: writeType, readType\n");
+  printf("- Expected output: 2, 3, 4, 5\n");
+
+  writeType(2, 0,0,0);
+  writeType(3, 1,1,0);
+  writeType(4, 2,2,0);
+  writeType(5, 3,3,0);
+
+  readType(0,0,0);
+  readType(1,1,0);
+  readType(2,2,0);
+  readType(3,3,0);
+
+  flushDMA();
+}
+
 void test_write_read_types() {
-  printf("Test Write Read Types\n");
+  printf("Test: Write and read types\n");
+  printf("- Verifies instructions: writeTypes, readTypes\n");
+  printf("- Requires manual inspection!\n");
 
-  writeType(0, 0,0,0);
-  writeType(1, 1,1,0);
-  writeType(2, 2,2,0);
-  writeType(3, 3,3,0);
+  writeType(5, 0,0,0);
+  writeType(6, 1,1,0);
+  writeType(7, 2,2,0);
+  writeType(8, 3,3,0);
 
-  writeTypes(0x3333333333333333, 0,4,0);
+  writeTypes(0x0102030405060708, 0,4,0);
 
   readTypes();
 
   flushDMA();
 
   printAllTypes();
+}
 
-  printRemainingData();
+void test_write_read_state() {
+  printf("Test: Write and read state\n");
+  printf("- Verifies instructions: writeState, readState\n");
+  printf("- Expected output: 1, 1, 0, 1\n");
+
+  writeState(true, 0,0,0);
+  writeState(true, 1,1,0);
+  writeState(false, 2,2,0);
+  writeState(true, 3,3,0);
+
+  readState(0,0,0);
+  readState(1,1,0);
+  readState(2,2,0);
+  readState(3,3,0);
+
+  flushDMA();
 }
 
 void test_write_read_states() {
-  printf("Test Write Read States\n");
+  printf("Test: Write and read states\n");
+  printf("- Verifies instructions: writeStates, readStates\n");
+  printf("- Requires manual inspection!\n");
 
   writeState(true, 0,0,0);
   writeState(true, 1,1,0);
   writeState(true, 2,2,0);
   writeState(true, 3,3,0);
 
-  writeStates(0x3333333333333333, 0,4,0);
+  writeStates(0x1122334455667788, 0,4,0);
 
   readStates();
 
   flushDMA();
 
   printAllStates();
+}
 
-  printRemainingData();
+void test_clearBRAM() {
+  printf("Test: Clear BRAM\n");
+  printf("- Verifies instructions: clearBRAM\n");
+  printf("- Expected output: All zeroes\n");
+
+  writeState(true, 0,0,0);
+  writeState(true, 1,1,0);
+  writeState(true, 2,2,0);
+  writeState(true, 3,3,0);
+
+  writeType(5, 0,0,0);
+  writeType(6, 1,1,0);
+  writeType(7, 2,2,0);
+  writeType(8, 3,3,0);
+
+  clearBRAM(0,0);
+
+  readStates();
+  readTypes();
+
+  flushDMA();
+
+  printAllStates();
+  printAllTypes();
+}
+
+void test_switch() {
+  printf("Test: Switch BRAM\n");
+  printf("- Verifies instructions: switch\n");
+  printf("- Expected output: 0, 0, 1, 2\n");
+
+  clearBRAM(2,1);
+
+  switchSBMs();
+
+  readState(0,0,0);
+  readType(0,0,0);
+
+  switchSBMs();
+
+  readState(0,0,0);
+  readType(0,0,0);
+
+  flushDMA();
 }
 
 void test_development() {
-  printf("Test Development\n");
+  printf("Test: Development\n");
+  printf("- Verifies instructions: devstep, writeRule, readRuleVector, readUsedRules\n");
+  printf("- Requires manual inspection!\n");
 
   writeRule(create_rule_1_to_2(), 0);
   writeRule(create_rule_2_to_3(), 1);
@@ -179,18 +288,17 @@ void test_development() {
 
   readTypes();
   readRuleVector(1);
+  readUsedRules();
 
   flushDMA();
 
   printAllTypes();
-
-  printRemainingData();
 }
 
 void test_config_readback() {
-  /* Expected output:
-   * 1 */
-  printf("Test config and readback\n");
+  printf("Test: Config and readback\n");
+  printf("- Verifies instructions: config, readback\n");
+  printf("- Expected output: 1\n");
 
   writeState(true, 1,1,0);
 
@@ -204,22 +312,17 @@ void test_config_readback() {
   readState(1,1,0);
 
   flushDMA();
-
-  printRemainingData();
 }
 
 void test_sblockmatrix() {
   /* Matrix:
-   * 010
-   * 0+0
-   * 1*1
-   * 010
-   * Expected output:
-   * 1
-   * 0
-   * 1
-   * 1 */
-  printf("Test Sblockmatrix\n");
+   * 0 1 0
+   * 0 + 0
+   * 1 * 1
+   * 0 1 0 */
+  printf("Test: Sblockmatrix\n");
+  printf("- Verifies instructions: run, writeLUTConv\n");
+  printf("- Expected output: 1, 1, 0, 1, 1, 1\n");
 
   writeLUTConv(EMPTY_LO, EMPTY_HI, 0);
   writeLUTConv(AND4_LO, AND4_HI, 1);
@@ -240,6 +343,7 @@ void test_sblockmatrix() {
   readback();
 
   switchSBMs();
+  readState(1,0,0);
   readState(1,1,0);
   readState(1,2,0);
 
@@ -247,20 +351,17 @@ void test_sblockmatrix() {
   readback();
 
   switchSBMs();
+  readState(1,0,0);
   readState(1,1,0);
   readState(1,2,0);
 
   flushDMA();
-
-  printRemainingData();
 }
 
 void test_instruction_storage() {
-  /* Expected output:
-   * 1
-   * 1
-   * 1 */
-  printf("Test instruction storage\n");
+  printf("Test: Instruction storage\n");
+  printf("- Verifies instructions: store, end, jump, break\n");
+  printf("- Expected output: 1, 1, 1\n");
 
   writeState(true, 1,1,0);
 
@@ -274,16 +375,12 @@ void test_instruction_storage() {
   jump(PROGRAM_ADDRESS);
 
   flushDMA();
-
-  printRemainingData();
 }
 
 void test_development_counter() {
-  /* Expected output:
-   * 1
-   * 1
-   * 1 */
-  printf("Test development counter\n");
+  printf("Test: Development counter\n");
+  printf("- Verifies instructions: jumpEqual, resetDevCounter (implicit)\n");
+  printf("- Expected output: 1, 1, 1\n");
 
   writeState(true, 1,1,0);
 
@@ -301,7 +398,5 @@ void test_development_counter() {
   jump(PROGRAM_ADDRESS);
 
   flushDMA();
-
-  printRemainingData();
 }
 
