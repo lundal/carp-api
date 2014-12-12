@@ -22,8 +22,8 @@ COMMON = common/pci.c common/com.c
 3D = 3D/sblocklib.c 3D/testrules.c 3D/read_print.c 3D/sblocktest.c
 
 # Executables
-EXECUTABLE_2D = carp_2d
-EXECUTABLE_3D = carp_3d
+EXECUTABLE_2D = test_2d
+EXECUTABLE_3D = test_3d
 
 ###############################################################################
 
