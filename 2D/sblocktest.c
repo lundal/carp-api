@@ -19,13 +19,19 @@
 
 /* Protypes */
 
+void test_run(int test_number);
+
 void reset();
 void setStatesAlternating();
 void printAllTypes();
 void printAllStates();
 
+void test_write_read_type();
 void test_write_read_types();
+void test_write_read_state();
 void test_write_read_states();
+void test_clearBRAM();
+
 void test_development();
 void test_config_readback();
 void test_sblockmatrix();
@@ -35,45 +41,58 @@ void test_development_counter();
 /* Main */
 
 int main (int argc, char* argv[]) {
-  if (argc > 1) {
-    int test = atoi(argv[1]);
-
-    openCard();
-
-    reset();
-
-    switch (test) {
-    case 0:
-      test_write_read_types();
-      break;
-    case 1:
-      test_write_read_states();
-      break;
-    case 2:
-      test_development();
-      break;
-    case 3:
-      test_config_readback();
-      break;
-    case 4:
-      test_sblockmatrix();
-      break;
-    case 5:
-      test_instruction_storage();
-      break;
-    case 6:
-      test_development_counter();
-      break;
-    default:
-      break;
-    }
-
-    closeCard();
-  }
-  else {
+  if (argc < 2) {
     fprintf(stderr, "Arguments: <test number>\n");
+    return 0;
   }
+
+  openCard();
+
+  test_run(atoi(argv[1]));
+
+  closeCard();
+
   return 0;
+}
+
+void test_run(int test_number) {
+  reset();
+
+  switch (test_number) {
+  case 0:
+    test_write_read_type();
+    break;
+  case 1:
+    test_write_read_types();
+    break;
+  case 2:
+    test_write_read_state();
+    break;
+  case 3:
+    test_write_read_states();
+    break;
+  case 4:
+    test_clearBRAM();
+    break;
+  case 5:
+    test_development();
+    break;
+  case 6:
+    test_config_readback();
+    break;
+  case 7:
+    test_sblockmatrix();
+    break;
+  case 8:
+    test_instruction_storage();
+    break;
+  case 9:
+    test_development_counter();
+    break;
+  default:
+    printf("Unknown test %d\n", test_number);
+    break;
+  }
 }
 
 /* Utility */
@@ -116,13 +135,49 @@ void printRemainingData() {
 
 /* Tests */
 
-void test_write_read_types() {
-  printf("Test Write Read Types\n");
+void test_write_read_type() {
+  printf("Test: Write and read type\n");
+  printf("- Verifies instructions: writeType, readType\n");
 
-  writeType(0, 0,0);
-  writeType(1, 1,1);
-  writeType(2, 2,2);
-  writeType(3, 3,3);
+  int64_t type_0 = 2;
+  int64_t type_1 = 3;
+  int64_t type_2 = 4;
+  int64_t type_3 = 5;
+
+  writeType(type_0, 0,0);
+  writeType(type_1, 1,1);
+  writeType(type_2, 2,2);
+  writeType(type_3, 3,3);
+
+  readType(0,0);
+  readType(1,1);
+  readType(2,2);
+  readType(3,3);
+
+  flushDMA();
+
+  readDMA(4);
+
+  if (receiveBuffer[0] == type_0 &&
+      receiveBuffer[1] == type_1 &&
+      receiveBuffer[2] == type_2 &&
+      receiveBuffer[3] == type_3) {
+    printf("- PASSED!\n");
+  }
+  else {
+    printf("- FAILED!\n");
+  }
+}
+
+void test_write_read_types() {
+  printf("Test: Write and read types\n");
+  printf("- Verifies instructions: writeTypes, readTypes\n");
+  printf("- Requires manual inspection!\n");
+
+  writeType(5, 0,0);
+  writeType(6, 1,1);
+  writeType(7, 2,2);
+  writeType(8, 3,3);
 
   writeTypes(0x3333333333333333, 0,4);
 
@@ -131,12 +186,46 @@ void test_write_read_types() {
   flushDMA();
 
   printAllTypes();
+}
 
-  printRemainingData();
+void test_write_read_state() {
+  printf("Test: Write and read state\n");
+  printf("- Verifies instructions: writeState, readState\n");
+
+  bool state_0 = true;
+  bool state_1 = false;
+  bool state_2 = true;
+  bool state_3 = true;
+
+  writeState(state_0, 0,0);
+  writeState(state_1, 1,1);
+  writeState(state_2, 2,2);
+  writeState(state_3, 3,3);
+
+  readState(0,0);
+  readState(1,1);
+  readState(2,2);
+  readState(3,3);
+
+  flushDMA();
+
+  readDMA(4);
+
+  if (receiveBuffer[0] == state_0 &&
+      receiveBuffer[1] == state_1 &&
+      receiveBuffer[2] == state_2 &&
+      receiveBuffer[3] == state_3) {
+    printf("- PASSED!\n");
+  }
+  else {
+    printf("- FAILED!\n");
+  }
 }
 
 void test_write_read_states() {
-  printf("Test Write Read States\n");
+  printf("Test: Write and read states\n");
+  printf("- Verifies instructions: writeStates, readStates\n");
+  printf("- Requires manual inspection!\n");
 
   writeState(true, 0,0);
   writeState(true, 1,1);
@@ -150,12 +239,38 @@ void test_write_read_states() {
   flushDMA();
 
   printAllStates();
+}
 
-  printRemainingData();
+void test_clearBRAM() {
+  printf("Test: Clear BRAM\n");
+  printf("- Verifies instructions: clearBRAM\n");
+  printf("- Requires manual inspection!\n");
+
+  writeState(true, 0,0);
+  writeState(true, 1,1);
+  writeState(true, 2,2);
+  writeState(true, 3,3);
+  
+  writeType(5, 0,0);
+  writeType(6, 1,1);
+  writeType(7, 2,2);
+  writeType(8, 3,3);
+
+  clearBRAM(0,0);
+
+  readStates();
+  readTypes();
+
+  flushDMA();
+
+  printAllStates();
+  printAllTypes();
 }
 
 void test_development() {
   printf("Test Development\n");
+  printf("- Verifies instructions: devstep, writeRule\n");
+  printf("- Requires manual inspection!\n");
 
   writeRule(create_rule_1_to_2(), 0);
   writeRule(create_rule_2_to_3(), 1);
