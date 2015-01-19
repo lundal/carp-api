@@ -320,8 +320,8 @@ void test_sblockmatrix() {
   writeLUTConv(AND4, 1);
   writeLUTConv(OR4, 2);
 
-  writeType(1, 1,1);
-  writeType(2, 1,2);
+  writeType(2, 1,1);
+  writeType(1, 1,2);
 
   writeState(true, 1,0);
   writeState(true, 0,2);
