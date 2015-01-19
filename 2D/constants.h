@@ -20,7 +20,7 @@
 #define EMPTY    0xffff0000
 #define OR4      0xfffefffe
 #define XOR4     0x69966996
-#define AND4     0x10001000
+#define AND4     0x80008000
 
 #endif
 
