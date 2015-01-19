@@ -10,6 +10,7 @@
  * Per Thomas Lundal 2014
  *****************************************************************************/
 
+#include <stdlib.h>
 #include "sblocklib.h"
 #include "../common/com.h"
 
@@ -23,15 +24,16 @@ uint64_t receiveBuffer[BUFFER_SIZE];
 /* Card control */
 
 void openCard() {
-  com_open();
+  //com_open();
 }
 
 void closeCard() {
-  com_close();
+  //com_close();
 }
 
 void flushDMA() {
-  com_send(sendBuffer, bufferPtr);
+  //com_send(sendBuffer, bufferPtr);
+  printSendBufferForTestbench();
   bufferPtr = 0;
 }
 
@@ -44,7 +46,8 @@ void insertDMA(uint64_t data) {
 }
 
 void readDMA(int words) {
-  com_receive(receiveBuffer, words);
+  //com_receive(receiveBuffer, words);
+  exit(0);
 }
 
 /* Instructions */
