@@ -23,6 +23,8 @@ void print_remaining_data();
 
 void test_write_read_type();
 void test_write_read_state();
+void test_fill_cells();
+void test_swap_cell_buffers();
 
 /* Main */
 
@@ -50,6 +52,12 @@ void test_run(int test_number) {
     break;
   case 2:
     test_write_read_state();
+    break;
+  case 4:
+    test_fill_cells();
+    break;
+  case 5:
+    test_swap_cell_buffers();
     break;
   default:
     printf("Unknown test %d\n", test_number);
@@ -81,7 +89,7 @@ void print_remaining_data() {
 
 void test_write_read_type() {
   printf("Test: Write and read type\n");
-  printf("- Verifies instructions: writeType, readType\n");
+  printf("- Verifies instructions: write_type, read_type\n");
   printf("- Expected output: 2, 3, 4, 5\n");
 
   write_type(0,0,0, 2);
@@ -97,7 +105,7 @@ void test_write_read_type() {
 
 void test_write_read_state() {
   printf("Test: Write and read state\n");
-  printf("- Verifies instructions: writeState, readState\n");
+  printf("- Verifies instructions: write_state, read_state\n");
   printf("- Expected output: 1, 1, 0, 1\n");
 
   write_state(0,0,0, true);
@@ -109,4 +117,45 @@ void test_write_read_state() {
   read_state(1,1,0);
   read_state(2,2,0);
   read_state(3,3,0);
+}
+
+void test_fill_cells() {
+  printf("Test: Fill cells\n");
+  printf("- Verifies instructions: fill_cells\n");
+  printf("- Expected output: All zeroes\n");
+
+  write_state(true, 0,0,0);
+  write_state(true, 1,1,0);
+  write_state(true, 2,2,0);
+  write_state(true, 3,3,0);
+
+  write_type(5, 0,0,0);
+  write_type(6, 1,1,0);
+  write_type(7, 2,2,0);
+  write_type(8, 3,3,0);
+
+  fill_cells(1, 42);
+
+  read_states();
+  read_types();
+
+  /* TODO: Beautiful print */
+}
+
+void test_swap_cell_buffers() {
+  printf("Test: Swap cell buffers\n");
+  printf("- Verifies instructions: swap_cell_buffers\n");
+  printf("- Expected output: 0, 0, 1, 2\n");
+
+  fill_cells(1,2);
+
+  swap_cell_buffers();
+
+  read_state(0,0,0);
+  read_type(0,0,0);
+
+  swap_cell_buffers();
+
+  read_state(0,0,0);
+  read_type(0,0,0);
 }
