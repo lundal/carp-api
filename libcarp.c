@@ -167,7 +167,7 @@ void set_rules_active(int amount) {
 }
 
 void fill_cells(bool state, int type) {
-  uint32_t instruction = INSTRUCTION_WRITE_STATE_ONE;
+  uint32_t instruction = INSTRUCTION_FILL_CELLS;
 
   if (cell_type_bits > 16) {
     instruction |= 1 << 5; /* Extra words */
