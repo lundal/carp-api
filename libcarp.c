@@ -281,3 +281,25 @@ void counter_increment(int counter) {
 void counter_reset(int counter) {
     /* TODO */
 }
+
+/* Utility functions */
+
+void print_send_buffer() {
+  printf("Send buffer contents:\n");
+  for (int i = 0; i < buffer_send_pointer; i++) {
+    printf("%02d: %08X\n", i, buffer_send[i]);
+  }
+  printf("\n");
+  fflush(stdout);
+}
+
+void print_send_buffer_for_testbench() {
+  char *indentation = "    ";
+  for (int i = 0; i < buffer_send_pointer; i++) {
+    printf("%swait for clock_period;\n", indentation);
+    printf("%srx_buffer_write <= '1';\n", indentation);
+    printf("%srx_buffer_data <= x\"%08X\";\n", indentation, buffer_send[i]);
+    printf("\n");
+  }
+  fflush(stdout);
+}

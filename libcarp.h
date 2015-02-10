@@ -71,4 +71,9 @@ void break_out();
 void counter_increment(int counter);
 void counter_reset(int counter);
 
+/* Utility functions */
+
+void print_send_buffer();
+void print_send_buffer_for_testbench();
+
 #endif
