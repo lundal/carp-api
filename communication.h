@@ -12,7 +12,7 @@
 #include <stdint.h>
 
 /* Main interface */
-void communication_open();
+void communication_open(char *vendor_id);
 void communication_close();
 void communication_send(uint32_t *buffer, int words);
 void communication_receive(uint32_t *buffer, int words);

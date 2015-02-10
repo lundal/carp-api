@@ -19,12 +19,11 @@ int resource1_file;
 volatile uint32_t *resource0_base;
 volatile uint32_t *resource1_base;
 
-/* Main interface
- * Note: The vendor id is currently set do 0xDACA in the PCIe core */
+/* Main interface */
 
 void communication_open(char *vendor_id) {
-  resource0_file = pci_resource_open("0xDACA", 0);
-  resource1_file = pci_resource_open("0xDACA", 1);
+  resource0_file = pci_resource_open(vendor_id, 0);
+  resource1_file = pci_resource_open(vendor_id, 1);
   resource0_base = (uint32_t*)pci_resource_map(resource0_file);
   resource1_base = (uint32_t*)pci_resource_map(resource1_file);
 }
