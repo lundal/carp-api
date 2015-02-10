@@ -11,28 +11,15 @@
 #
 ###############################################################################
 
-# Settings
-COORD_SIZE_X = 3
-COORD_SIZE_Y = 3
-COORD_SIZE_Z = 3
-
-# Source files
-COMMON = common/pci.c common/com.c
-2D = 2D/sblocklib.c 2D/testrules.c 2D/read_print.c 2D/sblocktest.c
-3D = 3D/sblocklib.c 3D/testrules.c 3D/read_print.c 3D/sblocktest.c
-
-# Executables
-EXECUTABLE_2D = test_2d
-EXECUTABLE_3D = test_3d
+# Files
+SOURCES    = pci.c communication.c libcarp.c test.c
+OBJECTS    = $(SOURCES:.c=.o)
+EXECUTABLE = carp
 
 ###############################################################################
 
 # Settings
-SETTINGS = -DCOORD_SIZE_X=$(COORD_SIZE_X) \
-           -DCOORD_SIZE_Y=$(COORD_SIZE_Y) \
-           -DCOORD_SIZE_Z=$(COORD_SIZE_Z)
-OBJECTS_2D = $(COMMON:.c=.o) $(2D:.c=.o)
-OBJECTS_3D = $(COMMON:.c=.o) $(3D:.c=.o)
+SETTINGS = -DDEBUG
 
 # Compiler
 CC = gcc
@@ -46,17 +33,14 @@ LDFLAGS = -Wall -g -pedantic -lm
 
 .PHONY: all clean
 
-all: $(EXECUTABLE_2D) $(EXECUTABLE_3D)
+all: $(EXECUTABLE)
 
-$(EXECUTABLE_2D): $(OBJECTS_2D)
-	$(LD) $(LDFLAGS) $^ -o $@
-
-$(EXECUTABLE_3D): $(OBJECTS_3D)
+$(EXECUTABLE): $(OBJECTS)
 	$(LD) $(LDFLAGS) $^ -o $@
 
 %.o: %.c
 	$(CC) $(CCFLAGS) -c $< -o $@
 
 clean:
-	rm -rf $(OBJECTS_2D) $(OBJECTS_3D) $(EXECUTABLE_2D) $(EXECUTABLE_3D)
+	rm -rf $(OBJECTS) $(EXECUTABLE)
 
