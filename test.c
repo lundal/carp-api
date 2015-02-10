@@ -134,7 +134,7 @@ void test_fill_cells() {
   write_type(2,2,0, 7);
   write_type(3,3,0, 8);
 
-  fill_cells(true, 42);
+  fill_cells(false, 0);
 
   read_states();
   read_types();
