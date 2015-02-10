@@ -124,17 +124,17 @@ void test_fill_cells() {
   printf("- Verifies instructions: fill_cells\n");
   printf("- Expected output: All zeroes\n");
 
-  write_state(true, 0,0,0);
-  write_state(true, 1,1,0);
-  write_state(true, 2,2,0);
-  write_state(true, 3,3,0);
+  write_state(0,0,0, true);
+  write_state(1,1,0, true);
+  write_state(2,2,0, true);
+  write_state(3,3,0, true);
 
-  write_type(5, 0,0,0);
-  write_type(6, 1,1,0);
-  write_type(7, 2,2,0);
-  write_type(8, 3,3,0);
+  write_type(0,0,0, 5);
+  write_type(1,1,0, 6);
+  write_type(2,2,0, 7);
+  write_type(3,3,0, 8);
 
-  fill_cells(1, 42);
+  fill_cells(true, 42);
 
   read_states();
   read_types();
