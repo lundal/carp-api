@@ -59,7 +59,7 @@ void process_information() {
     cell_state_bits = (buffer_receive[1] >> 0) & 0xFF;
     cell_type_bits  = (buffer_receive[1] >> 8) & 0xFF;
 
-    rule_amount = buffer_receive[3];
+    rule_amount = buffer_receive[2];
 
 #ifdef DEBUG
     print_information();
