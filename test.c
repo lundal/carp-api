@@ -26,6 +26,7 @@ void test_write_read_state();
 void test_fill_cells();
 void test_swap_cell_buffers();
 void test_instruction_storage();
+void test_config_readback();
 
 /* Main */
 
@@ -59,6 +60,9 @@ void test_run(int test_number) {
     break;
   case 5:
     test_swap_cell_buffers();
+    break;
+  case 7:
+    test_config_readback();
     break;
   case 9:
     test_instruction_storage();
@@ -162,6 +166,23 @@ void test_swap_cell_buffers() {
 
   read_state(0,0,0);
   read_type(0,0,0);
+}
+
+void test_config_readback() {
+  printf("Test: Config and readback\n");
+  printf("- Verifies instructions: config, readback\n");
+  printf("- Expected output: 1\n");
+
+  write_state(true, 1,1,0);
+
+  swap_cell_buffers();
+
+  config();
+  readback();
+
+  swap_cell_buffers();
+
+  read_state(1,1,0);
 }
 
 void test_instruction_storage() {
