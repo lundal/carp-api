@@ -66,7 +66,7 @@ void swap_cell_buffers();
 void store();
 void end();
 
-void jump();
+void jump(int address);
 void break_out();
 void counter_increment(int counter);
 void counter_reset(int counter);

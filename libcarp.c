@@ -267,8 +267,12 @@ void end() {
   buffer_insert(INSTRUCTION_END);
 }
 
-void jump() {
-  buffer_insert(INSTRUCTION_JUMP);
+void jump(int address) {
+  uint32_t instruction = INSTRUCTION_JUMP;
+
+  instruction |= address <<  16;
+
+  buffer_insert(instruction);
 }
 
 void break_out() {
