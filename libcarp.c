@@ -99,6 +99,7 @@ void buffer_read(int words) {
 
 void buffer_flush() {
   communication_send(buffer_send, buffer_send_pointer);
+  buffer_send_pointer = 0;
 }
 
 /* Instructions */
