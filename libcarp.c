@@ -42,244 +42,244 @@ void print_information();
 /* Control */
 
 void carp_connect() {
-    communication_open("0xDACA");
-    get_information();
-    process_information();
+  communication_open("0xDACA");
+  get_information();
+  process_information();
 }
 
 void process_information() {
-    buffer_read(3);
+  buffer_read(3);
 
-    matrix_wrap = buffer_receive[0] & 0x01;
+  matrix_wrap = buffer_receive[0] & 0x01;
 
-    matrix_width  = (buffer_receive[0] >>  8) & 0xFF;
-    matrix_height = (buffer_receive[0] >> 16) & 0xFF;
-    matrix_depth  = (buffer_receive[0] >> 24) & 0xFF;
+  matrix_width  = (buffer_receive[0] >>  8) & 0xFF;
+  matrix_height = (buffer_receive[0] >> 16) & 0xFF;
+  matrix_depth  = (buffer_receive[0] >> 24) & 0xFF;
 
-    cell_state_bits = (buffer_receive[1] >> 0) & 0xFF;
-    cell_type_bits  = (buffer_receive[1] >> 8) & 0xFF;
+  cell_state_bits = (buffer_receive[1] >> 0) & 0xFF;
+  cell_type_bits  = (buffer_receive[1] >> 8) & 0xFF;
 
-    rule_amount = buffer_receive[2];
+  rule_amount = buffer_receive[2];
 
 #ifdef DEBUG
-    print_information();
+  print_information();
 #endif
 }
 
 void print_information() {
-    if (matrix_wrap) {
-        printf("Matrix wrap enabled\n");
-    }
-    else {
-        printf("Matrix wrap disabled\n");
-    }
-    printf("Matrix size: %dx%dx%d\n", matrix_width, matrix_height, matrix_depth);
-    printf("Cell type bits: %d\n", cell_type_bits);
-    printf("Cell state bits: %d\n", cell_state_bits);
-    printf("Rule amount: %d\n", rule_amount);
-    fflush(stdout);
+  if (matrix_wrap) {
+    printf("Matrix wrap enabled\n");
+  }
+  else {
+    printf("Matrix wrap disabled\n");
+  }
+  printf("Matrix size: %dx%dx%d\n", matrix_width, matrix_height, matrix_depth);
+  printf("Cell type bits: %d\n", cell_type_bits);
+  printf("Cell state bits: %d\n", cell_state_bits);
+  printf("Rule amount: %d\n", rule_amount);
+  fflush(stdout);
 }
 
 void carp_disconnect() {
-    communication_close();
+  communication_close();
 }
 
 void buffer_insert(uint32_t word) {
-    buffer_send[buffer_send_pointer++] = word;
+  buffer_send[buffer_send_pointer++] = word;
 
-    if (buffer_send_pointer == BUFFER_SIZE) {
-        buffer_flush();
-    }
+  if (buffer_send_pointer == BUFFER_SIZE) {
+    buffer_flush();
+  }
 }
 
 void buffer_read(int words) {
-    buffer_flush();
-    communication_receive(buffer_receive, words);
+  buffer_flush();
+  communication_receive(buffer_receive, words);
 }
 
 void buffer_flush() {
-    communication_send(buffer_send, buffer_send_pointer);
+  communication_send(buffer_send, buffer_send_pointer);
 }
 
 /* Instructions */
 
 void nop() {
-    buffer_insert(INSTRUCTION_NOP);
+  buffer_insert(INSTRUCTION_NOP);
 }
 
 void get_information() {
-    buffer_insert(INSTRUCTION_GET_INFORMATION);
+  buffer_insert(INSTRUCTION_GET_INFORMATION);
 }
 
 void get_rule_vectors(int amount) {
-    uint32_t instruction = INSTRUCTION_GET_RULE_VECTORS;
+  uint32_t instruction = INSTRUCTION_GET_RULE_VECTORS;
 
-    instruction |= amount << 16;
+  instruction |= amount << 16;
 
-    buffer_insert(instruction);
+  buffer_insert(instruction);
 }
 
 void get_rule_numbers() {
-    buffer_insert(INSTRUCTION_GET_RULE_NUMBERS);
+  buffer_insert(INSTRUCTION_GET_RULE_NUMBERS);
 }
 
 void read_state(int x, int y, int z) {
-    /* TODO: Check x,y,z? */
-    uint32_t instruction = INSTRUCTION_READ_STATE_ONE;
+  /* TODO: Check x,y,z? */
+  uint32_t instruction = INSTRUCTION_READ_STATE_ONE;
 
-    instruction |= x <<  8;
-    instruction |= y << 16;
-    instruction |= z << 24;
+  instruction |= x <<  8;
+  instruction |= y << 16;
+  instruction |= z << 24;
 
-    buffer_insert(instruction);
+  buffer_insert(instruction);
 }
 
 void read_states() {
-    buffer_insert(INSTRUCTION_READ_STATE_ALL);
+  buffer_insert(INSTRUCTION_READ_STATE_ALL);
 }
 
 void read_type(int x, int y, int z) {
-    /* TODO: Check x,y,z? */
-    uint32_t instruction = INSTRUCTION_READ_TYPE_ONE;
+  /* TODO: Check x,y,z? */
+  uint32_t instruction = INSTRUCTION_READ_TYPE_ONE;
 
-    instruction |= x <<  8;
-    instruction |= y << 16;
-    instruction |= z << 24;
+  instruction |= x <<  8;
+  instruction |= y << 16;
+  instruction |= z << 24;
 
-    buffer_insert(instruction);
+  buffer_insert(instruction);
 }
 
 void read_types() {
-    buffer_insert(INSTRUCTION_READ_TYPE_ALL);
+  buffer_insert(INSTRUCTION_READ_TYPE_ALL);
 }
 
 void write_lut() {
-    /* TODO */
+  /* TODO */
 }
 
 void write_rule() {
-    /* TODO */
+  /* TODO */
 }
 
 void set_rules_active(int amount) {
-    /* TODO */
+  /* TODO */
 }
 
 void fill_cells(bool state, int type) {
-    uint32_t instruction = INSTRUCTION_WRITE_STATE_ONE;
+  uint32_t instruction = INSTRUCTION_WRITE_STATE_ONE;
 
-    if (cell_type_bits > 16) {
-        instruction |= 1 << 5; /* Extra words */
-    }
+  if (cell_type_bits > 16) {
+    instruction |= 1 << 5; /* Extra words */
+  }
 
-    instruction |= state <<  8;
-    instruction |= type  << 16;
+  instruction |= state <<  8;
+  instruction |= type  << 16;
 
-    buffer_insert(instruction);
+  buffer_insert(instruction);
 
-    if (cell_type_bits > 16) {
-        buffer_insert(type >> 16);
-    }
+  if (cell_type_bits > 16) {
+    buffer_insert(type >> 16);
+  }
 }
 
 void write_state(int x, int y, int z, bool state) {
-    uint32_t instruction = INSTRUCTION_WRITE_STATE_ONE;
+  uint32_t instruction = INSTRUCTION_WRITE_STATE_ONE;
 
-    instruction |= 1 << 5; /* Extra words */
+  instruction |= 1 << 5; /* Extra words */
 
-    instruction |= x <<  8;
-    instruction |= y << 16;
-    instruction |= z << 24;
+  instruction |= x <<  8;
+  instruction |= y << 16;
+  instruction |= z << 24;
 
-    buffer_insert(instruction);
-    buffer_insert(state);
+  buffer_insert(instruction);
+  buffer_insert(state);
 };
 
 void write_states(int x, int y, int z, bool states[]) {
-    uint32_t instruction = INSTRUCTION_WRITE_STATE_ROW;
+  uint32_t instruction = INSTRUCTION_WRITE_STATE_ROW;
 
-    instruction |= 1 << 5; /* Extra words */
+  instruction |= 1 << 5; /* Extra words */
 
-    instruction |= x <<  8;
-    instruction |= y << 16;
-    instruction |= z << 24;
+  instruction |= x <<  8;
+  instruction |= y << 16;
+  instruction |= z << 24;
 
-    buffer_insert(instruction);
+  buffer_insert(instruction);
 
-    /* TODO */
+  /* TODO */
 };
 
 void write_type(int x, int y, int z, int type) {
-    uint32_t instruction = INSTRUCTION_WRITE_TYPE_ONE;
+  uint32_t instruction = INSTRUCTION_WRITE_TYPE_ONE;
 
-    instruction |= 1 << 5; /* Extra words */
+  instruction |= 1 << 5; /* Extra words */
 
-    instruction |= x <<  8;
-    instruction |= y << 16;
-    instruction |= z << 24;
+  instruction |= x <<  8;
+  instruction |= y << 16;
+  instruction |= z << 24;
 
-    buffer_insert(instruction);
-    buffer_insert(type);
+  buffer_insert(instruction);
+  buffer_insert(type);
 };
 
 void write_types(int x, int y, int z, int types[]) {
-    uint32_t instruction = INSTRUCTION_WRITE_TYPE_ROW;
+  uint32_t instruction = INSTRUCTION_WRITE_TYPE_ROW;
 
-    instruction |= 1 << 5; /* Extra words */
+  instruction |= 1 << 5; /* Extra words */
 
-    instruction |= x <<  8;
-    instruction |= y << 16;
-    instruction |= z << 24;
+  instruction |= x <<  8;
+  instruction |= y << 16;
+  instruction |= z << 24;
 
-    buffer_insert(instruction);
+  buffer_insert(instruction);
 
-    /* TODO */
+  /* TODO */
 };
 
 void devstep() {
-    buffer_insert(INSTRUCTION_DEVSTEP);
+  buffer_insert(INSTRUCTION_DEVSTEP);
 }
 
 void runstep() {
-    buffer_insert(INSTRUCTION_RUNSTEP);
+  buffer_insert(INSTRUCTION_RUNSTEP);
 }
 
 void config() {
-    buffer_insert(INSTRUCTION_CONFIG);
+  buffer_insert(INSTRUCTION_CONFIG);
 }
 
 void readback() {
-    buffer_insert(INSTRUCTION_READBACK);
+  buffer_insert(INSTRUCTION_READBACK);
 }
 
 void swap_cell_buffers() {
-    buffer_insert(INSTRUCTION_SWAP_CELL_BUFFERS);
+  buffer_insert(INSTRUCTION_SWAP_CELL_BUFFERS);
 }
 
 /* TODO: Fitness, JumpEqual */
 
 void store() {
-    buffer_insert(INSTRUCTION_STORE);
+  buffer_insert(INSTRUCTION_STORE);
 }
 
 void end() {
-    buffer_insert(INSTRUCTION_END);
+  buffer_insert(INSTRUCTION_END);
 }
 
 void jump() {
-    buffer_insert(INSTRUCTION_JUMP);
+  buffer_insert(INSTRUCTION_JUMP);
 }
 
 void break_out() {
-    buffer_insert(INSTRUCTION_BREAK);
+  buffer_insert(INSTRUCTION_BREAK);
 }
 
 void counter_increment(int counter) {
-    /* TODO */
+  /* TODO */
 }
 
 void counter_reset(int counter) {
-    /* TODO */
+  /* TODO */
 }
 
 /* Utility functions */
