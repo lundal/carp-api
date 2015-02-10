@@ -25,6 +25,7 @@ void test_write_read_type();
 void test_write_read_state();
 void test_fill_cells();
 void test_swap_cell_buffers();
+void test_instruction_storage();
 
 /* Main */
 
@@ -58,6 +59,9 @@ void test_run(int test_number) {
     break;
   case 5:
     test_swap_cell_buffers();
+    break;
+  case 9:
+    test_instruction_storage();
     break;
   default:
     printf("Unknown test %d\n", test_number);
@@ -158,4 +162,21 @@ void test_swap_cell_buffers() {
 
   read_state(0,0,0);
   read_type(0,0,0);
+}
+
+void test_instruction_storage() {
+  printf("Test: Instruction storage\n");
+  printf("- Verifies instructions: store, end, jump, break\n");
+  printf("- Expected output: 1, 1, 1\n");
+
+  write_state(1,1,0, true);
+
+  store(0);
+    read_state(1,1,0);
+    break_out();
+  end();
+
+  jump(0);
+  jump(0);
+  jump(0);
 }
