@@ -173,7 +173,7 @@ void test_config_readback() {
   printf("- Verifies instructions: config, readback\n");
   printf("- Expected output: 1\n");
 
-  write_state(true, 1,1,0);
+  write_state(1,1,0, true);
 
   swap_cell_buffers();
 
