@@ -22,7 +22,9 @@ void reset();
 void print_remaining_data();
 
 void test_write_read_type();
+void test_write_read_types();
 void test_write_read_state();
+void test_write_read_states();
 void test_fill_cells();
 void test_swap_cell_buffers();
 void test_instruction_storage();
@@ -52,8 +54,14 @@ void test_run(int test_number) {
   case 0:
     test_write_read_type();
     break;
+  case 1:
+    test_write_read_types();
+    break;
   case 2:
     test_write_read_state();
+    break;
+  case 3:
+    test_write_read_states();
     break;
   case 4:
     test_fill_cells();
@@ -111,6 +119,23 @@ void test_write_read_type() {
   read_type(3,3,0);
 }
 
+void test_write_read_types() {
+  printf("Test: Write and read types\n");
+  printf("- Verifies instructions: write_types, read_types\n");
+  printf("- Requires manual inspection!\n");
+
+  write_type(0,0,0, 5);
+  write_type(1,1,0, 6);
+  write_type(2,2,0, 7);
+  write_type(3,3,0, 8);
+
+  int types[] = {8,7,6,5,4,3,2,1};
+
+  write_types(0,4,0, types);
+
+  read_types();
+}
+
 void test_write_read_state() {
   printf("Test: Write and read state\n");
   printf("- Verifies instructions: write_state, read_state\n");
@@ -125,6 +150,23 @@ void test_write_read_state() {
   read_state(1,1,0);
   read_state(2,2,0);
   read_state(3,3,0);
+}
+
+void test_write_read_states() {
+  printf("Test: Write and read states\n");
+  printf("- Verifies instructions: write_states, read_states\n");
+  printf("- Requires manual inspection!\n");
+
+  write_state(0,0,0, true);
+  write_state(1,1,0, true);
+  write_state(2,2,0, true);
+  write_state(3,3,0, true);
+
+  bool states[] = {1,1,1,1,1,1,1,1};
+
+  write_states(0,4,0, states);
+
+  read_states();
 }
 
 void test_fill_cells() {

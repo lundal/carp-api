@@ -38,6 +38,7 @@ int rule_amount;
 
 void process_information();
 void print_information();
+int div_ceil(int dividend, int divisor);
 
 /* Control */
 
@@ -199,7 +200,8 @@ void write_state(int x, int y, int z, bool state) {
 void write_states(int x, int y, int z, bool states[]) {
   uint32_t instruction = INSTRUCTION_WRITE_STATE_ROW;
 
-  instruction |= 1 << 5; /* Extra words */
+  int extra_words = div_ceil(matrix_width * cell_type_bits, 32);
+  instruction |= extra_words << 5;
 
   instruction |= x <<  8;
   instruction |= y << 16;
@@ -207,7 +209,16 @@ void write_states(int x, int y, int z, bool states[]) {
 
   buffer_insert(instruction);
 
-  /* TODO */
+  /* Align each state directly after each other in the instruction */
+  for (int i = 0; i < extra_words; i++) {
+    int first_state = i * 32 / cell_state_bits;
+    int last_state = div_ceil((i+1) * 32, cell_state_bits) - 1;
+    int word = 0;
+    for (int k = first_state; k <= last_state; k++) {
+      word |= (states[k]) << (k * cell_state_bits - i * 32);
+    }
+    buffer_insert(word);
+  }
 };
 
 void write_type(int x, int y, int z, int type) {
@@ -226,7 +237,8 @@ void write_type(int x, int y, int z, int type) {
 void write_types(int x, int y, int z, int types[]) {
   uint32_t instruction = INSTRUCTION_WRITE_TYPE_ROW;
 
-  instruction |= 1 << 5; /* Extra words */
+  int extra_words = div_ceil(matrix_width * cell_type_bits, 32);
+  instruction |= extra_words << 5;
 
   instruction |= x <<  8;
   instruction |= y << 16;
@@ -234,7 +246,16 @@ void write_types(int x, int y, int z, int types[]) {
 
   buffer_insert(instruction);
 
-  /* TODO */
+  /* Align each type directly after each other in the instruction */
+  for (int i = 0; i < extra_words; i++) {
+    int first_type = i * 32 / cell_type_bits;
+    int last_type = div_ceil((i+1) * 32, cell_type_bits) - 1;
+    int word = 0;
+    for (int k = first_type; k <= last_type; k++) {
+      word |= (types[k]) << (k * cell_type_bits - i * 32);
+    }
+    buffer_insert(word);
+  }
 };
 
 void devstep() {
@@ -288,6 +309,10 @@ void counter_reset(int counter) {
 }
 
 /* Utility functions */
+
+int div_ceil(int dividend, int divisor) {
+  return (dividend % divisor) ? dividend / divisor + 1 : dividend / divisor;
+}
 
 void print_send_buffer() {
   printf("Send buffer contents:\n");
