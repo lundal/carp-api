@@ -240,6 +240,8 @@ void write_rule(rule_t rule, uint32_t index) {
   for (int i = 0; i < rule_bitvector.number_of_parts; i++) {
     buffer_insert(rule_bitvector.vector_parts[i]);
   }
+
+  bitvector_dispose(&rule_bitvector);
 }
 
 void set_rules_active(uint32_t amount) {
@@ -301,6 +303,8 @@ void write_states(uint32_t x, uint32_t y, uint32_t z, bool states[]) {
   for (int i = 0; i < states_bitvector.number_of_parts; i++) {
     buffer_insert(states_bitvector.vector_parts[i]);
   }
+
+  bitvector_dispose(&states_bitvector);
 };
 
 void write_type(uint32_t x, uint32_t y, uint32_t z, uint32_t type) {
@@ -341,6 +345,8 @@ void write_types(uint32_t x, uint32_t y, uint32_t z, uint32_t types[]) {
   for (int i = 0; i < types_bitvector.number_of_parts; i++) {
     buffer_insert(types_bitvector.vector_parts[i]);
   }
+
+  bitvector_dispose(&types_bitvector);
 };
 
 void devstep() {
