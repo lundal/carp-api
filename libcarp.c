@@ -113,7 +113,7 @@ void get_information() {
   buffer_insert(INSTRUCTION_GET_INFORMATION);
 }
 
-void get_rule_vectors(int amount) {
+void get_rule_vectors(uint16_t amount) {
   uint32_t instruction = INSTRUCTION_GET_RULE_VECTORS;
 
   instruction |= amount << 16;
@@ -125,7 +125,7 @@ void get_rule_numbers() {
   buffer_insert(INSTRUCTION_GET_RULE_NUMBERS);
 }
 
-void read_state(int x, int y, int z) {
+void read_state(uint32_t x, uint32_t y, uint32_t z) {
   /* TODO: Check x,y,z? */
   uint32_t instruction = INSTRUCTION_READ_STATE_ONE;
 
@@ -140,7 +140,7 @@ void read_states() {
   buffer_insert(INSTRUCTION_READ_STATE_ALL);
 }
 
-void read_type(int x, int y, int z) {
+void read_type(uint32_t x, uint32_t y, uint32_t z) {
   /* TODO: Check x,y,z? */
   uint32_t instruction = INSTRUCTION_READ_TYPE_ONE;
 
@@ -183,11 +183,11 @@ void write_rule() {
   /* TODO */
 }
 
-void set_rules_active(int amount) {
+void set_rules_active(uint32_t amount) {
   /* TODO */
 }
 
-void fill_cells(bool state, int type) {
+void fill_cells(bool state, uint32_t type) {
   uint32_t instruction = INSTRUCTION_FILL_CELLS;
 
   if (cell_type_bits > 16) {
@@ -204,7 +204,7 @@ void fill_cells(bool state, int type) {
   }
 }
 
-void write_state(int x, int y, int z, bool state) {
+void write_state(uint32_t x, uint32_t y, uint32_t z, bool state) {
   uint32_t instruction = INSTRUCTION_WRITE_STATE_ONE;
 
   instruction |= 1 << 5; /* Extra words */
@@ -217,7 +217,7 @@ void write_state(int x, int y, int z, bool state) {
   buffer_insert(state);
 };
 
-void write_states(int x, int y, int z, bool states[]) {
+void write_states(uint32_t x, uint32_t y, uint32_t z, bool states[]) {
   uint32_t instruction = INSTRUCTION_WRITE_STATE_ROW;
 
   int extra_words = div_ceil(matrix_width * cell_type_bits, 32);
@@ -233,15 +233,16 @@ void write_states(int x, int y, int z, bool states[]) {
   for (int i = 0; i < extra_words; i++) {
     int first_state = i * 32 / cell_state_bits;
     int last_state = div_ceil((i+1) * 32, cell_state_bits) - 1;
-    int word = 0;
+    uint32_t word = 0;
     for (int k = first_state; k <= last_state; k++) {
       word |= (states[k]) << (k * cell_state_bits - i * 32);
     }
     buffer_insert(word);
   }
+  /* TODO : Not perfect */
 };
 
-void write_type(int x, int y, int z, int type) {
+void write_type(uint32_t x, uint32_t y, uint32_t z, uint32_t type) {
   uint32_t instruction = INSTRUCTION_WRITE_TYPE_ONE;
 
   instruction |= 1 << 5; /* Extra words */
@@ -254,7 +255,7 @@ void write_type(int x, int y, int z, int type) {
   buffer_insert(type);
 };
 
-void write_types(int x, int y, int z, int types[]) {
+void write_types(uint32_t x, uint32_t y, uint32_t z, uint32_t types[]) {
   uint32_t instruction = INSTRUCTION_WRITE_TYPE_ROW;
 
   int extra_words = div_ceil(matrix_width * cell_type_bits, 32);
@@ -270,20 +271,25 @@ void write_types(int x, int y, int z, int types[]) {
   for (int i = 0; i < extra_words; i++) {
     int first_type = i * 32 / cell_type_bits;
     int last_type = div_ceil((i+1) * 32, cell_type_bits) - 1;
-    int word = 0;
+    uint32_t word = 0;
     for (int k = first_type; k <= last_type; k++) {
       word |= (types[k]) << (k * cell_type_bits - i * 32);
     }
     buffer_insert(word);
   }
+  /* TODO : Not perfect */
 };
 
 void devstep() {
   buffer_insert(INSTRUCTION_DEVSTEP);
 }
 
-void runstep() {
-  buffer_insert(INSTRUCTION_RUNSTEP);
+void runstep(uint16_t amount) {
+  uint32_t instruction = INSTRUCTION_RUNSTEP;
+
+  instruction |= amount << 16;
+
+  buffer_insert(instruction);
 }
 
 void config() {
@@ -308,7 +314,7 @@ void end() {
   buffer_insert(INSTRUCTION_END);
 }
 
-void jump(int address) {
+void jump(uint16_t address) {
   uint32_t instruction = INSTRUCTION_JUMP;
 
   instruction |= address <<  16;
@@ -320,11 +326,11 @@ void break_out() {
   buffer_insert(INSTRUCTION_BREAK);
 }
 
-void counter_increment(int counter) {
+void counter_increment(uint8_t counter) {
   /* TODO */
 }
 
-void counter_reset(int counter) {
+void counter_reset(uint8_t counter) {
   /* TODO */
 }
 

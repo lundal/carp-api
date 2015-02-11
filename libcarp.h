@@ -39,26 +39,26 @@ void buffer_flush();
 
 void nop();
 void get_information();
-void get_rule_vectors(int amount);
+void get_rule_vectors(uint16_t amount);
 void get_rule_numbers();
 
-void read_state(int x, int y, int z);
+void read_state(uint32_t x, uint32_t y, uint32_t z);
 void read_states();
-void read_type(int x, int y, int z);
+void read_type(uint32_t x, uint32_t y, uint32_t z);
 void read_types();
 
 void write_lut(lut_t lut, uint32_t type);
 void write_rule();
-void set_rules_active(int amount);
-void fill_cells(bool state, int type);
+void set_rules_active(uint32_t amount);
+void fill_cells(bool state, uint32_t type);
 
-void write_state(int x, int y, int z, bool state);
-void write_states(int x, int y, int z, bool states[]);
-void write_type(int x, int y, int z, int type);
-void write_types(int x, int y, int z, int types[]);
+void write_state(uint32_t x, uint32_t y, uint32_t z, bool state);
+void write_states(uint32_t x, uint32_t y, uint32_t z, bool states[]);
+void write_type(uint32_t x, uint32_t y, uint32_t z, uint32_t type);
+void write_types(uint32_t x, uint32_t y, uint32_t z, uint32_t types[]);
 
 void devstep();
-void runstep();
+void runstep(uint16_t amount);
 void config();
 void readback();
 
@@ -68,10 +68,10 @@ void swap_cell_buffers();
 void store();
 void end();
 
-void jump(int address);
+void jump(uint16_t address);
 void break_out();
-void counter_increment(int counter);
-void counter_reset(int counter);
+void counter_increment(uint8_t counter);
+void counter_reset(uint8_t counter);
 
 /* Utility functions */
 

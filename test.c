@@ -133,7 +133,7 @@ void test_write_read_types() {
   write_type(2,2,0, 7);
   write_type(3,3,0, 8);
 
-  int types[] = {8,7,6,5,4,3,2,1};
+  uint32_t types[] = {8,7,6,5,4,3,2,1};
 
   write_types(0,4,0, types);
 
