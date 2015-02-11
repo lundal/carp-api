@@ -280,7 +280,13 @@ void write_state(uint32_t x, uint32_t y, uint32_t z, bool state) {
 void write_states(uint32_t x, uint32_t y, uint32_t z, bool states[]) {
   uint32_t instruction = INSTRUCTION_WRITE_STATE_ROW;
 
-  int extra_words = div_ceil(matrix_width * cell_type_bits, 32);
+  int write_width = matrix_width;
+  if (matrix_width * cell_state_bits > (256-32)) write_width = (256-32) / cell_state_bits;
+
+  bitvector_t states_bitvector = bitvector_create(write_width * cell_state_bits);
+
+  int extra_words = states_bitvector.number_of_parts;
+
   instruction |= extra_words << 5;
 
   instruction |= x <<  8;
@@ -289,17 +295,13 @@ void write_states(uint32_t x, uint32_t y, uint32_t z, bool states[]) {
 
   buffer_insert(instruction);
 
-  /* Align each state directly after each other in the instruction */
-  for (int i = 0; i < extra_words; i++) {
-    int first_state = i * 32 / cell_state_bits;
-    int last_state = div_ceil((i+1) * 32, cell_state_bits) - 1;
-    uint32_t word = 0;
-    for (int k = first_state; k <= last_state; k++) {
-      word |= (states[k]) << (k * cell_state_bits - i * 32);
-    }
-    buffer_insert(word);
+  for (int i = 0; i < write_width; i ++) {
+    bitvector_add(&states_bitvector, states[i], cell_state_bits);
   }
-  /* TODO : Not perfect */
+
+  for (int i = 0; i < states_bitvector.number_of_parts; i++) {
+    buffer_insert(states_bitvector.vector_parts[i]);
+  }
 };
 
 void write_type(uint32_t x, uint32_t y, uint32_t z, uint32_t type) {
@@ -318,7 +320,13 @@ void write_type(uint32_t x, uint32_t y, uint32_t z, uint32_t type) {
 void write_types(uint32_t x, uint32_t y, uint32_t z, uint32_t types[]) {
   uint32_t instruction = INSTRUCTION_WRITE_TYPE_ROW;
 
-  int extra_words = div_ceil(matrix_width * cell_type_bits, 32);
+  int write_width = matrix_width;
+  if (matrix_width * cell_type_bits > (256-32)) write_width = (256-32) / cell_type_bits;
+
+  bitvector_t types_bitvector = bitvector_create(write_width * cell_type_bits);
+
+  int extra_words = types_bitvector.number_of_parts;
+
   instruction |= extra_words << 5;
 
   instruction |= x <<  8;
@@ -327,17 +335,13 @@ void write_types(uint32_t x, uint32_t y, uint32_t z, uint32_t types[]) {
 
   buffer_insert(instruction);
 
-  /* Align each type directly after each other in the instruction */
-  for (int i = 0; i < extra_words; i++) {
-    int first_type = i * 32 / cell_type_bits;
-    int last_type = div_ceil((i+1) * 32, cell_type_bits) - 1;
-    uint32_t word = 0;
-    for (int k = first_type; k <= last_type; k++) {
-      word |= (types[k]) << (k * cell_type_bits - i * 32);
-    }
-    buffer_insert(word);
+  for (int i = 0; i < write_width; i ++) {
+    bitvector_add(&types_bitvector, types[i], cell_type_bits);
   }
-  /* TODO : Not perfect */
+
+  for (int i = 0; i < types_bitvector.number_of_parts; i++) {
+    buffer_insert(types_bitvector.vector_parts[i]);
+  }
 };
 
 void devstep() {
