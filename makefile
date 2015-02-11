@@ -12,7 +12,7 @@
 ###############################################################################
 
 # Files
-SOURCES    = pci.c communication.c libcarp.c test.c
+SOURCES    = pci.c communication.c utility.c bitvector.c libcarp.c test.c
 OBJECTS    = $(SOURCES:.c=.o)
 EXECUTABLE = carp
 

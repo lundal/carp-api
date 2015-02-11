@@ -12,6 +12,8 @@
 #include "libcarp.h"
 #include "communication.h"
 #include "instructions.h"
+#include "bitvector.h"
+#include "utility.h"
 
 /* Constants */
 
@@ -38,7 +40,6 @@ int rule_amount;
 
 void process_information();
 void print_information();
-int div_ceil(int dividend, int divisor);
 
 /* Control */
 
@@ -179,8 +180,62 @@ void write_lut(lut_t lut, uint32_t type) {
   }
 }
 
-void write_rule() {
-  /* TODO */
+void write_rule(rule_t rule, uint32_t index) {
+  uint32_t instruction = INSTRUCTION_WRITE_RULE;
+
+  int neighborhood_size = (matrix_depth = 1) ? 5 : 7;
+  int rule_bits = (cell_type_bits + 1 + cell_state_bits + 1) * (neighborhood_size + 1);
+
+  bitvector_t rule_bitvector = bitvector_create(rule_bits);
+
+  int extra_words = 1 + rule_bitvector.number_of_parts;
+  instruction |= extra_words << 5;
+
+  buffer_insert(instruction);
+
+  buffer_insert(index);
+
+
+  bitvector_add(&rule_bitvector, rule.result.state_value, cell_state_bits);
+  bitvector_add(&rule_bitvector, rule.result.state_change, 1);
+  bitvector_add(&rule_bitvector, rule.result.type_value, cell_type_bits);
+  bitvector_add(&rule_bitvector, rule.result.type_change, 1);
+
+  bitvector_add(&rule_bitvector, rule.x_positive.state_value, cell_state_bits);
+  bitvector_add(&rule_bitvector, rule.x_positive.state_check, 1);
+  bitvector_add(&rule_bitvector, rule.x_positive.type_value, cell_type_bits);
+  bitvector_add(&rule_bitvector, rule.x_positive.type_check, 1);
+
+  bitvector_add(&rule_bitvector, rule.x_negative.state_value, cell_state_bits);
+  bitvector_add(&rule_bitvector, rule.x_negative.state_check, 1);
+  bitvector_add(&rule_bitvector, rule.x_negative.type_value, cell_type_bits);
+  bitvector_add(&rule_bitvector, rule.x_negative.type_check, 1);
+
+  bitvector_add(&rule_bitvector, rule.y_positive.state_value, cell_state_bits);
+  bitvector_add(&rule_bitvector, rule.y_positive.state_check, 1);
+  bitvector_add(&rule_bitvector, rule.y_positive.type_value, cell_type_bits);
+  bitvector_add(&rule_bitvector, rule.y_positive.type_check, 1);
+
+  bitvector_add(&rule_bitvector, rule.y_negative.state_value, cell_state_bits);
+  bitvector_add(&rule_bitvector, rule.y_negative.state_check, 1);
+  bitvector_add(&rule_bitvector, rule.y_negative.type_value, cell_type_bits);
+  bitvector_add(&rule_bitvector, rule.y_negative.type_check, 1);
+
+  if (matrix_depth > 1) {
+    bitvector_add(&rule_bitvector, rule.z_positive.state_value, cell_state_bits);
+    bitvector_add(&rule_bitvector, rule.z_positive.state_check, 1);
+    bitvector_add(&rule_bitvector, rule.z_positive.type_value, cell_type_bits);
+    bitvector_add(&rule_bitvector, rule.z_positive.type_check, 1);
+
+    bitvector_add(&rule_bitvector, rule.z_negative.state_value, cell_state_bits);
+    bitvector_add(&rule_bitvector, rule.z_negative.state_check, 1);
+    bitvector_add(&rule_bitvector, rule.z_negative.type_value, cell_type_bits);
+    bitvector_add(&rule_bitvector, rule.z_negative.type_check, 1);
+  }
+
+  for (int i = 0; i < rule_bitvector.number_of_parts; i++) {
+    buffer_insert(rule_bitvector.vector_parts[i]);
+  }
 }
 
 void set_rules_active(uint32_t amount) {
@@ -335,10 +390,6 @@ void counter_reset(uint8_t counter) {
 }
 
 /* Utility functions */
-
-int div_ceil(int dividend, int divisor) {
-  return (dividend % divisor) ? dividend / divisor + 1 : dividend / divisor;
-}
 
 void print_send_buffer() {
   printf("Send buffer contents:\n");

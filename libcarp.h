@@ -13,6 +13,7 @@
 #define LIBCARP_H
 
 #include "lut.h"
+#include "rule.h"
 
 #include <stdio.h>
 #include <stdint.h>
@@ -48,7 +49,7 @@ void read_type(uint32_t x, uint32_t y, uint32_t z);
 void read_types();
 
 void write_lut(lut_t lut, uint32_t type);
-void write_rule();
+void write_rule(rule_t rule, uint32_t index);
 void set_rules_active(uint32_t amount);
 void fill_cells(bool state, uint32_t type);
 
