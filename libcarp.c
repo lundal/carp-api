@@ -189,17 +189,22 @@ void write_rule(rule_t rule, uint32_t index) {
   bitvector_t rule_bitvector = bitvector_create(rule_bits);
 
   int extra_words = 1 + rule_bitvector.number_of_parts;
+
   instruction |= extra_words << 5;
 
   buffer_insert(instruction);
 
   buffer_insert(index);
 
-
   bitvector_add(&rule_bitvector, rule.result.state_value, cell_state_bits);
   bitvector_add(&rule_bitvector, rule.result.state_change, 1);
   bitvector_add(&rule_bitvector, rule.result.type_value, cell_type_bits);
   bitvector_add(&rule_bitvector, rule.result.type_change, 1);
+
+  bitvector_add(&rule_bitvector, rule.self.state_value, cell_state_bits);
+  bitvector_add(&rule_bitvector, rule.self.state_check, 1);
+  bitvector_add(&rule_bitvector, rule.self.type_value, cell_type_bits);
+  bitvector_add(&rule_bitvector, rule.self.type_check, 1);
 
   bitvector_add(&rule_bitvector, rule.x_positive.state_value, cell_state_bits);
   bitvector_add(&rule_bitvector, rule.x_positive.state_check, 1);

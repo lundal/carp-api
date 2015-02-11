@@ -36,6 +36,7 @@ typedef struct {
   condition_t y_positive;
   condition_t x_negative;
   condition_t x_positive;
+  condition_t self;
   result_t result;
 } rule_t;
 
