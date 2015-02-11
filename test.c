@@ -224,12 +224,24 @@ void test_development() {
   printf("- Requires manual inspection!\n");
 
   rule_t rule_change_1_to_2 = {
-    .self   = {.type_check = true, .type_value = 1},
-    .result = {.type_change = true, .type_value = 2}
+    .z_negative = {.state_check = false, .state_value = 0, .type_check = false, .type_value = 0},
+    .z_positive = {.state_check = false, .state_value = 0, .type_check = false, .type_value = 0},
+    .y_negative = {.state_check = false, .state_value = 0, .type_check = false, .type_value = 0},
+    .y_positive = {.state_check = false, .state_value = 0, .type_check = false, .type_value = 0},
+    .x_negative = {.state_check = false, .state_value = 0, .type_check = false, .type_value = 0},
+    .x_positive = {.state_check = false, .state_value = 0, .type_check = false, .type_value = 0},
+    .self       = {.state_check = false, .state_value = 0, .type_check = true, .type_value = 1},
+    .result     = {.state_change = false, .state_value = 0, .type_change = true, .type_value = 2},
   };
   rule_t rule_change_2_to_3 = {
-    .self   = {.type_check = true, .type_value = 2},
-    .result = {.type_change = true, .type_value = 3}
+    .z_negative = {.state_check = false, .state_value = 0, .type_check = false, .type_value = 0},
+    .z_positive = {.state_check = false, .state_value = 0, .type_check = false, .type_value = 0},
+    .y_negative = {.state_check = false, .state_value = 0, .type_check = false, .type_value = 0},
+    .y_positive = {.state_check = false, .state_value = 0, .type_check = false, .type_value = 0},
+    .x_negative = {.state_check = false, .state_value = 0, .type_check = false, .type_value = 0},
+    .x_positive = {.state_check = false, .state_value = 0, .type_check = false, .type_value = 0},
+    .self       = {.state_check = false, .state_value = 0, .type_check = true, .type_value = 2},
+    .result     = {.state_change = false, .state_value = 0, .type_change = true, .type_value = 3},
   };
 
   write_rule(rule_change_1_to_2, 1);
