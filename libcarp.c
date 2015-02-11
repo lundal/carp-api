@@ -69,10 +69,10 @@ void process_information() {
 
 void print_information() {
   if (matrix_wrap) {
-    printf("Matrix wrap enabled\n");
+    printf("Matrix wrap: Enabled\n");
   }
   else {
-    printf("Matrix wrap disabled\n");
+    printf("Matrix wrap: Disabled\n");
   }
   printf("Matrix size: %dx%dx%d\n", matrix_width, matrix_height, matrix_depth);
   printf("Cell type bits: %d\n", cell_type_bits);
