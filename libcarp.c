@@ -195,46 +195,46 @@ void write_rule(rule_t rule, uint32_t index) {
 
   buffer_insert(index);
 
-  bitvector_add(&rule_bitvector, rule.result.state_value, cell_state_bits);
   bitvector_add(&rule_bitvector, rule.result.state_change, 1);
-  bitvector_add(&rule_bitvector, rule.result.type_value, cell_type_bits);
+  bitvector_add(&rule_bitvector, rule.result.state_value, cell_state_bits);
   bitvector_add(&rule_bitvector, rule.result.type_change, 1);
+  bitvector_add(&rule_bitvector, rule.result.type_value, cell_type_bits);
 
-  bitvector_add(&rule_bitvector, rule.self.state_value, cell_state_bits);
   bitvector_add(&rule_bitvector, rule.self.state_check, 1);
-  bitvector_add(&rule_bitvector, rule.self.type_value, cell_type_bits);
+  bitvector_add(&rule_bitvector, rule.self.state_value, cell_state_bits);
   bitvector_add(&rule_bitvector, rule.self.type_check, 1);
+  bitvector_add(&rule_bitvector, rule.self.type_value, cell_type_bits);
 
-  bitvector_add(&rule_bitvector, rule.x_positive.state_value, cell_state_bits);
   bitvector_add(&rule_bitvector, rule.x_positive.state_check, 1);
-  bitvector_add(&rule_bitvector, rule.x_positive.type_value, cell_type_bits);
+  bitvector_add(&rule_bitvector, rule.x_positive.state_value, cell_state_bits);
   bitvector_add(&rule_bitvector, rule.x_positive.type_check, 1);
+  bitvector_add(&rule_bitvector, rule.x_positive.type_value, cell_type_bits);
 
-  bitvector_add(&rule_bitvector, rule.x_negative.state_value, cell_state_bits);
   bitvector_add(&rule_bitvector, rule.x_negative.state_check, 1);
-  bitvector_add(&rule_bitvector, rule.x_negative.type_value, cell_type_bits);
+  bitvector_add(&rule_bitvector, rule.x_negative.state_value, cell_state_bits);
   bitvector_add(&rule_bitvector, rule.x_negative.type_check, 1);
+  bitvector_add(&rule_bitvector, rule.x_negative.type_value, cell_type_bits);
 
-  bitvector_add(&rule_bitvector, rule.y_positive.state_value, cell_state_bits);
   bitvector_add(&rule_bitvector, rule.y_positive.state_check, 1);
-  bitvector_add(&rule_bitvector, rule.y_positive.type_value, cell_type_bits);
+  bitvector_add(&rule_bitvector, rule.y_positive.state_value, cell_state_bits);
   bitvector_add(&rule_bitvector, rule.y_positive.type_check, 1);
+  bitvector_add(&rule_bitvector, rule.y_positive.type_value, cell_type_bits);
 
-  bitvector_add(&rule_bitvector, rule.y_negative.state_value, cell_state_bits);
   bitvector_add(&rule_bitvector, rule.y_negative.state_check, 1);
-  bitvector_add(&rule_bitvector, rule.y_negative.type_value, cell_type_bits);
+  bitvector_add(&rule_bitvector, rule.y_negative.state_value, cell_state_bits);
   bitvector_add(&rule_bitvector, rule.y_negative.type_check, 1);
+  bitvector_add(&rule_bitvector, rule.y_negative.type_value, cell_type_bits);
 
   if (matrix_depth > 1) {
-    bitvector_add(&rule_bitvector, rule.z_positive.state_value, cell_state_bits);
     bitvector_add(&rule_bitvector, rule.z_positive.state_check, 1);
-    bitvector_add(&rule_bitvector, rule.z_positive.type_value, cell_type_bits);
+    bitvector_add(&rule_bitvector, rule.z_positive.state_value, cell_state_bits);
     bitvector_add(&rule_bitvector, rule.z_positive.type_check, 1);
+    bitvector_add(&rule_bitvector, rule.z_positive.type_value, cell_type_bits);
 
-    bitvector_add(&rule_bitvector, rule.z_negative.state_value, cell_state_bits);
     bitvector_add(&rule_bitvector, rule.z_negative.state_check, 1);
-    bitvector_add(&rule_bitvector, rule.z_negative.type_value, cell_type_bits);
+    bitvector_add(&rule_bitvector, rule.z_negative.state_value, cell_state_bits);
     bitvector_add(&rule_bitvector, rule.z_negative.type_check, 1);
+    bitvector_add(&rule_bitvector, rule.z_negative.type_value, cell_type_bits);
   }
 
   for (int i = 0; i < rule_bitvector.number_of_parts; i++) {
