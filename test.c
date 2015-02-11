@@ -27,8 +27,9 @@ void test_write_read_state();
 void test_write_read_states();
 void test_fill_cells();
 void test_swap_cell_buffers();
-void test_instruction_storage();
 void test_config_readback();
+void test_sblockmatrix();
+void test_instruction_storage();
 
 /* Main */
 
@@ -71,6 +72,9 @@ void test_run(int test_number) {
     break;
   case 7:
     test_config_readback();
+    break;
+  case 8:
+    test_sblockmatrix();
     break;
   case 9:
     test_instruction_storage();
@@ -225,6 +229,48 @@ void test_config_readback() {
   swap_cell_buffers();
 
   read_state(1,1,0);
+}
+
+void test_sblockmatrix() {
+  /* Matrix:
+   * 0 1 0
+   * 0 + 0
+   * 1 * 1
+   * 0 1 0 */
+  printf("Test: Sblockmatrix\n");
+  printf("- Verifies instructions: runstep, write_lut\n");
+  printf("- Expected output: 1, 1, 0, 1, 1, 1\n");
+
+  write_lut(LUT_SELF, 0);
+  write_lut(LUT_AND4, 1);
+  write_lut(LUT_OR,   2);
+
+  write_type(1,1,0, 2);
+  write_type(1,2,0, 1);
+
+  write_state(1,0,0, true);
+  write_state(0,2,0, true);
+  write_state(2,2,0, true);
+  write_state(1,3,0, true);
+
+  swap_cell_buffers();
+  config();
+
+  runstep(1);
+  readback();
+
+  swap_cell_buffers();
+  read_state(1,0,0);
+  read_state(1,1,0);
+  read_state(1,2,0);
+
+  runstep(1);
+  readback();
+
+  swap_cell_buffers();
+  read_state(1,0,0);
+  read_state(1,1,0);
+  read_state(1,2,0);
 }
 
 void test_instruction_storage() {

@@ -12,6 +12,8 @@
 #ifndef LIBCARP_H
 #define LIBCARP_H
 
+#include "lut.h"
+
 #include <stdio.h>
 #include <stdint.h>
 #include <stdbool.h>
@@ -45,7 +47,7 @@ void read_states();
 void read_type(int x, int y, int z);
 void read_types();
 
-void write_lut();
+void write_lut(lut_t lut, uint32_t type);
 void write_rule();
 void set_rules_active(int amount);
 void fill_cells(bool state, int type);

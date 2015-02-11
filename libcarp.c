@@ -155,8 +155,28 @@ void read_types() {
   buffer_insert(INSTRUCTION_READ_TYPE_ALL);
 }
 
-void write_lut() {
-  /* TODO */
+void write_lut(lut_t lut, uint32_t type) {
+  uint32_t instruction = INSTRUCTION_WRITE_LUT;
+
+  if (matrix_depth == 1) {
+    instruction |= 2 << 5; /* Extra words */
+  }
+  else {
+    instruction |= 5 << 5; /* Extra words */
+  }
+
+  buffer_insert(instruction);
+  buffer_insert(type);
+
+  if (matrix_depth == 1) {
+    buffer_insert(lut.z_none);
+  }
+  else {
+    buffer_insert(lut.z_none);
+    buffer_insert(lut.z_positive);
+    buffer_insert(lut.z_negative);
+    buffer_insert(lut.z_positive_negative);
+  }
 }
 
 void write_rule() {
