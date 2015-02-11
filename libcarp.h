@@ -39,9 +39,9 @@ void buffer_flush();
 /* Instructions */
 
 void nop();
-void get_information();
-void get_rule_vectors(uint16_t amount);
-void get_rule_numbers();
+void read_information();
+void read_rule_vectors(uint16_t amount);
+void read_rule_numbers();
 
 void read_state(uint32_t x, uint32_t y, uint32_t z);
 void read_states();

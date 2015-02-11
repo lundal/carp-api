@@ -45,7 +45,7 @@ void print_information();
 
 void carp_connect() {
   communication_open("0xDACA");
-  get_information();
+  read_information();
   process_information();
 }
 
@@ -110,20 +110,20 @@ void nop() {
   buffer_insert(INSTRUCTION_NOP);
 }
 
-void get_information() {
-  buffer_insert(INSTRUCTION_GET_INFORMATION);
+void read_information() {
+  buffer_insert(INSTRUCTION_READ_INFORMATION);
 }
 
-void get_rule_vectors(uint16_t amount) {
-  uint32_t instruction = INSTRUCTION_GET_RULE_VECTORS;
+void read_rule_vectors(uint16_t amount) {
+  uint32_t instruction = INSTRUCTION_READ_RULE_VECTORS;
 
   instruction |= amount << 16;
 
   buffer_insert(instruction);
 }
 
-void get_rule_numbers() {
-  buffer_insert(INSTRUCTION_GET_RULE_NUMBERS);
+void read_rule_numbers() {
+  buffer_insert(INSTRUCTION_READ_RULE_NUMBERS);
 }
 
 void read_state(uint32_t x, uint32_t y, uint32_t z) {
