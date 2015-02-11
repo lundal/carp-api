@@ -13,7 +13,6 @@
 #include "communication.h"
 #include "instructions.h"
 #include "bitvector.h"
-#include "utility.h"
 
 /* Constants */
 
