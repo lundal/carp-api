@@ -27,6 +27,7 @@ void test_write_read_state();
 void test_write_read_states();
 void test_fill_cells();
 void test_swap_cell_buffers();
+void test_development();
 void test_config_readback();
 void test_sblockmatrix();
 void test_instruction_storage();
@@ -69,6 +70,9 @@ void test_run(int test_number) {
     break;
   case 5:
     test_swap_cell_buffers();
+    break;
+  case 6:
+    test_development();
     break;
   case 7:
     test_config_readback();
@@ -212,6 +216,38 @@ void test_swap_cell_buffers() {
 
   read_state(0,0,0);
   read_type(0,0,0);
+}
+
+void test_development() {
+  printf("Test: Development\n");
+  printf("- Verifies instructions: devstep, write_rule, read_rule_vector, read_rule_numbers\n");
+  printf("- Requires manual inspection!\n");
+
+  rule_t rule_change_1_to_2 = {
+    .self   = {.type_check = true, .type_value = 1},
+    .result = {.type_change = true, .type_value = 2}
+  };
+  rule_t rule_change_2_to_3 = {
+    .self   = {.type_check = true, .type_value = 2},
+    .result = {.type_change = true, .type_value = 3}
+  };
+
+  write_rule(rule_change_1_to_2, 1);
+  write_rule(rule_change_2_to_3, 2);
+
+  set_rules_active(2);
+
+  write_type(0,0,0, 0);
+  write_type(1,1,0, 1);
+  write_type(2,2,0, 2);
+  write_type(3,3,0, 3);
+
+  devstep();
+  swap_cell_buffers();
+
+  read_types();
+  read_rule_vectors(1);
+  read_rule_numbers();
 }
 
 void test_config_readback() {
