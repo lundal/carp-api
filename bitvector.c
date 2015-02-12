@@ -31,6 +31,11 @@ void bitvector_add(bitvector_t *vector, uint32_t data, uint32_t bits) {
     last_word = vector->number_of_parts - 1;
   }
 
+  /* Prevent overflow */
+  uint32_t ones = ~0;
+  uint32_t mask = ones >> (32 - bits);
+  data &= mask;
+
   for (int i = first_word; i <= last_word; i++) {
     int shift_amount = vector->number_of_bits - i*32;
     if (shift_amount > 0) {
