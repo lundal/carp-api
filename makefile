@@ -19,7 +19,9 @@ EXECUTABLE = carp
 ###############################################################################
 
 # Settings
-SETTINGS = -DDEBUG
+SETTINGS = -DDEBUG -DTESTBENCH\
+           -DWRAP=true -DWIDTH=8 -DHEIGHT=8 -DDEPTH=8\
+           -DSTATE_BITS=1 -DTYPE_BITS=8 -DRULE_AMOUNT=256\
 
 # Compiler
 CC = gcc

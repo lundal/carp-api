@@ -14,6 +14,10 @@
 #include "instructions.h"
 #include "bitvector.h"
 
+#ifdef TESTBENCH
+#include <stdlib.h>
+#endif
+
 /* Constants */
 
 #define BUFFER_SIZE (4096/4) /* One page of 32bit integers */
@@ -43,9 +47,20 @@ void print_information();
 /* Control */
 
 void carp_connect() {
+#ifdef TESTBENCH
+  /* From compiler flags */
+  matrix_wrap = WRAP;
+  matrix_width = WIDTH;
+  matrix_height = HEIGHT;
+  matrix_depth = DEPTH;
+  cell_state_bits = STATE_BITS;
+  cell_type_bits = TYPE_BITS;
+  rule_amount = RULE_AMOUNT;
+#else
   communication_open("0xDACA");
   read_information();
   process_information();
+#endif
 }
 
 void process_information() {
@@ -95,11 +110,19 @@ void buffer_insert(uint32_t word) {
 
 void buffer_read(int words) {
   buffer_flush();
+#ifdef TESTBENCH
+  exit(0);
+#else
   communication_receive(buffer_receive, words);
+#endif
 }
 
 void buffer_flush() {
+#ifdef TESTBENCH
+  print_send_buffer_for_testbench();
+#else
   communication_send(buffer_send, buffer_send_pointer);
+#endif
   buffer_send_pointer = 0;
 }
 
