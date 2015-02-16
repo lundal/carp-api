@@ -432,7 +432,7 @@ void jump(uint16_t address) {
 void jump_equal(uint16_t address, uint8_t counter, uint32_t value) {
   uint32_t instruction = INSTRUCTION_JUMP_EQUAL;
 
-  instruction |= 1 << 5; /* extra words */
+  instruction |= 1 << 5; /* Extra words */
 
   instruction |= counter << 8;
   instruction |= address << 16;
