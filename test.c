@@ -31,6 +31,7 @@ void test_development();
 void test_config_readback();
 void test_sblockmatrix();
 void test_instruction_storage();
+void test_counters();
 
 /* Main */
 
@@ -82,6 +83,9 @@ void test_run(int test_number) {
     break;
   case 9:
     test_instruction_storage();
+    break;
+  case 10:
+    test_counters();
     break;
   default:
     printf("Unknown test %d\n", test_number);
@@ -335,5 +339,27 @@ void test_instruction_storage() {
 
   jump(0);
   jump(0);
+  jump(0);
+}
+
+void test_counters() {
+  printf("Test: Counters\n");
+  printf("- Verifies instructions: store, end, jump, break, jump_equal, counter_increment, counter_reset\n");
+  printf("- Expected output: 1, 1, 1, 1\n");
+
+  write_state(1,1,0, true);
+
+  store(0);
+    counter_reset(0);
+    read_state(1,1,0);
+    counter_increment(0);
+    jump_equal(10, 0, 4);
+    jump(0);
+  end();
+
+  store(10);
+    break_out();
+  end();
+
   jump(0);
 }
