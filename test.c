@@ -102,6 +102,7 @@ void reset() {
   swap_cell_buffers();
   fill_cells(0, 0);
   config();
+  set_rules_active(0);
 }
 
 void print_remaining_data() {
