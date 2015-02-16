@@ -57,6 +57,8 @@ void carp_connect() {
   matrix_depth = DEPTH;
   cell_state_bits = STATE_BITS;
   cell_type_bits = TYPE_BITS;
+  counter_amount = COUNTER_AMOUNT;
+  counter_bits = COUNTER_BITS;
   rule_amount = RULE_AMOUNT;
 #else
   communication_open("0xDACA");
