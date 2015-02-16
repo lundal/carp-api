@@ -37,6 +37,8 @@ int matrix_height;
 int matrix_depth;
 int cell_state_bits;
 int cell_type_bits;
+int counter_amount;
+int counter_bits;
 int rule_amount;
 
 /* Prototypes */
@@ -72,8 +74,10 @@ void process_information() {
   matrix_height = (buffer_receive[0] >> 16) & 0xFF;
   matrix_depth  = (buffer_receive[0] >> 24) & 0xFF;
 
-  cell_state_bits = (buffer_receive[1] >> 0) & 0xFF;
-  cell_type_bits  = (buffer_receive[1] >> 8) & 0xFF;
+  cell_state_bits = (buffer_receive[1] >>  0) & 0xFF;
+  cell_type_bits  = (buffer_receive[1] >>  8) & 0xFF;
+  counter_amount  = (buffer_receive[1] >> 16) & 0xFF;
+  counter_bits    = (buffer_receive[1] >> 24) & 0xFF;
 
   rule_amount = buffer_receive[2];
 
