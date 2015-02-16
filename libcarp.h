@@ -64,7 +64,7 @@ void config();
 void readback();
 
 void swap_cell_buffers();
-/* TODO: Fitness, JumpEqual */
+/* TODO: Fitness */
 
 void break_out();
 void store();
