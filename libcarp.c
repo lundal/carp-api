@@ -272,7 +272,14 @@ void write_rule(rule_t rule, uint32_t index) {
 }
 
 void set_rules_active(uint32_t amount) {
-  /* TODO */
+  uint32_t instruction = INSTRUCTION_SET_RULES_ACTIVE;
+
+  instruction |= 1 << 5; /* Extra words */
+
+  instruction |= amount << 16;
+
+  buffer_insert(instruction);
+  buffer_insert(amount >> 16);
 }
 
 void fill_cells(bool state, uint32_t type) {
