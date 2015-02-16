@@ -14,12 +14,12 @@
 # Files
 SOURCES    = pci.c communication.c utility.c bitvector.c libcarp.c test.c
 OBJECTS    = $(SOURCES:.c=.o)
-EXECUTABLE = carp
+EXECUTABLE = test
 
 ###############################################################################
 
 # Settings
-SETTINGS = -DDEBUG -DTESTBENCH\
+SETTINGS = #-DDEBUG -DTESTBENCH\
            -DWRAP=true -DWIDTH=8 -DHEIGHT=8 -DDEPTH=8\
            -DSTATE_BITS=1 -DTYPE_BITS=8 -DRULE_AMOUNT=256\
 
