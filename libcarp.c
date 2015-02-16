@@ -415,8 +415,12 @@ void break_out() {
   buffer_insert(INSTRUCTION_BREAK);
 }
 
-void store() {
-  buffer_insert(INSTRUCTION_STORE);
+void store(uint16_t address) {
+  uint32_t instruction = INSTRUCTION_STORE;
+
+  instruction |= address << 16;
+
+  buffer_insert(instruction);
 }
 
 void end() {

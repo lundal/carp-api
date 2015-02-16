@@ -67,7 +67,7 @@ void swap_cell_buffers();
 /* TODO: Fitness */
 
 void break_out();
-void store();
+void store(uint16_t address);
 void end();
 
 void jump(uint16_t address);
