@@ -66,11 +66,12 @@ void readback();
 void swap_cell_buffers();
 /* TODO: Fitness, JumpEqual */
 
+void break_out();
 void store();
 void end();
 
 void jump(uint16_t address);
-void break_out();
+void jump_equal(uint16_t address, uint8_t counter, uint32_t value);
 void counter_increment(uint8_t counter);
 void counter_reset(uint8_t counter);
 

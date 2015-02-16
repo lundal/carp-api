@@ -28,13 +28,14 @@
 
 #define INSTRUCTION_SWAP_CELL_BUFFERS 0x14
 
-/* TODO: Fitness, JumpEqual */
+/* TODO: Fitness */
 
+#define INSTRUCTION_BREAK             0x18
 #define INSTRUCTION_STORE             0x1A
 #define INSTRUCTION_END               0x1B
 
 #define INSTRUCTION_JUMP              0x1C
-#define INSTRUCTION_BREAK             0x1D
+#define INSTRUCTION_JUMP_EQUAL        0x1D
 #define INSTRUCTION_COUNTER_INCREMENT 0x1E
 #define INSTRUCTION_COUNTER_RESET     0x1F
 
