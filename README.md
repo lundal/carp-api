@@ -4,7 +4,8 @@ This repository contains the software api for my work on the Cellular Automata R
 
 #### How to test
 1. Run make to compile the test file
-2. Execute test <test_number>
+2. Execute sudo ./test <test_number>
 
 #### Requirements
 * FPGA connected to PCI Express implementing the carp design.
+* Root access (to connect to board).
