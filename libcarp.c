@@ -50,6 +50,9 @@ int rule_amount;
 void process_information();
 void print_information();
 
+uint32_t create_mask(int bits);
+void create_print_format(char *variable, int bits);
+
 /* Control */
 
 void carp_connect() {
@@ -485,7 +488,7 @@ int get_words_per_type_row() {
     return div_ceil(matrix_width, get_states_per_word());
 }
 
-/* Print functions */
+/* Utility functions */
 
 uint32_t create_mask(int bits) {
     return ~(uint32_t)((int32_t)(-1) << bits);
@@ -508,6 +511,8 @@ void create_print_format(char *variable, int bits) {
         variable = "%08X";
     }
 }
+
+/* Print functions */
 
 void print_matrix_states() {
     int words_per_row = get_words_per_state_row();
