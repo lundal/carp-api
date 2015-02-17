@@ -156,6 +156,8 @@ void test_write_read_types() {
   write_types(0,4,0, types);
 
   read_types();
+
+  print_types();
 }
 
 void test_write_read_state() {
@@ -189,6 +191,8 @@ void test_write_read_states() {
   write_states(0,4,0, states);
 
   read_states();
+
+  print_states();
 }
 
 void test_fill_cells() {
@@ -211,7 +215,8 @@ void test_fill_cells() {
   read_states();
   read_types();
 
-  /* TODO: Beautiful print */
+  print_states();
+  print_types();
 }
 
 void test_swap_cell_buffers() {
@@ -274,6 +279,8 @@ void test_development() {
   read_types();
   read_rule_vectors(1);
   read_rule_numbers();
+
+  print_types();
 }
 
 void test_config_readback() {
