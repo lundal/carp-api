@@ -13,6 +13,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
 /* Protypes */
 
@@ -32,6 +33,8 @@ void test_config_readback();
 void test_sblockmatrix();
 void test_instruction_storage();
 void test_counters();
+void test_ping();
+void test_throughput();
 
 /* Main */
 
@@ -86,6 +89,12 @@ void test_run(int test_number) {
     break;
   case 10:
     test_counters();
+    break;
+  case 11:
+    test_ping();
+    break;
+  case 12:
+    test_throughput();
     break;
   default:
     printf("Unknown test %d\n", test_number);
@@ -363,4 +372,36 @@ void test_counters() {
   end();
 
   jump(0);
+}
+
+void test_ping() {
+  printf("Test: Ping\n");
+  printf("- Reset and read delay should be disabled for this test\n");
+  time_t t0 = time(NULL);
+  for (int i = 0; i < 1000000; i++) {
+    read_type(0,0,0);
+    buffer_read(1);
+  }
+  time_t t1 = time(NULL);
+  double dt = difftime(t1, t0);
+  printf("Time: %.f s\n", dt);
+  printf("Ping: %.f us\n", dt);
+  exit(0);
+}
+
+void test_throughput() {
+  printf("Test: Throughput\n");
+  printf("- Reset and read delay should be disabled for this test\n");
+  time_t t0 = time(NULL);
+  read_types();
+  for (int i = 1; i < 100000; i++) {
+    read_types();
+    buffer_read(128);
+  }
+  buffer_read(128);
+  time_t t1 = time(NULL);
+  double dt = difftime(t1, t0);
+  printf("Time: %.f s\n", dt);
+  printf("Rate: %.f kbps\n", 32*128*100 / dt);
+  exit(0);
 }
