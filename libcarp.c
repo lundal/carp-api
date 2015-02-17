@@ -473,11 +473,13 @@ void counter_reset(uint8_t counter) {
 /* Information functions */
 
 int get_states_per_word() {
-    return matrix_width * cell_state_bits / 32;
+    int max = 32 / cell_state_bits;
+    return (max > matrix_width) ? matrix_width : max;
 }
 
 int get_types_per_word() {
-    return matrix_width * cell_type_bits / 32;
+    int max = 32 / cell_type_bits;
+    return (max > matrix_width) ? matrix_width : max;
 }
 
 int get_words_per_state_row() {
