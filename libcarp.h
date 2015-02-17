@@ -77,8 +77,8 @@ void counter_reset(uint8_t counter);
 
 /* Print functions */
 
-void print_matrix_states();
-void print_matrix_types();
+void print_states();
+void print_types();
 
 /* Utility print functions */
 

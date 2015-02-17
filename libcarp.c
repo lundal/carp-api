@@ -502,7 +502,7 @@ void create_print_format(char *format, int bits) {
 
 /* Print functions */
 
-void print_matrix_states() {
+void print_states() {
     int words_per_row = get_words_per_state_row();
     int words_total = matrix_depth * matrix_height * words_per_row;
     int word_index = 0;
@@ -539,7 +539,7 @@ void print_matrix_states() {
     fflush(stdout);
 }
 
-void print_matrix_types() {
+void print_types() {
     int words_per_row = get_words_per_type_row();
     int words_total = matrix_depth * matrix_height * words_per_row;
     int word_index = 0;
