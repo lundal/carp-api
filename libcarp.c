@@ -13,6 +13,10 @@
 #include "communication.h"
 #include "instructions.h"
 #include "bitvector.h"
+#include "utility.h"
+
+#include <stdio.h>
+#include <string.h>
 
 #ifdef TESTBENCH
 #include <stdlib.h>
@@ -461,6 +465,122 @@ void counter_reset(uint8_t counter) {
   instruction |= counter << 8;
 
   buffer_insert(instruction);
+}
+
+/* Information functions */
+
+int get_states_per_word() {
+    return matrix_width * cell_state_bits / 32;
+}
+
+int get_types_per_word() {
+    return matrix_width * cell_type_bits / 32;
+}
+
+int get_words_per_state_row() {
+    return div_ceil(matrix_width, get_states_per_word());
+}
+
+int get_words_per_type_row() {
+    return div_ceil(matrix_width, get_states_per_word());
+}
+
+/* Print functions */
+
+uint32_t create_mask(int bits) {
+    return ~(uint32_t)((int32_t)(-1) << bits);
+}
+
+void create_print_format(char *variable, int bits) {
+    if (bits <= 4) {
+        variable = "%01X";
+    }
+    else if (bits <= 8) {
+        variable = "%02X";
+    }
+    else if (bits <= 12) {
+        variable = "%03X";
+    }
+    else if (bits <= 16) {
+        variable = "%04X";
+    }
+    else {
+        variable = "%08X";
+    }
+}
+
+void print_matrix_states() {
+    int words_per_row = get_words_per_state_row();
+    int words_total = matrix_depth * matrix_height * words_per_row;
+    int word_index = 0;
+
+    buffer_read(words_total);
+
+    uint32_t mask = create_mask(cell_state_bits);
+
+    char print_format[16]; /* 16 bytes should be plenty */
+    create_print_format(print_format, cell_state_bits);
+    strcat(print_format, "  "); /* Space after each entry */
+
+    for (int z = 0; z < matrix_depth; z++) {
+        for (int y = 0; y < matrix_height; y++) {
+            for (int w = 0; w < words_per_row; w++) {
+
+                /* Get next word */
+                uint32_t word = buffer_receive[word_index++];
+
+                for (int x = 0; x < get_states_per_word(); x++) {
+                    /* Use it like a shift register */
+                    uint32_t state = word & mask;
+                    word = word >> cell_state_bits;
+
+                    printf(print_format, state);
+                }
+            }
+            /* End row */
+            printf("\n");
+        }
+        /* End layer */
+        printf("\n\n");
+    }
+    fflush(stdout);
+}
+
+void print_matrix_types() {
+    int words_per_row = get_words_per_type_row();
+    int words_total = matrix_depth * matrix_height * words_per_row;
+    int word_index = 0;
+
+    buffer_read(words_total);
+
+    uint32_t mask = create_mask(cell_type_bits);
+
+    char print_format[16]; /* 16 bytes should be plenty */
+    create_print_format(print_format, cell_type_bits);
+    strcat(print_format, "  "); /* Space after each entry */
+
+    for (int z = 0; z < matrix_depth; z++) {
+        for (int y = 0; y < matrix_height; y++) {
+            for (int w = 0; w < words_per_row; w++) {
+
+                /* Get next word */
+                uint32_t word = buffer_receive[word_index++];
+
+                for (int x = 0; x < get_types_per_word(); x++) {
+                    /* Use it like a shift register */
+                    uint32_t type = word & mask;
+                    word = word >> cell_type_bits;
+
+                    printf(print_format, type);
+                }
+            }
+            /* End row */
+            printf("\n");
+        }
+        /* End layer */
+        printf("\n\n");
+    }
+    fflush(stdout);
 }
 
 /* Utility functions */

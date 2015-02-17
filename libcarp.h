@@ -75,6 +75,11 @@ void jump_equal(uint16_t address, uint8_t counter, uint32_t value);
 void counter_increment(uint8_t counter);
 void counter_reset(uint8_t counter);
 
+/* Print functions */
+
+void print_matrix_states();
+void print_matrix_types();
+
 /* Utility functions */
 
 void print_send_buffer();
