@@ -80,7 +80,7 @@ void counter_reset(uint8_t counter);
 void print_matrix_states();
 void print_matrix_types();
 
-/* Utility functions */
+/* Utility print functions */
 
 void print_send_buffer();
 void print_send_buffer_for_testbench();

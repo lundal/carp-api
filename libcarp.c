@@ -583,7 +583,7 @@ void print_matrix_types() {
     fflush(stdout);
 }
 
-/* Utility functions */
+/* Utility print functions */
 
 void print_send_buffer() {
   printf("Send buffer contents:\n");
