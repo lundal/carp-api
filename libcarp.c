@@ -496,22 +496,8 @@ uint32_t create_mask(int bits) {
     return ~(uint32_t)((int32_t)(-1) << bits);
 }
 
-void create_print_format(char *variable, int bits) {
-    if (bits <= 4) {
-        variable = "%01X";
-    }
-    else if (bits <= 8) {
-        variable = "%02X";
-    }
-    else if (bits <= 12) {
-        variable = "%03X";
-    }
-    else if (bits <= 16) {
-        variable = "%04X";
-    }
-    else {
-        variable = "%08X";
-    }
+void create_print_format(char *format, int bits) {
+    sprintf(format, "%%0%dX", div_ceil(bits, 4));
 }
 
 /* Print functions */
