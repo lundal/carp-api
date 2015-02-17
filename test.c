@@ -355,7 +355,7 @@ void test_counters() {
     read_state(1,1,0);
     counter_increment(0);
     jump_equal(10, 0, 4);
-    jump(0);
+    jump(1);
   end();
 
   store(10);
