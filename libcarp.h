@@ -75,7 +75,12 @@ void jump_equal(uint16_t address, uint8_t counter, uint32_t value);
 void counter_increment(uint8_t counter);
 void counter_reset(uint8_t counter);
 
-/* Utility functions */
+/* Print functions */
+
+void print_states();
+void print_types();
+
+/* Utility print functions */
 
 void print_send_buffer();
 void print_send_buffer_for_testbench();
