@@ -487,7 +487,7 @@ int get_words_per_state_row() {
 }
 
 int get_words_per_type_row() {
-    return div_ceil(matrix_width, get_states_per_word());
+    return div_ceil(matrix_width, get_types_per_word());
 }
 
 /* Utility functions */
