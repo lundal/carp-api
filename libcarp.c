@@ -513,7 +513,7 @@ void print_matrix_states() {
 
     char print_format[16]; /* 16 bytes should be plenty */
     create_print_format(print_format, cell_state_bits);
-    strcat(print_format, "  "); /* Space after each entry */
+    strcat(print_format, " "); /* Space after each entry */
 
     for (int z = 0; z < matrix_depth; z++) {
         for (int y = 0; y < matrix_height; y++) {
@@ -534,7 +534,7 @@ void print_matrix_states() {
             printf("\n");
         }
         /* End layer */
-        printf("\n\n");
+        printf("\n");
     }
     fflush(stdout);
 }
@@ -550,7 +550,7 @@ void print_matrix_types() {
 
     char print_format[16]; /* 16 bytes should be plenty */
     create_print_format(print_format, cell_type_bits);
-    strcat(print_format, "  "); /* Space after each entry */
+    strcat(print_format, " "); /* Space after each entry */
 
     for (int z = 0; z < matrix_depth; z++) {
         for (int y = 0; y < matrix_height; y++) {
@@ -571,7 +571,7 @@ void print_matrix_types() {
             printf("\n");
         }
         /* End layer */
-        printf("\n\n");
+        printf("\n");
     }
     fflush(stdout);
 }
