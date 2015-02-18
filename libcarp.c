@@ -534,6 +534,47 @@ void print_entries(uint32_t entry_bits) {
   fflush(stdout);
 }
 
+void print_rule_vectors(uint16_t amount) {
+  for (int i = 0; i < amount; i++) {
+    print_rule_vector();
+  }
+}
+
+void print_rule_vector() {
+  int words = div_ceil(rule_amount, 32);
+  bool first_hit = false;
+
+  buffer_read(words);
+
+  printf("Rulevector: ");
+
+  for (int w = 0; w < words; w++) {
+
+    /* Get word */
+    uint32_t word = buffer_receive[w];
+
+    for (int i = 0; i < 32; i++) {
+      /* Use it like a shift register */
+      bool rule_hit = word & 1;
+      word = word >> 1;
+
+      if (w == 0 && i == 0) {
+        /* Rule 0 is reserved */
+      }
+      else if (rule_hit) {
+        if (first_hit) {
+          printf("%d", w*32 + i);
+          first_hit = false;
+        }
+        else {
+          printf(", %d", w*32 + i);
+        }
+      }
+    }
+  }
+  printf("\n");
+}
+
 /* Utility print functions */
 
 void print_send_buffer() {

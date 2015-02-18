@@ -80,6 +80,8 @@ void counter_reset(uint8_t counter);
 void print_states();
 void print_types();
 void print_rule_numbers();
+void print_rule_vector();
+void print_rule_vectors(uint16_t amount);
 
 /* Utility print functions */
 
