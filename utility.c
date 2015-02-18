@@ -54,5 +54,6 @@ uint32_t create_bitmask(uint32_t bits) {
 }
 
 void create_print_format(char *format, uint32_t bits) {
+  /* Format must have space for 4 + digits(bits/4) */
   sprintf(format, "%%0%dX", div_ceil(bits, 4));
 }

@@ -16,7 +16,6 @@
 #include "utility.h"
 
 #include <stdio.h>
-#include <string.h>
 
 #ifdef TESTBENCH
 #include <stdlib.h>
@@ -506,9 +505,8 @@ void print_entries(uint32_t entry_bits) {
 
   uint32_t bitmask = create_bitmask(entry_bits);
 
-  char print_format[16]; /* 16 bytes should be plenty */
+  char print_format[8]; /* Enough for up to 39996 bits */
   create_print_format(print_format, entry_bits);
-  strcat(print_format, " "); /* Space after each entry */
 
   for (int z = 0; z < matrix_depth; z++) {
     for (int y = 0; y < matrix_height; y++) {
@@ -523,6 +521,7 @@ void print_entries(uint32_t entry_bits) {
           word = word >> entry_bits;
 
           printf(print_format, entry);
+          printf(" "); /* Add some space */
         }
       }
       /* End row */
