@@ -53,8 +53,6 @@ void print_information();
 int get_entries_per_word(uint32_t entry_bits);
 int get_words_per_entry_row(uint32_t entry_bits);
 
-uint32_t create_mask(int bits);
-void create_print_format(char *variable, int bits);
 void print_entries(uint32_t entry_bits);
 
 /* Control */
@@ -485,16 +483,6 @@ int get_words_per_entry_row(uint32_t entry_bits) {
   return div_ceil(matrix_width, get_entries_per_word(entry_bits));
 }
 
-/* Utility functions */
-
-uint32_t create_mask(int bits) {
-    return ~(uint32_t)((int32_t)(-1) << bits);
-}
-
-void create_print_format(char *format, int bits) {
-    sprintf(format, "%%0%dX", div_ceil(bits, 4));
-}
-
 /* Print functions */
 
 void print_states() {
@@ -516,7 +504,7 @@ void print_entries(uint32_t entry_bits) {
 
   buffer_read(words_total);
 
-  uint32_t bitmask = create_mask(entry_bits);
+  uint32_t bitmask = create_bitmask(entry_bits);
 
   char print_format[16]; /* 16 bytes should be plenty */
   create_print_format(print_format, entry_bits);

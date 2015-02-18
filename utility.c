@@ -11,6 +11,8 @@
 
 #include "utility.h"
 
+#include <stdio.h>
+
 int div_ceil(int dividend, int divisor) {
   return (dividend % divisor) ? dividend / divisor + 1 : dividend / divisor;
 }
@@ -45,4 +47,12 @@ int log2_ceil(uint32_t value) {
 
 int bits(uint32_t amount) {
   return log2_ceil(amount);
+}
+
+uint32_t create_bitmask(uint32_t bits) {
+  return ~(uint32_t)((int32_t)(-1) << bits);
+}
+
+void create_print_format(char *format, uint32_t bits) {
+  sprintf(format, "%%0%dX", div_ceil(bits, 4));
 }
