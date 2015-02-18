@@ -79,6 +79,7 @@ void counter_reset(uint8_t counter);
 
 void print_states();
 void print_types();
+void print_rule_numbers();
 
 /* Utility print functions */
 
