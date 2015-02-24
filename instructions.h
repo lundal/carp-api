@@ -28,7 +28,7 @@
 
 #define INSTRUCTION_SWAP_CELL_BUFFERS 0x14
 
-/* TODO: Fitness */
+#define INSTRUCTION_READ_FITNESS      0x16
 
 #define INSTRUCTION_BREAK             0x18
 #define INSTRUCTION_STORE             0x1A

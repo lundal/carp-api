@@ -417,7 +417,9 @@ void swap_cell_buffers() {
   buffer_insert(INSTRUCTION_SWAP_CELL_BUFFERS);
 }
 
-/* TODO: Fitness */
+void read_fitness() {
+  buffer_insert(INSTRUCTION_READ_FITNESS);
+}
 
 void break_out() {
   buffer_insert(INSTRUCTION_BREAK);

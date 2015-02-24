@@ -64,7 +64,8 @@ void config();
 void readback();
 
 void swap_cell_buffers();
-/* TODO: Fitness */
+
+void read_fitness();
 
 void break_out();
 void store(uint16_t address);
