@@ -572,6 +572,7 @@ void print_rule_vector() {
     }
   }
   printf("\n");
+  fflush(stdout);
 }
 
 /* Utility print functions */
