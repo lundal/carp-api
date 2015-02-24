@@ -417,7 +417,9 @@ void swap_cell_buffers() {
   buffer_insert(INSTRUCTION_SWAP_CELL_BUFFERS);
 }
 
-/* TODO: Fitness */
+void read_fitness() {
+  buffer_insert(INSTRUCTION_READ_FITNESS);
+}
 
 void break_out() {
   buffer_insert(INSTRUCTION_BREAK);
@@ -572,6 +574,38 @@ void print_rule_vector() {
     }
   }
   printf("\n");
+  fflush(stdout);
+}
+
+void print_fitness_dft(uint16_t result_bits, uint16_t transform_size) {
+  int results_per_word = 32 / result_bits;
+  int result_words = div_ceil(transform_size/2, results_per_word);
+  int word_index = 0;
+
+  buffer_read(result_words);
+
+  uint32_t bitmask = create_bitmask(result_bits);
+
+  printf("DFT: (");
+  for (int w = 0; w < result_words; w++) {
+
+    /* Get next word */
+    uint32_t word = buffer_receive[word_index++];
+
+    for (int r = 0; r < results_per_word; r++) {
+      /* Use it like a shift register */
+      uint32_t result = word & bitmask;
+      word = word >> result_bits;
+
+      if (word_index == 1) {
+        printf("%d", result);
+      }
+      else {
+        printf(", %d", result);
+      }
+    }
+  }
+  printf(")\n");
   fflush(stdout);
 }
 

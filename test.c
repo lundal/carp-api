@@ -35,6 +35,7 @@ void test_instruction_storage();
 void test_counters();
 void test_ping();
 void test_throughput();
+void test_dft();
 
 /* Main */
 
@@ -95,6 +96,9 @@ void test_run(int test_number) {
     break;
   case 12:
     test_throughput();
+    break;
+  case 13:
+    test_dft();
     break;
   default:
     printf("Unknown test %d\n", test_number);
@@ -411,4 +415,36 @@ void test_throughput() {
   printf("Time: %.f s\n", dt);
   printf("Rate: %.f kbps\n", 32*128*100 / dt);
   exit(0);
+}
+
+void test_dft() {
+  printf("Test: DFT\n");
+  printf("- Verifies instructions: read_fitness (dft)\n");
+  printf("- Note: This test requires result_bits=18 and transform_size=128\n");
+
+  write_lut(LUT_XOR,  0);
+  write_lut(LUT_AND4, 1);
+  write_lut(LUT_OR,   2);
+
+  uint32_t types[] = {1,2,1,1,2,1,1,1};
+  bool states[] = {1,0,0,1,1,0,1,1};
+
+  write_types(0,3,0, types);
+  write_types(0,5,0, types);
+  write_states(0,3,0, states);
+  write_states(0,5,0, states);
+
+  write_type(1,1,0, 2);
+  write_type(1,2,0, 1);
+
+  write_state(1,0,0, true);
+  write_state(0,2,0, true);
+
+  swap_cell_buffers();
+  config();
+
+  runstep(128);
+
+  read_fitness();
+  print_fitness_dft(18, 128);
 }
