@@ -596,7 +596,7 @@ void print_fitness_dft(uint16_t result_bits, uint16_t transform_size) {
       uint32_t result = word & bitmask;
       word = word >> result_bits;
 
-      if (word_index == 0) {
+      if (word_index == 1) {
         printf("%d", result);
       }
       else {
