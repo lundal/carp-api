@@ -380,6 +380,7 @@ void test_counters() {
 }
 
 void test_ping() {
+  /*
   printf("Test: Ping\n");
   printf("- Reset and read delay should be disabled for this test\n");
   time_t t0 = time(NULL);
@@ -392,9 +393,11 @@ void test_ping() {
   printf("Time: %.f s\n", dt);
   printf("Ping: %.f us\n", dt);
   exit(0);
+  */
 }
 
 void test_throughput() {
+  /*
   printf("Test: Throughput\n");
   printf("- Reset and read delay should be disabled for this test\n");
   time_t t0 = time(NULL);
@@ -409,6 +412,7 @@ void test_throughput() {
   printf("Time: %.f s\n", dt);
   printf("Rate: %.f kbps\n", 32*128*100 / dt);
   exit(0);
+  */
 }
 
 void test_dft() {
