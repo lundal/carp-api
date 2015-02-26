@@ -610,11 +610,14 @@ void print_send_buffer_for_testbench() {
 
 void print_remaining_data() {
   struct timespec time_to_sleep;
-  time_to_sleep.tv_sec = 1;
-  time_to_sleep.tv_nsec = 0;
+  time_to_sleep.tv_sec = 0;
+  time_to_sleep.tv_nsec = 100 * 1000 * 1000;
 
   int remaining;
   int word = 0;
+
+  /* Flush buffer in case instructions are pending */
+  buffer_flush();
 
   printf("Checking for remaining data...\n");
 
@@ -630,6 +633,4 @@ void print_remaining_data() {
     fflush(stdout);
     /* Repeat if there was any */
   } while (remaining > 0);
-
-  printf("...done!\n");
 }
