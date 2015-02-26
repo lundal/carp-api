@@ -52,8 +52,3 @@ int bits(uint32_t amount) {
 uint32_t create_bitmask(uint32_t bits) {
   return ~(uint32_t)((int32_t)(-1) << bits);
 }
-
-void create_print_format(char *format, uint32_t bits) {
-  /* Format must have space for 4 + digits(bits/4) */
-  sprintf(format, "%%0%dX", div_ceil(bits, 4));
-}
