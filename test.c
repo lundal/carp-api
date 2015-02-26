@@ -11,10 +11,15 @@
 
 #include "libcarp.h"
 #include "print.h"
+#include "utility.h"
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+
+/* Globals */
+
+carp_info_t *info;
 
 /* Protypes */
 
@@ -46,7 +51,7 @@ int main (int argc, char* argv[]) {
     return 0;
   }
 
-  carp_connect();
+  info = carp_connect();
 
   test_run(atoi(argv[1]));
 
@@ -153,7 +158,7 @@ void test_write_read_types() {
 
   read_types();
 
-  print_matrix(get_types(), 8);
+  print_matrix(get_types(), info->type_bits);
 }
 
 void test_write_read_state() {
@@ -188,7 +193,7 @@ void test_write_read_states() {
 
   read_states();
 
-  print_matrix(get_states(), 1);
+  print_matrix(get_states(), info->state_bits);
 }
 
 void test_fill_cells() {
@@ -276,9 +281,9 @@ void test_development() {
   read_rule_vectors(1);
   read_rule_numbers();
 
-  print_matrix(get_types(), 8);
-  print_rule_vector(get_rule_vector(), 256);
-  print_matrix(get_rule_numbers(), 8);
+  print_matrix(get_types(), info->type_bits);
+  print_rule_vector(get_rule_vector(), info->rule_amount);
+  print_matrix(get_rule_numbers(), bits(info->rule_amount));
 }
 
 void test_config_readback() {
