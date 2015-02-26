@@ -2,13 +2,13 @@
 #include "utility.h"
 #include <stdio.h>
 
-void print_information(carp_info_t info) {
-  printf("Matrix wrap: %s\n", (info.matrix_wrap) ? "Enabled" : "Disabled");
-  printf("Matrix size: %dx%dx%d\n", info.matrix_width, info.matrix_height, info.matrix_depth);
-  printf("State bits: %d\n", info.state_bits);
-  printf("Type bits: %d\n", info.type_bits);
-  printf("Counters: %dx%d\n", info.counter_amount, info.counter_bits);
-  printf("Rule amount: %d\n", info.rule_amount);
+void print_information(carp_info_t *info) {
+  printf("Matrix wrap: %s\n", (info->matrix_wrap) ? "Enabled" : "Disabled");
+  printf("Matrix size: %dx%dx%d\n", info->matrix_width, info->matrix_height, info->matrix_depth);
+  printf("State bits: %d\n", info->state_bits);
+  printf("Type bits: %d\n", info->type_bits);
+  printf("Counters: %dx%d\n", info->counter_amount, info->counter_bits);
+  printf("Rule amount: %d\n", info->rule_amount);
   fflush(stdout);
 }
 
