@@ -102,5 +102,6 @@ void print_fitness_dft(uint16_t result_bits, uint16_t transform_size);
 
 void print_send_buffer();
 void print_send_buffer_for_testbench();
+void print_remaining_data();
 
 #endif

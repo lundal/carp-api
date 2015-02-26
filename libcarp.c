@@ -17,6 +17,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
 /* Globals */
 
@@ -45,11 +46,14 @@ matrix_t *get_matrix(uint32_t entry_bits);
 carp_info_t *carp_connect() {
 #ifdef TESTBENCH
   info = infer_information();
-#else
+  return info;
+#endif
   communication_open("0xDACA");
+#ifdef DEBUG
+  print_remaining_data();
+#endif
   read_information();
   info = get_information();
-#endif
   return info;
 }
 
@@ -602,4 +606,30 @@ void print_send_buffer_for_testbench() {
     printf("\n");
   }
   fflush(stdout);
+}
+
+void print_remaining_data() {
+  struct timespec time_to_sleep;
+  time_to_sleep.tv_sec = 1;
+  time_to_sleep.tv_nsec = 0;
+
+  int remaining;
+  int word = 0;
+
+  printf("Checking for remaining data...\n");
+
+  do {
+    /* Sleep */
+    nanosleep(&time_to_sleep, NULL);
+    /* Check for data */
+    remaining = communication_tx_count();
+    buffer_read(remaining);
+    for (int i = 0; i < remaining; i++) {
+      printf("%02X: %08X\n", word++, buffer_receive[i]);
+    }
+    fflush(stdout);
+    /* Repeat if there was any */
+  } while (remaining > 0);
+
+  printf("...done!\n");
 }

@@ -118,15 +118,6 @@ void reset() {
   set_rules_active(0);
 }
 
-void print_remaining_data() {
-  printf("Remaining data: (force cancel when waiting)\n");
-  for (int i = 0; true; i++) {
-    buffer_read(1);
-    printf("%02d: %08X\n", i, buffer_receive[0]);
-    fflush(stdout);
-  }
-}
-
 /* Tests */
 
 void test_write_read_type() {
