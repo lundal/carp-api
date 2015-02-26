@@ -10,6 +10,7 @@
  *****************************************************************************/
 
 #include "libcarp.h"
+#include "print.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -152,7 +153,7 @@ void test_write_read_types() {
 
   read_types();
 
-  print_types();
+  print_matrix(get_types(), 8);
 }
 
 void test_write_read_state() {
@@ -187,7 +188,7 @@ void test_write_read_states() {
 
   read_states();
 
-  print_states();
+  print_matrix(get_states(), 1);
 }
 
 void test_fill_cells() {
@@ -210,8 +211,8 @@ void test_fill_cells() {
   read_states();
   read_types();
 
-  print_states();
-  print_types();
+  print_matrix(get_states(), 1);
+  print_matrix(get_types(), 8);
 }
 
 void test_swap_cell_buffers() {
@@ -275,7 +276,9 @@ void test_development() {
   read_rule_vectors(1);
   read_rule_numbers();
 
-  print_types();
+  print_matrix(get_types(), 8);
+  print_rule_vector(get_rule_vector(), 256);
+  print_matrix(get_rule_numbers(), 8);
 }
 
 void test_config_readback() {
