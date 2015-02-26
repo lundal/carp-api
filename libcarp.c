@@ -16,101 +16,67 @@
 #include "utility.h"
 
 #include <stdio.h>
-
-#ifdef TESTBENCH
 #include <stdlib.h>
-#endif
 
-/* Constants */
+/* Globals */
 
-#define BUFFER_SIZE (4096/4) /* One page of 32bit integers */
-
-/* Buffers */
+carp_info_t *info;
 
 int buffer_send_pointer;
 
 uint32_t buffer_send[BUFFER_SIZE];
 uint32_t buffer_receive[BUFFER_SIZE];
 
-/* System information */
-
-bool matrix_wrap;
-int matrix_width;
-int matrix_height;
-int matrix_depth;
-int cell_state_bits;
-int cell_type_bits;
-int counter_amount;
-int counter_bits;
-int rule_amount;
-
 /* Prototypes */
 
-void process_information();
-void print_information();
+carp_info_t *infer_information();
+
+void buffer_insert(uint32_t word);
+void buffer_read(int words);
+void buffer_flush();
 
 int get_entries_per_word(uint32_t entry_bits);
 int get_words_per_entry_row(uint32_t entry_bits);
 
-void print_entries(uint32_t entry_bits);
+matrix_t *get_matrix(uint32_t entry_bits);
 
 /* Control */
 
-void carp_connect() {
+carp_info_t *carp_connect() {
 #ifdef TESTBENCH
-  /* From compiler flags */
-  matrix_wrap = WRAP;
-  matrix_width = WIDTH;
-  matrix_height = HEIGHT;
-  matrix_depth = DEPTH;
-  cell_state_bits = STATE_BITS;
-  cell_type_bits = TYPE_BITS;
-  counter_amount = COUNTER_AMOUNT;
-  counter_bits = COUNTER_BITS;
-  rule_amount = RULE_AMOUNT;
+  info = infer_information();
 #else
   communication_open("0xDACA");
   read_information();
-  process_information();
+  info = get_information();
 #endif
+  return info;
 }
 
-void process_information() {
-  buffer_read(3);
+#ifdef TESTBENCH
+carp_info_t *infer_information() {
+  carp_info_t *info = malloc(sizeof(carp_info_t));
 
-  matrix_wrap = buffer_receive[0] & 0x01;
+  /* From compiler flags */
 
-  matrix_width  = (buffer_receive[0] >>  8) & 0xFF;
-  matrix_height = (buffer_receive[0] >> 16) & 0xFF;
-  matrix_depth  = (buffer_receive[0] >> 24) & 0xFF;
+  info->matrix_wrap = WRAP;
+  info->matrix_width = WIDTH;
+  info->matrix_height = HEIGHT;
+  info->matrix_depth = DEPTH;
 
-  cell_state_bits = (buffer_receive[1] >>  0) & 0xFF;
-  cell_type_bits  = (buffer_receive[1] >>  8) & 0xFF;
-  counter_amount  = (buffer_receive[1] >> 16) & 0xFF;
-  counter_bits    = (buffer_receive[1] >> 24) & 0xFF;
+  info->state_bits = STATE_BITS;
+  info->type_bits = TYPE_BITS;
+  info->counter_amount = COUNTER_AMOUNT;
+  info->counter_bits = COUNTER_BITS;
 
-  rule_amount = buffer_receive[2];
+  info->rule_amount = RULE_AMOUNT;
 
-#ifdef DEBUG
-  print_information();
+  return info;
+}
 #endif
-}
-
-void print_information() {
-  if (matrix_wrap) {
-    printf("Matrix wrap: Enabled\n");
-  }
-  else {
-    printf("Matrix wrap: Disabled\n");
-  }
-  printf("Matrix size: %dx%dx%d\n", matrix_width, matrix_height, matrix_depth);
-  printf("Cell type bits: %d\n", cell_type_bits);
-  printf("Cell state bits: %d\n", cell_state_bits);
-  printf("Rule amount: %d\n", rule_amount);
-  fflush(stdout);
-}
 
 void carp_disconnect() {
+  free(info);
   communication_close();
 }
 
@@ -124,16 +90,13 @@ void buffer_insert(uint32_t word) {
 
 void buffer_read(int words) {
   buffer_flush();
-#ifdef TESTBENCH
-  exit(0);
-#else
   communication_receive(buffer_receive, words);
-#endif
 }
 
 void buffer_flush() {
 #ifdef TESTBENCH
   print_send_buffer_for_testbench();
+  exit(0);
 #else
   communication_send(buffer_send, buffer_send_pointer);
 #endif
@@ -195,7 +158,7 @@ void read_types() {
 void write_lut(lut_t lut, uint32_t type) {
   uint32_t instruction = INSTRUCTION_WRITE_LUT;
 
-  if (matrix_depth == 1) {
+  if (info->matrix_depth == 1) {
     instruction |= 2 << 5; /* Extra words */
   }
   else {
@@ -205,7 +168,7 @@ void write_lut(lut_t lut, uint32_t type) {
   buffer_insert(instruction);
   buffer_insert(type);
 
-  if (matrix_depth == 1) {
+  if (info->matrix_depth == 1) {
     buffer_insert(lut.z_none);
   }
   else {
@@ -219,12 +182,12 @@ void write_lut(lut_t lut, uint32_t type) {
 void write_rule(rule_t rule, uint32_t index) {
   uint32_t instruction = INSTRUCTION_WRITE_RULE;
 
-  int neighborhood_size = (matrix_depth = 1) ? 5 : 7;
-  int rule_bits = (cell_type_bits + 1 + cell_state_bits + 1) * (neighborhood_size + 1);
+  int neighborhood_size = (info->matrix_depth = 1) ? 5 : 7;
+  int rule_bits = (info->type_bits + 1 + info->state_bits + 1) * (neighborhood_size + 1);
 
-  bitvector_t rule_bitvector = bitvector_create(rule_bits);
+  bitvector_t *rule_bitvector = bitvector_create(rule_bits);
 
-  int extra_words = 1 + rule_bitvector.number_of_parts;
+  int extra_words = 1 + rule_bitvector->number_of_parts;
 
   instruction |= extra_words << 5;
 
@@ -232,53 +195,53 @@ void write_rule(rule_t rule, uint32_t index) {
 
   buffer_insert(index);
 
-  bitvector_add(&rule_bitvector, rule.result.state_change, 1);
-  bitvector_add(&rule_bitvector, rule.result.state_value, cell_state_bits);
-  bitvector_add(&rule_bitvector, rule.result.type_change, 1);
-  bitvector_add(&rule_bitvector, rule.result.type_value, cell_type_bits);
+  bitvector_add(rule_bitvector, rule.result.state_change, 1);
+  bitvector_add(rule_bitvector, rule.result.state_value, info->state_bits);
+  bitvector_add(rule_bitvector, rule.result.type_change, 1);
+  bitvector_add(rule_bitvector, rule.result.type_value, info->type_bits);
 
-  bitvector_add(&rule_bitvector, rule.self.state_check, 1);
-  bitvector_add(&rule_bitvector, rule.self.state_value, cell_state_bits);
-  bitvector_add(&rule_bitvector, rule.self.type_check, 1);
-  bitvector_add(&rule_bitvector, rule.self.type_value, cell_type_bits);
+  bitvector_add(rule_bitvector, rule.self.state_check, 1);
+  bitvector_add(rule_bitvector, rule.self.state_value, info->state_bits);
+  bitvector_add(rule_bitvector, rule.self.type_check, 1);
+  bitvector_add(rule_bitvector, rule.self.type_value, info->type_bits);
 
-  bitvector_add(&rule_bitvector, rule.x_positive.state_check, 1);
-  bitvector_add(&rule_bitvector, rule.x_positive.state_value, cell_state_bits);
-  bitvector_add(&rule_bitvector, rule.x_positive.type_check, 1);
-  bitvector_add(&rule_bitvector, rule.x_positive.type_value, cell_type_bits);
+  bitvector_add(rule_bitvector, rule.x_positive.state_check, 1);
+  bitvector_add(rule_bitvector, rule.x_positive.state_value, info->state_bits);
+  bitvector_add(rule_bitvector, rule.x_positive.type_check, 1);
+  bitvector_add(rule_bitvector, rule.x_positive.type_value, info->type_bits);
 
-  bitvector_add(&rule_bitvector, rule.x_negative.state_check, 1);
-  bitvector_add(&rule_bitvector, rule.x_negative.state_value, cell_state_bits);
-  bitvector_add(&rule_bitvector, rule.x_negative.type_check, 1);
-  bitvector_add(&rule_bitvector, rule.x_negative.type_value, cell_type_bits);
+  bitvector_add(rule_bitvector, rule.x_negative.state_check, 1);
+  bitvector_add(rule_bitvector, rule.x_negative.state_value, info->state_bits);
+  bitvector_add(rule_bitvector, rule.x_negative.type_check, 1);
+  bitvector_add(rule_bitvector, rule.x_negative.type_value, info->type_bits);
 
-  bitvector_add(&rule_bitvector, rule.y_positive.state_check, 1);
-  bitvector_add(&rule_bitvector, rule.y_positive.state_value, cell_state_bits);
-  bitvector_add(&rule_bitvector, rule.y_positive.type_check, 1);
-  bitvector_add(&rule_bitvector, rule.y_positive.type_value, cell_type_bits);
+  bitvector_add(rule_bitvector, rule.y_positive.state_check, 1);
+  bitvector_add(rule_bitvector, rule.y_positive.state_value, info->state_bits);
+  bitvector_add(rule_bitvector, rule.y_positive.type_check, 1);
+  bitvector_add(rule_bitvector, rule.y_positive.type_value, info->type_bits);
 
-  bitvector_add(&rule_bitvector, rule.y_negative.state_check, 1);
-  bitvector_add(&rule_bitvector, rule.y_negative.state_value, cell_state_bits);
-  bitvector_add(&rule_bitvector, rule.y_negative.type_check, 1);
-  bitvector_add(&rule_bitvector, rule.y_negative.type_value, cell_type_bits);
+  bitvector_add(rule_bitvector, rule.y_negative.state_check, 1);
+  bitvector_add(rule_bitvector, rule.y_negative.state_value, info->state_bits);
+  bitvector_add(rule_bitvector, rule.y_negative.type_check, 1);
+  bitvector_add(rule_bitvector, rule.y_negative.type_value, info->type_bits);
 
-  if (matrix_depth > 1) {
-    bitvector_add(&rule_bitvector, rule.z_positive.state_check, 1);
-    bitvector_add(&rule_bitvector, rule.z_positive.state_value, cell_state_bits);
-    bitvector_add(&rule_bitvector, rule.z_positive.type_check, 1);
-    bitvector_add(&rule_bitvector, rule.z_positive.type_value, cell_type_bits);
+  if (info->matrix_depth > 1) {
+    bitvector_add(rule_bitvector, rule.z_positive.state_check, 1);
+    bitvector_add(rule_bitvector, rule.z_positive.state_value, info->state_bits);
+    bitvector_add(rule_bitvector, rule.z_positive.type_check, 1);
+    bitvector_add(rule_bitvector, rule.z_positive.type_value, info->type_bits);
 
-    bitvector_add(&rule_bitvector, rule.z_negative.state_check, 1);
-    bitvector_add(&rule_bitvector, rule.z_negative.state_value, cell_state_bits);
-    bitvector_add(&rule_bitvector, rule.z_negative.type_check, 1);
-    bitvector_add(&rule_bitvector, rule.z_negative.type_value, cell_type_bits);
+    bitvector_add(rule_bitvector, rule.z_negative.state_check, 1);
+    bitvector_add(rule_bitvector, rule.z_negative.state_value, info->state_bits);
+    bitvector_add(rule_bitvector, rule.z_negative.type_check, 1);
+    bitvector_add(rule_bitvector, rule.z_negative.type_value, info->type_bits);
   }
 
-  for (int i = 0; i < rule_bitvector.number_of_parts; i++) {
-    buffer_insert(rule_bitvector.vector_parts[i]);
+  for (int i = 0; i < rule_bitvector->number_of_parts; i++) {
+    buffer_insert(rule_bitvector->parts[i]);
   }
 
-  bitvector_dispose(&rule_bitvector);
+  bitvector_dispose(rule_bitvector);
 }
 
 void set_rules_active(uint32_t amount) {
@@ -295,7 +258,7 @@ void set_rules_active(uint32_t amount) {
 void fill_cells(bool state, uint32_t type) {
   uint32_t instruction = INSTRUCTION_FILL_CELLS;
 
-  if (cell_type_bits > 16) {
+  if (info->type_bits > 16) {
     instruction |= 1 << 5; /* Extra words */
   }
 
@@ -304,7 +267,7 @@ void fill_cells(bool state, uint32_t type) {
 
   buffer_insert(instruction);
 
-  if (cell_type_bits > 16) {
+  if (info->type_bits > 16) {
     buffer_insert(type >> 16);
   }
 }
@@ -325,12 +288,12 @@ void write_state(uint32_t x, uint32_t y, uint32_t z, bool state) {
 void write_states(uint32_t x, uint32_t y, uint32_t z, bool states[]) {
   uint32_t instruction = INSTRUCTION_WRITE_STATE_ROW;
 
-  int write_width = matrix_width;
-  if (matrix_width * cell_state_bits > (256-32)) write_width = (256-32) / cell_state_bits;
+  int write_width = info->matrix_width;
+  if (write_width * info->state_bits > (256-32)) write_width = (256-32) / info->state_bits;
 
-  bitvector_t states_bitvector = bitvector_create(write_width * cell_state_bits);
+  bitvector_t *states_bitvector = bitvector_create(write_width * info->state_bits);
 
-  int extra_words = states_bitvector.number_of_parts;
+  int extra_words = states_bitvector->number_of_parts;
 
   instruction |= extra_words << 5;
 
@@ -341,14 +304,14 @@ void write_states(uint32_t x, uint32_t y, uint32_t z, bool states[]) {
   buffer_insert(instruction);
 
   for (int i = 0; i < write_width; i ++) {
-    bitvector_add(&states_bitvector, states[i], cell_state_bits);
+    bitvector_add(states_bitvector, states[i], info->state_bits);
   }
 
-  for (int i = 0; i < states_bitvector.number_of_parts; i++) {
-    buffer_insert(states_bitvector.vector_parts[i]);
+  for (int i = 0; i < states_bitvector->number_of_parts; i++) {
+    buffer_insert(states_bitvector->parts[i]);
   }
 
-  bitvector_dispose(&states_bitvector);
+  bitvector_dispose(states_bitvector);
 };
 
 void write_type(uint32_t x, uint32_t y, uint32_t z, uint32_t type) {
@@ -367,12 +330,12 @@ void write_type(uint32_t x, uint32_t y, uint32_t z, uint32_t type) {
 void write_types(uint32_t x, uint32_t y, uint32_t z, uint32_t types[]) {
   uint32_t instruction = INSTRUCTION_WRITE_TYPE_ROW;
 
-  int write_width = matrix_width;
-  if (matrix_width * cell_type_bits > (256-32)) write_width = (256-32) / cell_type_bits;
+  int write_width = info->matrix_width;
+  if (write_width * info->type_bits > (256-32)) write_width = (256-32) / info->type_bits;
 
-  bitvector_t types_bitvector = bitvector_create(write_width * cell_type_bits);
+  bitvector_t *types_bitvector = bitvector_create(write_width * info->type_bits);
 
-  int extra_words = types_bitvector.number_of_parts;
+  int extra_words = types_bitvector->number_of_parts;
 
   instruction |= extra_words << 5;
 
@@ -383,14 +346,14 @@ void write_types(uint32_t x, uint32_t y, uint32_t z, uint32_t types[]) {
   buffer_insert(instruction);
 
   for (int i = 0; i < write_width; i ++) {
-    bitvector_add(&types_bitvector, types[i], cell_type_bits);
+    bitvector_add(types_bitvector, types[i], info->type_bits);
   }
 
-  for (int i = 0; i < types_bitvector.number_of_parts; i++) {
-    buffer_insert(types_bitvector.vector_parts[i]);
+  for (int i = 0; i < types_bitvector->number_of_parts; i++) {
+    buffer_insert(types_bitvector->parts[i]);
   }
 
-  bitvector_dispose(&types_bitvector);
+  bitvector_dispose(types_bitvector);
 };
 
 void devstep() {
@@ -477,41 +440,60 @@ void counter_reset(uint8_t counter) {
 
 int get_entries_per_word(uint32_t entry_bits) {
   int max = 32 / entry_bits;
-  return (max > matrix_width) ? matrix_width : max;
+  return (max > info->matrix_width) ? info->matrix_width : max;
 }
 
 int get_words_per_entry_row(uint32_t entry_bits) {
-  return div_ceil(matrix_width, get_entries_per_word(entry_bits));
+  return div_ceil(info->matrix_width, get_entries_per_word(entry_bits));
 }
 
-/* Print functions */
+/* Get functions */
 
-void print_states() {
-  print_entries(cell_state_bits);
+carp_info_t *get_information() {
+  carp_info_t *info = malloc(sizeof(carp_info_t));
+
+  buffer_read(3);
+
+  info->matrix_wrap   = (buffer_receive[0] >>  0) & 0x01;
+  info->matrix_width  = (buffer_receive[0] >>  8) & 0xFF;
+  info->matrix_height = (buffer_receive[0] >> 16) & 0xFF;
+  info->matrix_depth  = (buffer_receive[0] >> 24) & 0xFF;
+
+  info->state_bits     = (buffer_receive[1] >>  0) & 0xFF;
+  info->type_bits      = (buffer_receive[1] >>  8) & 0xFF;
+  info->counter_amount = (buffer_receive[1] >> 16) & 0xFF;
+  info->counter_bits   = (buffer_receive[1] >> 24) & 0xFF;
+
+  info->rule_amount = buffer_receive[2];
+
+  return info;
 }
 
-void print_types() {
-  print_entries(cell_type_bits);
+matrix_t *get_states() {
+  return get_matrix(info->state_bits);
 }
 
-void print_rule_numbers() {
-  print_entries(bits(rule_amount));
+matrix_t *get_types() {
+  return get_matrix(info->type_bits);
 }
 
-void print_entries(uint32_t entry_bits) {
+matrix_t *get_rule_numbers() {
+  return get_matrix(bits(info->rule_amount));
+}
+
+matrix_t *get_matrix(uint32_t entry_bits) {
+  matrix_t *matrix = matrix_create(info->matrix_depth, info->matrix_height, info->matrix_width);
+
   int words_per_row = get_words_per_entry_row(entry_bits);
-  int words_total = matrix_depth * matrix_height * words_per_row;
+  int words_total = info->matrix_depth * info->matrix_height * words_per_row;
   int word_index = 0;
 
   buffer_read(words_total);
 
   uint32_t bitmask = create_bitmask(entry_bits);
 
-  char print_format[8]; /* Enough for up to 39996 bits */
-  create_print_format(print_format, entry_bits);
-
-  for (int z = 0; z < matrix_depth; z++) {
-    for (int y = 0; y < matrix_height; y++) {
+  for (int z = 0; z < info->matrix_depth; z++) {
+    for (int y = 0; y < info->matrix_height; y++) {
       for (int w = 0; w < words_per_row; w++) {
 
         /* Get next word */
@@ -522,32 +504,28 @@ void print_entries(uint32_t entry_bits) {
           uint32_t entry = word & bitmask;
           word = word >> entry_bits;
 
-          printf(print_format, entry);
-          printf(" "); /* Add some space */
+          matrix->values[z][y][x] = entry;
         }
       }
-      /* End row */
-      printf("\n");
     }
-    /* End layer */
-    printf("\n");
   }
-  fflush(stdout);
+  return matrix;
 }
 
-void print_rule_vectors(uint16_t amount) {
+bool **get_rule_vectors(uint16_t amount) {
+  bool **rule_vectors = malloc(amount * sizeof(bool*));
   for (int i = 0; i < amount; i++) {
-    print_rule_vector();
+    rule_vectors[i] = get_rule_vector();
   }
+  return rule_vectors;
 }
 
-void print_rule_vector() {
-  int words = div_ceil(rule_amount, 32);
-  bool first_hit = false;
+bool *get_rule_vector() {
+  bool *rule_vector = malloc(info->rule_amount * sizeof(bool));
+
+  int words = div_ceil(info->rule_amount, 32);
 
   buffer_read(words);
-
-  printf("Rulevector: ");
 
   for (int w = 0; w < words; w++) {
 
@@ -555,26 +533,21 @@ void print_rule_vector() {
     uint32_t word = buffer_receive[w];
 
     for (int i = 0; i < 32; i++) {
+      int index = w*32 + i;
+
+      /* Do an out-of-bound check */
+      if (index == info->rule_amount) {
+        break;
+      }
+
       /* Use it like a shift register */
       bool rule_hit = word & 1;
       word = word >> 1;
 
-      if (w == 0 && i == 0) {
-        /* Rule 0 is reserved */
-      }
-      else if (rule_hit) {
-        if (first_hit) {
-          printf("%d", w*32 + i);
-          first_hit = false;
-        }
-        else {
-          printf(", %d", w*32 + i);
-        }
-      }
+      rule_vector[index] = rule_hit;
     }
   }
-  printf("\n");
-  fflush(stdout);
+  return rule_vector;
 }
 
 void print_fitness_dft(uint16_t result_bits, uint16_t transform_size) {

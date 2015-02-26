@@ -14,6 +14,7 @@
 
 #include "lut.h"
 #include "rule.h"
+#include "matrix.h"
 
 #include <stdio.h>
 #include <stdint.h>
@@ -23,18 +24,26 @@
 
 #define BUFFER_SIZE (4096/4) /* One page of 32bit integers */
 
-/* Buffers */
+/* Types */
 
-extern uint32_t buffer_send[BUFFER_SIZE];
-extern uint32_t buffer_receive[BUFFER_SIZE];
+typedef struct {
+  bool    matrix_wrap;
+  uint8_t matrix_width;
+  uint8_t matrix_height;
+  uint8_t matrix_depth;
+
+  uint8_t state_bits;
+  uint8_t type_bits;
+  uint8_t counter_amount;
+  uint8_t counter_bits;
+
+  uint32_t rule_amount;
+} carp_info_t;
 
 /* Control */
 
-void carp_connect();
+carp_info_t *carp_connect();
 void carp_disconnect();
-void buffer_insert(uint32_t word);
-void buffer_read(int words);
-void buffer_flush();
 
 /* Instructions */
 
@@ -76,13 +85,17 @@ void jump_equal(uint16_t address, uint8_t counter, uint32_t value);
 void counter_increment(uint8_t counter);
 void counter_reset(uint8_t counter);
 
-/* Print functions */
+/* Get functions */
 
-void print_states();
-void print_types();
-void print_rule_numbers();
-void print_rule_vector();
-void print_rule_vectors(uint16_t amount);
+carp_info_t *get_information();
+
+matrix_t *get_states();
+matrix_t *get_types();
+matrix_t *get_rule_numbers();
+
+bool **get_rule_vectors(uint16_t amount);
+bool *get_rule_vector();
+
 void print_fitness_dft(uint16_t result_bits, uint16_t transform_size);
 
 /* Utility print functions */
