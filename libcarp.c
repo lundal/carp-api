@@ -488,6 +488,7 @@ matrix_t *get_rule_numbers() {
 matrix_t *get_matrix(uint32_t entry_bits) {
   matrix_t *matrix = matrix_create(info->matrix_depth, info->matrix_height, info->matrix_width);
 
+  int entries_per_word = get_entries_per_word(entry_bits);
   int words_per_row = get_words_per_entry_row(entry_bits);
   int words_total = info->matrix_depth * info->matrix_height * words_per_row;
   int word_index = 0;
@@ -503,7 +504,14 @@ matrix_t *get_matrix(uint32_t entry_bits) {
         /* Get next word */
         uint32_t word = buffer_receive[word_index++];
 
-        for (int x = 0; x < get_entries_per_word(entry_bits); x++) {
+        for (int i = 0; i < entries_per_word; i++) {
+          int x = w*entries_per_word + i;
+
+          /* Do an out-of-bound check */
+          if (x == info->matrix_width) {
+            break;
+          }
+
           /* Use it like a shift register */
           uint32_t entry = word & bitmask;
           word = word >> entry_bits;
