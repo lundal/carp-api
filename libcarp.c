@@ -186,7 +186,7 @@ void write_lut(lut_t lut, uint32_t type) {
 void write_rule(rule_t rule, uint32_t index) {
   uint32_t instruction = INSTRUCTION_WRITE_RULE;
 
-  int neighborhood_size = (info->matrix_depth = 1) ? 5 : 7;
+  int neighborhood_size = (info->matrix_depth == 1) ? 5 : 7;
   int rule_bits = (info->type_bits + 1 + info->state_bits + 1) * (neighborhood_size + 1);
 
   bitvector_t *rule_bitvector = bitvector_create(rule_bits);
