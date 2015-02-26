@@ -53,6 +53,8 @@ int main (int argc, char* argv[]) {
 
   info = carp_connect();
 
+  print_information(info);
+
   test_run(atoi(argv[1]));
 
   carp_disconnect();
