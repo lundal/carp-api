@@ -47,6 +47,7 @@ void print_rule_vectors(bool **rule_vectors, uint16_t vector_amount, uint32_t ru
 void print_rule_vector(bool *rule_vector, uint32_t rule_amount) {
   bool first_hit = true;
 
+  printf("RuleVector: ");
   for (int i = 1; i < rule_amount; i++) {
     if (rule_vector[i]) {
       if (first_hit) {
