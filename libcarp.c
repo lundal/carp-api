@@ -122,7 +122,9 @@ void clear_remaining_data() {
   time_to_sleep.tv_nsec = 100 * 1000 * 1000;
 
   int remaining;
+#ifdef DEBUG
   int word = 0;
+#endif
 
   do {
     /* Sleep */
