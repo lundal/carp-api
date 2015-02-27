@@ -3,6 +3,9 @@
  *
  * An interface for controlling the coprocessor
  *
+ * Supports up to 8-bit states, 16-bit types, 8-bit matrix dimensions, 16-bit
+ * addresses, 8-bit counter amount  32-bit counter and 32-bit rules amount
+ *
  * Asbjørn Djupdal 2003
  * Kjetil Aamodt 2005
  * Ola Martin Tiseth Støvneng 2014
@@ -52,20 +55,20 @@ void read_information();
 void read_rule_vectors(uint16_t amount);
 void read_rule_numbers();
 
-void read_state(uint32_t x, uint32_t y, uint32_t z);
+void read_state(uint8_t x, uint8_t y, uint8_t z);
 void read_states();
-void read_type(uint32_t x, uint32_t y, uint32_t z);
+void read_type(uint8_t x, uint8_t y, uint8_t z);
 void read_types();
 
-void write_lut(lut_t lut, uint32_t type);
+void write_lut(lut_t lut, uint16_t type);
 void write_rule(rule_t rule, uint32_t index);
 void set_rules_active(uint32_t amount);
-void fill_cells(bool state, uint32_t type);
+void fill_cells(uint8_t state, uint16_t type);
 
-void write_state(uint32_t x, uint32_t y, uint32_t z, bool state);
-void write_states(uint32_t x, uint32_t y, uint32_t z, bool states[]);
-void write_type(uint32_t x, uint32_t y, uint32_t z, uint32_t type);
-void write_types(uint32_t x, uint32_t y, uint32_t z, uint32_t types[]);
+void write_state(uint8_t x, uint8_t y, uint8_t z, uint8_t state);
+void write_states(uint8_t x, uint8_t y, uint8_t z, uint8_t states[]);
+void write_type(uint8_t x, uint8_t y, uint8_t z, uint16_t type);
+void write_types(uint8_t x, uint8_t y, uint8_t z, uint16_t types[]);
 
 void devstep();
 void runstep(uint16_t amount);

@@ -152,7 +152,7 @@ void test_write_read_types() {
   write_type(2,2,0, 7);
   write_type(3,3,0, 8);
 
-  uint32_t types[] = {8,7,6,5,4,3,2,1};
+  uint16_t types[] = {8,7,6,5,4,3,2,1};
 
   write_types(0,4,0, types);
 
@@ -187,7 +187,7 @@ void test_write_read_states() {
   write_state(2,2,0, true);
   write_state(3,3,0, true);
 
-  bool states[] = {1,1,1,1,1,1,1,1};
+  uint8_t states[] = {1,1,1,1,1,1,1,1};
 
   write_states(0,4,0, states);
 
@@ -429,8 +429,8 @@ void test_dft() {
   write_lut(LUT_AND4, 1);
   write_lut(LUT_OR,   2);
 
-  uint32_t types[] = {1,2,1,1,2,1,1,1};
-  bool states[] = {1,0,0,1,1,0,1,1};
+  uint16_t types[] = {1,2,1,1,2,1,1,1};
+  uint8_t states[] = {1,0,0,1,1,0,1,1};
 
   write_types(0,3,0, types);
   write_types(0,5,0, types);

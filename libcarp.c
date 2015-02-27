@@ -167,7 +167,7 @@ void read_rule_numbers() {
   buffer_insert(INSTRUCTION_READ_RULE_NUMBERS);
 }
 
-void read_state(uint32_t x, uint32_t y, uint32_t z) {
+void read_state(uint8_t x, uint8_t y, uint8_t z) {
   /* TODO: Check x,y,z? */
   uint32_t instruction = INSTRUCTION_READ_STATE_ONE;
 
@@ -182,7 +182,7 @@ void read_states() {
   buffer_insert(INSTRUCTION_READ_STATE_ALL);
 }
 
-void read_type(uint32_t x, uint32_t y, uint32_t z) {
+void read_type(uint8_t x, uint8_t y, uint8_t z) {
   /* TODO: Check x,y,z? */
   uint32_t instruction = INSTRUCTION_READ_TYPE_ONE;
 
@@ -197,7 +197,7 @@ void read_types() {
   buffer_insert(INSTRUCTION_READ_TYPE_ALL);
 }
 
-void write_lut(lut_t lut, uint32_t type) {
+void write_lut(lut_t lut, uint16_t type) {
   uint32_t instruction = INSTRUCTION_WRITE_LUT;
 
   if (info->matrix_depth == 1) {
@@ -289,32 +289,29 @@ void write_rule(rule_t rule, uint32_t index) {
 void set_rules_active(uint32_t amount) {
   uint32_t instruction = INSTRUCTION_SET_RULES_ACTIVE;
 
-  instruction |= 1 << 5; /* Extra words */
+  if (info->rule_amount > (1<<16)) {
+    instruction |= 1 << 5; /* Extra words */
+  }
 
   instruction |= amount << 16;
 
   buffer_insert(instruction);
-  buffer_insert(amount >> 16);
+
+  if (info->rule_amount > (1<<16)) {
+      buffer_insert(amount >> 16);
+  }
 }
 
-void fill_cells(bool state, uint32_t type) {
+void fill_cells(uint8_t state, uint16_t type) {
   uint32_t instruction = INSTRUCTION_FILL_CELLS;
-
-  if (info->type_bits > 16) {
-    instruction |= 1 << 5; /* Extra words */
-  }
 
   instruction |= state <<  8;
   instruction |= type  << 16;
 
   buffer_insert(instruction);
-
-  if (info->type_bits > 16) {
-    buffer_insert(type >> 16);
-  }
 }
 
-void write_state(uint32_t x, uint32_t y, uint32_t z, bool state) {
+void write_state(uint8_t x, uint8_t y, uint8_t z, uint8_t state) {
   uint32_t instruction = INSTRUCTION_WRITE_STATE_ONE;
 
   instruction |= 1 << 5; /* Extra words */
@@ -327,7 +324,7 @@ void write_state(uint32_t x, uint32_t y, uint32_t z, bool state) {
   buffer_insert(state);
 };
 
-void write_states(uint32_t x, uint32_t y, uint32_t z, bool states[]) {
+void write_states(uint8_t x, uint8_t y, uint8_t z, uint8_t states[]) {
   uint32_t instruction = INSTRUCTION_WRITE_STATE_ROW;
 
   int write_width = info->matrix_width;
@@ -356,7 +353,7 @@ void write_states(uint32_t x, uint32_t y, uint32_t z, bool states[]) {
   bitvector_dispose(states_bitvector);
 };
 
-void write_type(uint32_t x, uint32_t y, uint32_t z, uint32_t type) {
+void write_type(uint8_t x, uint8_t y, uint8_t z, uint16_t type) {
   uint32_t instruction = INSTRUCTION_WRITE_TYPE_ONE;
 
   instruction |= 1 << 5; /* Extra words */
@@ -369,7 +366,7 @@ void write_type(uint32_t x, uint32_t y, uint32_t z, uint32_t type) {
   buffer_insert(type);
 };
 
-void write_types(uint32_t x, uint32_t y, uint32_t z, uint32_t types[]) {
+void write_types(uint8_t x, uint8_t y, uint8_t z, uint16_t types[]) {
   uint32_t instruction = INSTRUCTION_WRITE_TYPE_ROW;
 
   int write_width = info->matrix_width;
