@@ -130,6 +130,7 @@ void test_write_read_type() {
   printf("Test: Write and read type\n");
   printf("- Verifies instructions: write_type, read_type\n");
   printf("- Expected output: 2, 3, 4, 5\n");
+  printf("\n");
 
   write_type(0,0,0, 2);
   write_type(1,1,0, 3);
@@ -140,12 +141,20 @@ void test_write_read_type() {
   read_type(1,1,0);
   read_type(2,2,0);
   read_type(3,3,0);
+
+  printf("Result:\n");
+  printf("- %d\n", get_type());
+  printf("- %d\n", get_type());
+  printf("- %d\n", get_type());
+  printf("- %d\n", get_type());
+  printf("\n");
 }
 
 void test_write_read_types() {
   printf("Test: Write and read types\n");
   printf("- Verifies instructions: write_types, read_types\n");
   printf("- Requires manual inspection!\n");
+  printf("\n");
 
   write_type(0,0,0, 5);
   write_type(1,1,0, 6);
@@ -165,6 +174,7 @@ void test_write_read_state() {
   printf("Test: Write and read state\n");
   printf("- Verifies instructions: write_state, read_state\n");
   printf("- Expected output: 1, 1, 0, 1\n");
+  printf("\n");
 
   write_state(0,0,0, true);
   write_state(1,1,0, true);
@@ -175,12 +185,20 @@ void test_write_read_state() {
   read_state(1,1,0);
   read_state(2,2,0);
   read_state(3,3,0);
+
+  printf("Result:\n");
+  printf("- %d\n", get_state());
+  printf("- %d\n", get_state());
+  printf("- %d\n", get_state());
+  printf("- %d\n", get_state());
+  printf("\n");
 }
 
 void test_write_read_states() {
   printf("Test: Write and read states\n");
   printf("- Verifies instructions: write_states, read_states\n");
   printf("- Requires manual inspection!\n");
+  printf("\n");
 
   write_state(0,0,0, true);
   write_state(1,1,0, true);
@@ -200,6 +218,7 @@ void test_fill_cells() {
   printf("Test: Fill cells\n");
   printf("- Verifies instructions: fill_cells\n");
   printf("- Expected output: All zeroes\n");
+  printf("\n");
 
   write_state(0,0,0, true);
   write_state(1,1,0, true);
@@ -224,6 +243,7 @@ void test_swap_cell_buffers() {
   printf("Test: Swap cell buffers\n");
   printf("- Verifies instructions: swap_cell_buffers\n");
   printf("- Expected output: 0, 0, 1, 2\n");
+  printf("\n");
 
   fill_cells(1,2);
 
@@ -236,12 +256,20 @@ void test_swap_cell_buffers() {
 
   read_state(0,0,0);
   read_type(0,0,0);
+
+  printf("Result:\n");
+  printf("- %d\n", get_state());
+  printf("- %d\n", get_type());
+  printf("- %d\n", get_state());
+  printf("- %d\n", get_type());
+  printf("\n");
 }
 
 void test_development() {
   printf("Test: Development\n");
   printf("- Verifies instructions: devstep, write_rule, read_rule_vector, read_rule_numbers\n");
   printf("- Requires manual inspection!\n");
+  printf("\n");
 
   rule_t rule_change_1_to_2 = {
     .z_negative = {.state_check = false, .state_value = 0, .type_check = false, .type_value = 0},
@@ -290,6 +318,7 @@ void test_config_readback() {
   printf("Test: Config and readback\n");
   printf("- Verifies instructions: config, readback\n");
   printf("- Expected output: 1\n");
+  printf("\n");
 
   write_state(1,1,0, true);
 
@@ -301,6 +330,10 @@ void test_config_readback() {
   swap_cell_buffers();
 
   read_state(1,1,0);
+
+  printf("Result:\n");
+  printf("- %d\n", get_state());
+  printf("\n");
 }
 
 void test_sblockmatrix() {
@@ -312,6 +345,7 @@ void test_sblockmatrix() {
   printf("Test: Sblockmatrix\n");
   printf("- Verifies instructions: runstep, write_lut\n");
   printf("- Expected output: 1, 1, 0, 1, 1, 1\n");
+  printf("\n");
 
   write_lut(LUT_SELF, 0);
   write_lut(LUT_AND4, 1);
@@ -343,12 +377,22 @@ void test_sblockmatrix() {
   read_state(1,0,0);
   read_state(1,1,0);
   read_state(1,2,0);
+
+  printf("Result:\n");
+  printf("- %d\n", get_state());
+  printf("- %d\n", get_state());
+  printf("- %d\n", get_state());
+  printf("- %d\n", get_state());
+  printf("- %d\n", get_state());
+  printf("- %d\n", get_state());
+  printf("\n");
 }
 
 void test_instruction_storage() {
   printf("Test: Instruction storage\n");
   printf("- Verifies instructions: store, end, jump, break\n");
   printf("- Expected output: 1, 1, 1\n");
+  printf("\n");
 
   write_state(1,1,0, true);
 
@@ -360,12 +404,19 @@ void test_instruction_storage() {
   jump(0);
   jump(0);
   jump(0);
+
+  printf("Result:\n");
+  printf("- %d\n", get_state());
+  printf("- %d\n", get_state());
+  printf("- %d\n", get_state());
+  printf("\n");
 }
 
 void test_counters() {
   printf("Test: Counters\n");
   printf("- Verifies instructions: store, end, jump, break, jump_equal, counter_increment, counter_reset\n");
   printf("- Expected output: 1, 1, 1, 1\n");
+  printf("\n");
 
   write_state(1,1,0, true);
 
@@ -382,12 +433,20 @@ void test_counters() {
   end();
 
   jump(0);
+
+  printf("Result:\n");
+  printf("- %d\n", get_state());
+  printf("- %d\n", get_state());
+  printf("- %d\n", get_state());
+  printf("- %d\n", get_state());
+  printf("\n");
 }
 
 void test_ping() {
   /*
   printf("Test: Ping\n");
   printf("- Reset and read delay should be disabled for this test\n");
+  printf("\n");
   time_t t0 = time(NULL);
   for (int i = 0; i < 1000000; i++) {
     read_type(0,0,0);
@@ -397,6 +456,7 @@ void test_ping() {
   double dt = difftime(t1, t0);
   printf("Time: %.f s\n", dt);
   printf("Ping: %.f us\n", dt);
+  printf("\n");
   exit(0);
   */
 }
@@ -405,6 +465,7 @@ void test_throughput() {
   /*
   printf("Test: Throughput\n");
   printf("- Reset and read delay should be disabled for this test\n");
+  printf("\n");
   time_t t0 = time(NULL);
   read_types();
   for (int i = 1; i < 100000; i++) {
@@ -416,6 +477,7 @@ void test_throughput() {
   double dt = difftime(t1, t0);
   printf("Time: %.f s\n", dt);
   printf("Rate: %.f kbps\n", 32*128*100 / dt);
+  printf("\n");
   exit(0);
   */
 }
@@ -424,6 +486,7 @@ void test_dft() {
   printf("Test: DFT\n");
   printf("- Verifies instructions: read_fitness (dft)\n");
   printf("- Note: This test requires result_bits=18 and transform_size=128\n");
+  printf("\n");
 
   write_lut(LUT_XOR,  0);
   write_lut(LUT_AND4, 1);
