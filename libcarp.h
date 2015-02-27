@@ -89,6 +89,9 @@ void counter_reset(uint8_t counter);
 
 carp_info_t *get_information();
 
+uint8_t  get_state();
+uint16_t get_type();
+
 matrix_t *get_states();
 matrix_t *get_types();
 matrix_t *get_rule_numbers();

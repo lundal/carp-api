@@ -511,6 +511,16 @@ carp_info_t *get_information() {
   return info;
 }
 
+uint8_t get_state() {
+  buffer_read(1);
+  return buffer_receive[0];
+}
+
+uint16_t get_type() {
+  buffer_read(1);
+  return buffer_receive[0];
+}
+
 matrix_t *get_states() {
   return get_matrix(info->state_bits);
 }
