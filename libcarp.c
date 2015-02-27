@@ -36,6 +36,8 @@ void buffer_insert(uint32_t word);
 void buffer_read(int words);
 void buffer_flush();
 
+void clear_remaining_data();
+
 int get_entries_per_word(uint32_t entry_bits);
 int get_words_per_entry_row(uint32_t entry_bits);
 
@@ -49,9 +51,7 @@ carp_info_t *carp_connect() {
   return info;
 #endif
   communication_open("0xDACA");
-#ifdef DEBUG
-  print_remaining_data();
-#endif
+  clear_remaining_data();
   read_information();
   info = get_information();
   return info;
@@ -80,6 +80,7 @@ carp_info_t *infer_information() {
 #endif
 
 void carp_disconnect() {
+  clear_remaining_data();
   free(info);
   communication_close();
 }
@@ -105,6 +106,43 @@ void buffer_flush() {
   communication_send(buffer_send, buffer_send_pointer);
 #endif
   buffer_send_pointer = 0;
+}
+
+void clear_remaining_data() {
+  /* Flush buffer in case instructions are pending */
+  buffer_flush();
+
+#ifdef DEBUG
+  printf("Clearing remaining data...\n");
+#endif
+
+  /* There has to be no new data for this long */
+  struct timespec time_to_sleep;
+  time_to_sleep.tv_sec = 0;
+  time_to_sleep.tv_nsec = 100 * 1000 * 1000;
+
+  int remaining;
+  int word = 0;
+
+  do {
+    /* Sleep */
+    nanosleep(&time_to_sleep, NULL);
+    /* Check for data */
+    remaining = communication_tx_count();
+    buffer_read(remaining);
+#ifdef DEBUG
+    for (int i = 0; i < remaining; i++) {
+      printf("- %02X: %08X\n", word++, buffer_receive[i]);
+    }
+    fflush(stdout);
+#endif
+    /* Repeat if there was any */
+  } while (remaining > 0);
+
+#ifdef DEBUG
+  printf("\n");
+  fflush(stdout);
+#endif
 }
 
 /* Instructions */
@@ -614,31 +652,4 @@ void print_send_buffer_for_testbench() {
     printf("\n");
   }
   fflush(stdout);
-}
-
-void print_remaining_data() {
-  struct timespec time_to_sleep;
-  time_to_sleep.tv_sec = 0;
-  time_to_sleep.tv_nsec = 100 * 1000 * 1000;
-
-  int remaining;
-  int word = 0;
-
-  /* Flush buffer in case instructions are pending */
-  buffer_flush();
-
-  printf("Checking for remaining data...\n");
-
-  do {
-    /* Sleep */
-    nanosleep(&time_to_sleep, NULL);
-    /* Check for data */
-    remaining = communication_tx_count();
-    buffer_read(remaining);
-    for (int i = 0; i < remaining; i++) {
-      printf("%02X: %08X\n", word++, buffer_receive[i]);
-    }
-    fflush(stdout);
-    /* Repeat if there was any */
-  } while (remaining > 0);
 }

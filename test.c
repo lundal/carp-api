@@ -112,8 +112,6 @@ void test_run(int test_number) {
     printf("Unknown test %d\n", test_number);
     break;
   }
-
-  print_remaining_data();
 }
 
 /* Utility */
