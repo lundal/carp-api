@@ -493,7 +493,7 @@ int get_words_per_entry_row(uint32_t entry_bits) {
 carp_info_t *get_information() {
   carp_info_t *info = malloc(sizeof(carp_info_t));
 
-  buffer_read(3);
+  buffer_read(4);
 
   info->matrix_wrap   = (buffer_receive[0] >>  0) & 0x01;
   info->matrix_width  = (buffer_receive[0] >>  8) & 0xFF;
@@ -506,6 +506,10 @@ carp_info_t *get_information() {
   info->counter_bits   = (buffer_receive[1] >> 24) & 0xFF;
 
   info->rule_amount = buffer_receive[2];
+
+  info->fitness_id     = (buffer_receive[3] >>  0) & 0xFF;
+  info->fitness_words  = (buffer_receive[3] >>  8) & 0xFF;
+  info->fitness_params = (buffer_receive[3] >> 16) & 0xFFFF;
 
   return info;
 }
@@ -609,36 +613,16 @@ bool *get_rule_vector() {
   return rule_vector;
 }
 
-void print_fitness_dft(uint16_t result_bits, uint16_t transform_size) {
-  int results_per_word = 32 / result_bits;
-  int result_words = div_ceil(transform_size/2, results_per_word);
-  int word_index = 0;
+uint32_t *get_fitness() {
+  uint32_t *fitness_data = malloc(info->fitness_words * sizeof(uint32_t));
 
-  buffer_read(result_words);
+  buffer_read(info->fitness_words);
 
-  uint32_t bitmask = create_bitmask(result_bits);
-
-  printf("DFT: (");
-  for (int w = 0; w < result_words; w++) {
-
-    /* Get next word */
-    uint32_t word = buffer_receive[word_index++];
-
-    for (int r = 0; r < results_per_word; r++) {
-      /* Use it like a shift register */
-      uint32_t result = word & bitmask;
-      word = word >> result_bits;
-
-      if (word_index == 1) {
-        printf("%d", result);
-      }
-      else {
-        printf(", %d", result);
-      }
-    }
+  for (int w = 0; w < info->fitness_words; w++) {
+    fitness_data[w] = buffer_receive[w];
   }
-  printf(")\n");
-  fflush(stdout);
+
+  return fitness_data;
 }
 
 /* Utility print functions */

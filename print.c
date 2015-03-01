@@ -10,6 +10,9 @@ void print_information(carp_info_t *info) {
   printf("- Type bits: %d\n", info->type_bits);
   printf("- Counters: %dx%d\n", info->counter_amount, info->counter_bits);
   printf("- Rule amount: %d\n", info->rule_amount);
+  printf("- Fitness id: %d\n", info->fitness_id);
+  printf("- Fitness words: %d\n", info->fitness_words);
+  printf("- Fitness params: 0x%04X\n", info->fitness_params);
   printf("\n");
   fflush(stdout);
 }
@@ -56,6 +59,38 @@ void print_rule_vector(bool *rule_vector, uint32_t rule_amount) {
       }
       else {
         printf(", %d", i);
+      }
+    }
+  }
+  printf("\n");
+  fflush(stdout);
+}
+
+void print_fitness_dft(carp_info_t *info, uint32_t *fitness_data) {
+  /* Parse parameters */
+  int result_bits    = (info->fitness_params >> 0) & 0x3F;
+  int transform_size = (info->fitness_params >> 6) & 0x3FF;
+
+  int results_per_word = 32 / result_bits;
+  uint32_t bitmask = create_bitmask(result_bits);
+
+  printf("DFT(%d): ", transform_size);
+
+  for (int w = 0; w < info->fitness_words; w++) {
+
+    /* Get next word */
+    uint32_t word = fitness_data[w];
+
+    for (int r = 0; r < results_per_word; r++) {
+      /* Use it like a shift register */
+      uint32_t result = word & bitmask;
+      word = word >> result_bits;
+
+      if (w == 0 && r == 0) {
+        printf("%d", result);
+      }
+      else {
+        printf(", %d", result);
       }
     }
   }

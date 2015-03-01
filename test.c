@@ -485,7 +485,6 @@ void test_throughput() {
 void test_dft() {
   printf("Test: DFT\n");
   printf("- Verifies instructions: read_fitness (dft)\n");
-  printf("- Note: This test requires result_bits=18 and transform_size=128\n");
   printf("\n");
 
   write_lut(LUT_XOR,  0);
@@ -509,8 +508,9 @@ void test_dft() {
   swap_cell_buffers();
   config();
 
-  runstep(128);
+  uint16_t transform_size = info->fitness_words*2;
+  runstep(transform_size);
 
   read_fitness();
-  print_fitness_dft(18, 128);
+  print_fitness_dft(info, get_fitness());
 }

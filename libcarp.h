@@ -41,6 +41,10 @@ typedef struct {
   uint8_t counter_bits;
 
   uint32_t rule_amount;
+
+  uint8_t fitness_id;
+  uint8_t fitness_words;
+  uint16_t fitness_params;
 } carp_info_t;
 
 /* Control */
@@ -102,7 +106,7 @@ matrix_t *get_rule_numbers();
 bool **get_rule_vectors(uint16_t amount);
 bool *get_rule_vector();
 
-void print_fitness_dft(uint16_t result_bits, uint16_t transform_size);
+uint32_t *get_fitness();
 
 /* Utility print functions */
 
