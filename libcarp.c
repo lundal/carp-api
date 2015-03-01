@@ -613,6 +613,18 @@ bool *get_rule_vector() {
   return rule_vector;
 }
 
+uint32_t *get_fitness() {
+  uint32_t *fitness_data = malloc(info->fitness_words * sizeof(uint32_t));
+
+  buffer_read(info->fitness_words);
+
+  for (int w = 0; w < info->fitness_words; w++) {
+    fitness_data[w] = buffer_receive[w];
+  }
+
+  return fitness_data;
+}
+
 void print_fitness_dft(uint16_t result_bits, uint16_t transform_size) {
   int results_per_word = 32 / result_bits;
   int result_words = div_ceil(transform_size/2, results_per_word);

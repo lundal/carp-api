@@ -106,6 +106,8 @@ matrix_t *get_rule_numbers();
 bool **get_rule_vectors(uint16_t amount);
 bool *get_rule_vector();
 
+uint32_t *get_fitness();
+
 void print_fitness_dft(uint16_t result_bits, uint16_t transform_size);
 
 /* Utility print functions */
