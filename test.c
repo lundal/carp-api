@@ -512,5 +512,5 @@ void test_dft() {
   runstep(128);
 
   read_fitness();
-  print_fitness_dft(18, 128);
+  print_fitness_dft(info, get_fitness());
 }

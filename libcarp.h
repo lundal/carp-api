@@ -108,8 +108,6 @@ bool *get_rule_vector();
 
 uint32_t *get_fitness();
 
-void print_fitness_dft(uint16_t result_bits, uint16_t transform_size);
-
 /* Utility print functions */
 
 void print_send_buffer();
