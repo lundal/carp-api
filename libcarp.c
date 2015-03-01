@@ -493,7 +493,7 @@ int get_words_per_entry_row(uint32_t entry_bits) {
 carp_info_t *get_information() {
   carp_info_t *info = malloc(sizeof(carp_info_t));
 
-  buffer_read(3);
+  buffer_read(4);
 
   info->matrix_wrap   = (buffer_receive[0] >>  0) & 0x01;
   info->matrix_width  = (buffer_receive[0] >>  8) & 0xFF;
@@ -506,6 +506,10 @@ carp_info_t *get_information() {
   info->counter_bits   = (buffer_receive[1] >> 24) & 0xFF;
 
   info->rule_amount = buffer_receive[2];
+
+  info->fitness_id     = (buffer_receive[3] >>  0) & 0xFF;
+  info->fitness_words  = (buffer_receive[3] >>  8) & 0xFF;
+  info->fitness_params = (buffer_receive[3] >> 16) & 0xFFFF;
 
   return info;
 }

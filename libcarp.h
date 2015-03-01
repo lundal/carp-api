@@ -41,6 +41,10 @@ typedef struct {
   uint8_t counter_bits;
 
   uint32_t rule_amount;
+
+  uint8_t fitness_id;
+  uint8_t fitness_words;
+  uint16_t fitness_params;
 } carp_info_t;
 
 /* Control */
