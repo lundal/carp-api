@@ -11,41 +11,47 @@
 #
 ###############################################################################
 
-# Files
-SOURCES    = pci.c communication.c\
-             utility.c matrix.c bitvector.c\
-             libcarp.c print.c test.c
-OBJECTS    = $(SOURCES:.c=.o)
-EXECUTABLE = test
+# Directories
+PROGRAMDIR = programs
+LIBRARYDIR = libcarp
+
+# Programs
+PROGRAMS    = $(wildcard $(PROGRAMDIR)/*.c)
+EXECUTABLES = $(patsubst %.c,%,$(PROGRAMS))
+
+# Library
+SOURCES  = $(wildcard $(LIBRARYDIR)/*.c)
+OBJECTS  = $(patsubst %.c,%.o,$(SOURCES))
+LIBRARY  = $(LIBRARYDIR)/libcarp.a
 
 ###############################################################################
 
-# Settings
-SETTINGS = #-DDEBUG -DTESTBENCH\
-           -DWRAP=true -DWIDTH=8 -DHEIGHT=8 -DDEPTH=8\
-           -DSTATE_BITS=1 -DTYPE_BITS=8 -DCOUNTER_AMOUNT=4 -DCOUNTER_BITS=16\
-           -DRULE_AMOUNT=256
-
-# Compiler
-CC = gcc
-CCFLAGS = -Wall -g -std=gnu11 -O3 $(SETTINGS)
-
-# Linker
-LD = gcc
-LDFLAGS = -Wall -g -pedantic -lm
+# Compiler flags
+GCCFLAGS     = -Wall -g -pedantic -std=gnu11 -O3 -I$(LIBRARYDIR)
+PROGRAMFLAGS = -L$(LIBRARYDIR) -lcarp -lm
+LIBRARYFLAGS = #-DDEBUG -DTESTBENCH\
+               -DWRAP=true -DWIDTH=8 -DHEIGHT=8 -DDEPTH=8\
+               -DSTATE_BITS=1 -DTYPE_BITS=8\
+               -DCOUNTER_AMOUNT=4 -DCOUNTER_BITS=16\
+               -DRULE_AMOUNT=256
 
 ###############################################################################
 
-.PHONY: all clean
+.phony: all clean
 
-all: $(EXECUTABLE)
+all: $(EXECUTABLES)
 
-$(EXECUTABLE): $(OBJECTS)
-	$(LD) $(LDFLAGS) $^ -o $@
+$(PROGRAMDIR)/%: $(PROGRAMDIR)/%.c $(LIBRARY)
+	gcc $< $(GCCFLAGS) $(PROGRAMFLAGS) -o $@
 
-%.o: %.c
-	$(CC) $(CCFLAGS) -c $< -o $@
+$(LIBRARY): $(OBJECTS)
+	ar crs $@ $^
+
+$(LIBRARYDIR)/%.o: $(LIBRARYDIR)/%.c
+	gcc $(GCCFLAGS) $(LIBRARYFLAGS) -c $< -o $@
 
 clean:
-	rm -rf $(OBJECTS) $(EXECUTABLE)
+	rm -rf $(EXECUTABLES)
+	rm -rf $(LIBRARY)
+	rm -rf $(OBJECTS)
 

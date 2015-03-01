@@ -1,7 +1,7 @@
 #ifndef PRINT_H
 #define PRINT_H
 
-#include "libcarp.h"
+#include "carp.h"
 #include "matrix.h"
 
 #include <stdint.h>

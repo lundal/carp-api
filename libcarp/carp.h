@@ -12,8 +12,8 @@
  * Per Thomas Lundal 2015
  *****************************************************************************/
 
-#ifndef LIBCARP_H
-#define LIBCARP_H
+#ifndef CARP_H
+#define CARP_H
 
 #include "lut.h"
 #include "rule.h"
