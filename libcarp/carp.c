@@ -324,7 +324,7 @@ void write_state(uint8_t x, uint8_t y, uint8_t z, uint8_t state) {
 
   buffer_insert(instruction);
   buffer_insert(state);
-};
+}
 
 void write_states(uint8_t x, uint8_t y, uint8_t z, uint8_t states[]) {
   uint32_t instruction = INSTRUCTION_WRITE_STATE_ROW;
@@ -353,7 +353,7 @@ void write_states(uint8_t x, uint8_t y, uint8_t z, uint8_t states[]) {
   }
 
   bitvector_dispose(states_bitvector);
-};
+}
 
 void write_type(uint8_t x, uint8_t y, uint8_t z, uint16_t type) {
   uint32_t instruction = INSTRUCTION_WRITE_TYPE_ONE;
@@ -366,7 +366,7 @@ void write_type(uint8_t x, uint8_t y, uint8_t z, uint16_t type) {
 
   buffer_insert(instruction);
   buffer_insert(type);
-};
+}
 
 void write_types(uint8_t x, uint8_t y, uint8_t z, uint16_t types[]) {
   uint32_t instruction = INSTRUCTION_WRITE_TYPE_ROW;
@@ -395,7 +395,7 @@ void write_types(uint8_t x, uint8_t y, uint8_t z, uint16_t types[]) {
   }
 
   bitvector_dispose(types_bitvector);
-};
+}
 
 void devstep() {
   buffer_insert(INSTRUCTION_DEVSTEP);
