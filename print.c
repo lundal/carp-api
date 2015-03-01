@@ -10,6 +10,9 @@ void print_information(carp_info_t *info) {
   printf("- Type bits: %d\n", info->type_bits);
   printf("- Counters: %dx%d\n", info->counter_amount, info->counter_bits);
   printf("- Rule amount: %d\n", info->rule_amount);
+  printf("- Fitness id: %d\n", info->fitness_id);
+  printf("- Fitness words: %d\n", info->fitness_words);
+  printf("- Fitness params: 0x%04X\n", info->fitness_params);
   printf("\n");
   fflush(stdout);
 }
