@@ -9,7 +9,7 @@
  * Per Thomas Lundal 2015
  *****************************************************************************/
 
-#include "libcarp.h"
+#include "carp.h"
 #include "print.h"
 #include "utility.h"
 
