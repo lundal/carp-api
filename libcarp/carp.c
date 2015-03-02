@@ -421,6 +421,10 @@ void swap_cell_buffers() {
   buffer_insert(INSTRUCTION_SWAP_CELL_BUFFERS);
 }
 
+void reset_buffers() {
+  buffer_insert(INSTRUCTION_RESET_BUFFERS);
+}
+
 void read_fitness() {
   buffer_insert(INSTRUCTION_READ_FITNESS);
 }

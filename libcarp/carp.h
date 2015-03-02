@@ -80,6 +80,7 @@ void config();
 void readback();
 
 void swap_cell_buffers();
+void reset_buffers();
 
 void read_fitness();
 
