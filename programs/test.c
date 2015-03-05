@@ -25,9 +25,6 @@ carp_info_t *info;
 
 void test_run(int test_number);
 
-void reset();
-void print_remaining_data();
-
 void test_write_read_type();
 void test_write_read_types();
 void test_write_read_state();
@@ -53,6 +50,8 @@ int main (int argc, char* argv[]) {
 
   info = carp_connect();
 
+  carp_reset();
+
   print_information(info);
 
   test_run(atoi(argv[1]));
@@ -63,8 +62,6 @@ int main (int argc, char* argv[]) {
 }
 
 void test_run(int test_number) {
-  reset();
-
   switch (test_number) {
   case 0:
     test_write_read_type();

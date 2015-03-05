@@ -51,6 +51,7 @@ typedef struct {
 
 carp_info_t *carp_connect();
 void carp_disconnect();
+void carp_reset();
 
 /* Instructions */
 
