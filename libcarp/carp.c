@@ -328,7 +328,7 @@ void set_rules_active(uint32_t amount) {
   buffer_insert(instruction);
 
   if (info->rule_amount > (1<<16)) {
-      buffer_insert(amount >> 16);
+    buffer_insert(amount >> 16);
   }
 }
 
