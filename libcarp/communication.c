@@ -46,6 +46,12 @@ void communication_send(uint32_t *buffer, int words) {
     time_to_sleep.tv_nsec = 100 * 1000 * 1000;
     nanosleep(&time_to_sleep, NULL);
 #endif
+#ifndef LOWLATENCY
+    struct timespec time_to_sleep;
+    time_to_sleep.tv_sec = 0;
+    time_to_sleep.tv_nsec = 1000;
+    nanosleep(&time_to_sleep, NULL);
+#endif
   }
   for (int i = 0; i < words; i++) {
     resource0_base[i] = buffer[i];
@@ -61,6 +67,12 @@ void communication_receive(uint32_t *buffer, int words) {
     struct timespec time_to_sleep;
     time_to_sleep.tv_sec = 0;
     time_to_sleep.tv_nsec = 100 * 1000 * 1000;
+    nanosleep(&time_to_sleep, NULL);
+#endif
+#ifndef LOWLATENCY
+    struct timespec time_to_sleep;
+    time_to_sleep.tv_sec = 0;
+    time_to_sleep.tv_nsec = 1000;
     nanosleep(&time_to_sleep, NULL);
 #endif
   }

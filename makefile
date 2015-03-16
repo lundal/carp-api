@@ -29,11 +29,15 @@ LIBRARY  = $(LIBRARYDIR)/libcarp.a
 # Compiler flags
 GCCFLAGS     = -Wall -g -pedantic -std=gnu11 -O3 -I$(LIBRARYDIR)
 PROGRAMFLAGS = -L$(LIBRARYDIR) -lcarp -lm
-LIBRARYFLAGS = #-DDEBUG -DTESTBENCH\
+LIBRARYFLAGS = \
+               #\
+               -DLOWLATENCY\
+               -DDEBUG\
+               -DTESTBENCH\
                -DWRAP=true -DWIDTH=8 -DHEIGHT=8 -DDEPTH=8\
                -DSTATE_BITS=1 -DTYPE_BITS=8\
                -DCOUNTER_AMOUNT=4 -DCOUNTER_BITS=16\
-               -DRULE_AMOUNT=256
+               -DRULE_AMOUNT=256\
 
 ###############################################################################
 
