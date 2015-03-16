@@ -2,8 +2,6 @@
 
 void test() {
   printf("Test: Instruction storage\n");
-  printf("Instructions: store, end, jump, break, write_state read_state\n");
-  printf("\n");
 
   int n = 4;
 

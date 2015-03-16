@@ -2,8 +2,6 @@
 
 void test() {
   printf("Test: Counters\n");
-  printf("Instructions: store, end, jump, break, write_state read_state\n");
-  printf("\n");
 
   int n = 5;
 

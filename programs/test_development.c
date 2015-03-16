@@ -3,8 +3,6 @@
 
 void test() {
   printf("Test: Development\n");
-  printf("Instructions: write_rule, set_rules_active, write_state, write_type devstep, read_state, read_type, read_rule_vectors, read_rule_numbers\n");
-  printf("\n");
 
   rule_t rule_change_1_to_2_state_1 = {
     .z_negative = {.state_check = false, .state_value = 0, .type_check = false, .type_value = 0},

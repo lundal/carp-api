@@ -2,8 +2,6 @@
 
 void test() {
   printf("Test: Write and read types\n");
-  printf("Instructions: write_types, read_types\n");
-  printf("\n");
 
   int n = types_per_instruction();
 

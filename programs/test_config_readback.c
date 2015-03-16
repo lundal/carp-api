@@ -2,8 +2,6 @@
 
 void test() {
   printf("Test: Config Readback\n");
-  printf("Instructions: write_state, config, readback, read_states, swap_cell_buffers\n");
-  printf("\n");
 
   for (int i = 0; i < 4; i++) {
     write_state(i,i,0, 1);

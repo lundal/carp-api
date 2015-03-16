@@ -2,8 +2,6 @@
 
 void test() {
   printf("Test: Write and read states\n");
-  printf("Instructions: write_states, read_states\n");
-  printf("\n");
 
   int n = states_per_instruction();
 

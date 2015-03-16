@@ -8,8 +8,6 @@ void test() {
    * 0 1 0 */
 
   printf("Test: Sblock Matrix\n");
-  printf("Instructions: write_lut, write_state, write_type, config, runstep, readback, read_states, swap_cell_buffers\n");
-  printf("\n");
 
   write_lut(LUT_SELF, 0);
   write_lut(LUT_AND4, 1);

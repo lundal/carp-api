@@ -2,8 +2,6 @@
 
 void test() {
   printf("Test: Fill Cells\n");
-  printf("Instructions: fill_cells, read_states, read_types\n");
-  printf("\n");
 
   int w = info->matrix_width;
   int h = info->matrix_height;

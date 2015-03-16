@@ -7,22 +7,23 @@
 
 carp_info_t *info;
 bool success = true;
+int assert = 0;
 
 void test();
 
 int main() {
+  printf("\n");
+
   info = carp_connect();
   carp_reset();
-
-  printf("\n");
 
   test();
 
   if (success) {
-      printf("PASS!\n\n");
+      printf("PASS!\n");
   }
   else {
-      printf("FAIL!\n\n");
+      printf("FAIL!\n");
   }
 
   carp_disconnect();
@@ -31,7 +32,8 @@ int main() {
 
 void assert_uint32(uint32_t expected, uint32_t actual) {
   if (expected != actual) {
-    printf("Expected %d, got %d\n", expected, actual);
+    printf("Assert %d expected %d, got %d!\n", assert, expected, actual);
     success = false;
   }
+  assert++;
 }

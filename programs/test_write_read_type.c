@@ -2,8 +2,6 @@
 
 void test() {
   printf("Test: Write and read type\n");
-  printf("Instructions: write_type, read_type\n");
-  printf("\n");
 
   int n = info->matrix_width;
 

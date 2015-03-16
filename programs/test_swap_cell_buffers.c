@@ -2,8 +2,6 @@
 
 void test() {
   printf("Test: Swap Cell Buffers\n");
-  printf("Instructions: write_state, write_type, swap_cell_buffers, read_state, read_type\n");
-  printf("\n");
 
   uint8_t state = 1;
   uint16_t type = 3;
