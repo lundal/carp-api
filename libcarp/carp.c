@@ -38,10 +38,10 @@ void buffer_flush();
 
 void clear_remaining_data();
 
-int get_entries_per_word(uint32_t entry_bits);
-int get_words_per_entry_row(uint32_t entry_bits);
+int entries_per_word(uint8_t entry_bits);
+int words_per_row(uint8_t entry_bits);
 
-matrix_t *get_matrix(uint32_t entry_bits);
+matrix_t *get_matrix(uint8_t entry_bits);
 
 /* Control */
 
@@ -511,13 +511,13 @@ void counter_reset(uint8_t counter) {
 
 /* Information functions */
 
-int get_entries_per_word(uint32_t entry_bits) {
+int entries_per_word(uint8_t entry_bits) {
   int max = 32 / entry_bits;
   return (max > info->matrix_width) ? info->matrix_width : max;
 }
 
-int get_words_per_entry_row(uint32_t entry_bits) {
-  return div_ceil(info->matrix_width, get_entries_per_word(entry_bits));
+int words_per_row(uint8_t entry_bits) {
+  return div_ceil(info->matrix_width, entries_per_word(entry_bits));
 }
 
 /* Get functions */
@@ -568,12 +568,12 @@ matrix_t *get_rule_numbers() {
   return get_matrix(bits(info->rule_amount));
 }
 
-matrix_t *get_matrix(uint32_t entry_bits) {
+matrix_t *get_matrix(uint8_t entry_bits) {
   matrix_t *matrix = matrix_create(info->matrix_depth, info->matrix_height, info->matrix_width);
 
-  int entries_per_word = get_entries_per_word(entry_bits);
-  int words_per_row = get_words_per_entry_row(entry_bits);
-  int words_total = info->matrix_depth * info->matrix_height * words_per_row;
+  int entries_per_word_i = entries_per_word(entry_bits);
+  int words_per_row_i = words_per_row(entry_bits);
+  int words_total = info->matrix_depth * info->matrix_height * words_per_row_i;
   int word_index = 0;
 
   buffer_read(words_total);
@@ -582,13 +582,13 @@ matrix_t *get_matrix(uint32_t entry_bits) {
 
   for (int z = 0; z < info->matrix_depth; z++) {
     for (int y = 0; y < info->matrix_height; y++) {
-      for (int w = 0; w < words_per_row; w++) {
+      for (int w = 0; w < words_per_row_i; w++) {
 
         /* Get next word */
         uint32_t word = buffer_receive[word_index++];
 
-        for (int i = 0; i < entries_per_word; i++) {
-          int x = w*entries_per_word + i;
+        for (int i = 0; i < entries_per_word_i; i++) {
+          int x = w*entries_per_word_i + i;
 
           /* Do an out-of-bound check */
           if (x == info->matrix_width) {
