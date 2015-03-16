@@ -36,15 +36,16 @@ void communication_close() {
 }
 
 void communication_send(uint32_t *buffer, int words) {
-  while (communication_rx_space() < words) {
+  int space;
+  while ((space = communication_rx_space()) < words) {
 #ifdef DEBUG
-    printf("Waiting for buffer space... (%d/%d)\n", communication_rx_space(), words);
+    printf("Waiting for buffer space... (%d/%d)\n", space, words);
     fflush(stdout);
-#endif
     struct timespec time_to_sleep;
     time_to_sleep.tv_sec = 0;
     time_to_sleep.tv_nsec = 100 * 1000 * 1000;
     nanosleep(&time_to_sleep, NULL);
+#endif
   }
   for (int i = 0; i < words; i++) {
     resource0_base[i] = buffer[i];
@@ -52,15 +53,16 @@ void communication_send(uint32_t *buffer, int words) {
 }
 
 void communication_receive(uint32_t *buffer, int words) {
-  while (communication_tx_count() < words) {
+  int count;
+  while ((count = communication_tx_count()) < words) {
 #ifdef DEBUG
-    printf("Waiting for buffer data... (%d/%d)\n", communication_tx_count(), words);
+    printf("Waiting for buffer data... (%d/%d)\n", count, words);
     fflush(stdout);
-#endif
     struct timespec time_to_sleep;
     time_to_sleep.tv_sec = 0;
     time_to_sleep.tv_nsec = 100 * 1000 * 1000;
     nanosleep(&time_to_sleep, NULL);
+#endif
   }
   for (int i = 0; i < words; i++) {
     buffer[i] = resource0_base[i];
