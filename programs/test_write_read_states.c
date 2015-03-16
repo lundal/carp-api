@@ -2,13 +2,13 @@
 
 void test() {
   printf("Test: Write and read states\n");
-  printf("- Verifies instructions: write_states, read_states\n");
+  printf("Instructions: write_states, read_states\n");
   printf("\n");
 
   int n = states_per_instruction();
   uint8_t states[n];
   for (int i = 0; i < n; i++) {
-      states[i] = 1;
+      states[i] = n % 2;
   }
 
   write_states(0,0,0, states);

@@ -13,6 +13,8 @@ int main() {
   info = carp_connect();
   carp_reset();
 
+  printf("\n");
+
   test();
 
   if (success) {
