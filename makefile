@@ -47,7 +47,7 @@ $(PROGRAMDIR)/%.carp: $(PROGRAMDIR)/%.c $(LIBRARY)
 $(LIBRARY): $(OBJECTS)
 	ar crs $@ $^
 
-$(LIBRARYDIR)/%.o: $(LIBRARYDIR)/%.c
+$(LIBRARYDIR)/%.o: $(LIBRARYDIR)/%.c makefile
 	gcc $(GCCFLAGS) $(LIBRARYFLAGS) -c $< -o $@
 
 test: all
