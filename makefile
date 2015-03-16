@@ -37,7 +37,7 @@ LIBRARYFLAGS = #-DDEBUG -DTESTBENCH\
 
 ###############################################################################
 
-.phony: all clean
+.phony: all test clean
 
 all: $(EXECUTABLES)
 
@@ -49,6 +49,9 @@ $(LIBRARY): $(OBJECTS)
 
 $(LIBRARYDIR)/%.o: $(LIBRARYDIR)/%.c
 	gcc $(GCCFLAGS) $(LIBRARYFLAGS) -c $< -o $@
+
+test: all
+	programs/test_*.carp
 
 clean:
 	rm -rf $(EXECUTABLES)

@@ -1,0 +1,34 @@
+#include "carp.h"
+
+#include <stdio.h>
+#include <stdint.h>
+#include <stdbool.h>
+
+carp_info_t *info;
+bool success = true;
+
+void test();
+
+int main() {
+  info = carp_connect();
+  carp_reset();
+
+  test();
+
+  if (success) {
+      printf("PASS!\n\n");
+  }
+  else {
+      printf("FAIL!\n\n");
+  }
+
+  carp_disconnect();
+  return 0;
+}
+
+void assert_uint32(uint32_t expected, uint32_t actual) {
+  if (expected != actual) {
+    printf("Expected %d, got %d\n", expected, actual);
+    success = false;
+  }
+}
