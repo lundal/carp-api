@@ -98,6 +98,8 @@ void counter_reset(uint8_t counter);
 
 int states_per_instruction();
 int types_per_instruction();
+int entries_per_word(uint8_t entry_bits);
+int words_per_row(uint8_t entry_bits);
 
 /* Get functions */
 

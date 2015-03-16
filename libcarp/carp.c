@@ -38,9 +38,6 @@ void buffer_flush();
 
 void clear_remaining_data();
 
-int entries_per_word(uint8_t entry_bits);
-int words_per_row(uint8_t entry_bits);
-
 matrix_t *get_matrix(uint8_t entry_bits);
 
 /* Control */
