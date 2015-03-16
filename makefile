@@ -51,7 +51,7 @@ $(LIBRARYDIR)/%.o: $(LIBRARYDIR)/%.c
 	gcc $(GCCFLAGS) $(LIBRARYFLAGS) -c $< -o $@
 
 test: all
-	programs/test_*.carp
+	for x in programs/test_*.carp; do sudo $$x; done
 
 clean:
 	rm -rf $(EXECUTABLES)
