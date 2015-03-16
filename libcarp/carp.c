@@ -86,6 +86,9 @@ void carp_disconnect() {
 }
 
 void carp_reset() {
+#ifdef TESTBENCH
+  return;
+#endif
 #ifdef DEBUG
   printf("Resetting...\n");
 #endif
