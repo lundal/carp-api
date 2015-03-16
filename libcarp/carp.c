@@ -511,6 +511,16 @@ void counter_reset(uint8_t counter) {
 
 /* Information functions */
 
+int states_per_instruction() {
+  int max = (256-32) / info->state_bits;
+  return (max > info->matrix_width) ? info->matrix_width : max;
+}
+
+int types_per_instruction() {
+  int max = (256-32) / info->type_bits;
+  return (max > info->matrix_width) ? info->matrix_width : max;
+}
+
 int entries_per_word(uint8_t entry_bits) {
   int max = 32 / entry_bits;
   return (max > info->matrix_width) ? info->matrix_width : max;

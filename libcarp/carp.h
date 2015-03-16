@@ -94,6 +94,11 @@ void jump_equal(uint16_t address, uint8_t counter, uint32_t value);
 void counter_increment(uint8_t counter);
 void counter_reset(uint8_t counter);
 
+/* Information functions */
+
+int states_per_instruction();
+int types_per_instruction();
+
 /* Get functions */
 
 carp_info_t *get_information();
