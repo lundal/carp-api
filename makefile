@@ -17,7 +17,7 @@ LIBRARYDIR = libcarp
 
 # Programs
 PROGRAMS    = $(wildcard $(PROGRAMDIR)/*.c)
-EXECUTABLES = $(patsubst %.c,%,$(PROGRAMS))
+EXECUTABLES = $(patsubst %.c,%.carp,$(PROGRAMS))
 
 # Library
 SOURCES  = $(wildcard $(LIBRARYDIR)/*.c)
@@ -41,7 +41,7 @@ LIBRARYFLAGS = #-DDEBUG -DTESTBENCH\
 
 all: $(EXECUTABLES)
 
-$(PROGRAMDIR)/%: $(PROGRAMDIR)/%.c $(LIBRARY)
+$(PROGRAMDIR)/%.carp: $(PROGRAMDIR)/%.c $(LIBRARY)
 	gcc $< $(GCCFLAGS) $(PROGRAMFLAGS) -o $@
 
 $(LIBRARY): $(OBJECTS)
