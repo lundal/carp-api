@@ -15,7 +15,7 @@ void test() {
   read_types();
 
   matrix_t *state_matrix = get_states();
-  matrix_t *type_matrix = get_states();
+  matrix_t *type_matrix = get_types();
 
   for (int z = 0; z < d; z++) {
     for (int y = 0; y < h; y++) {
