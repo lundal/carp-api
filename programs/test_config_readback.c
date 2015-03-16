@@ -6,7 +6,7 @@ void test() {
   printf("\n");
 
   for (int i = 0; i < 4; i++) {
-    write_state(i,i,0, i % 2); // 0 1 0 1
+    write_state(i,i,0, 1);
   }
 
   swap_cell_buffers();
@@ -16,12 +16,11 @@ void test() {
 
   swap_cell_buffers();
 
-
   for (int i = 0; i < 4; i++) {
     read_state(i,i,0);
   }
 
   for (int i = 0; i < 4; i++) {
-    assert_uint32(i % 2, get_state());
+    assert_uint32(1, get_state());
   }
 }

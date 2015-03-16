@@ -33,10 +33,7 @@ void test() {
   read_state(1,0,0);
   read_state(1,1,0);
   read_state(1,2,0);
-
-  assert_uint32(1, get_state());
-  assert_uint32(1, get_state());
-  assert_uint32(0, get_state());
+  read_state(1,3,0);
 
   runstep(1);
   readback();
@@ -45,7 +42,14 @@ void test() {
   read_state(1,0,0);
   read_state(1,1,0);
   read_state(1,2,0);
+  read_state(1,3,0);
 
+  assert_uint32(1, get_state());
+  assert_uint32(1, get_state());
+  assert_uint32(0, get_state());
+  assert_uint32(1, get_state());
+
+  assert_uint32(1, get_state());
   assert_uint32(1, get_state());
   assert_uint32(1, get_state());
   assert_uint32(1, get_state());

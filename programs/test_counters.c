@@ -21,7 +21,7 @@ void test() {
     break_out();
   end();
 
-  jump(n);
+  jump(0);
 
   for (int i = 0; i < n; i++) {
     assert_uint32(1, get_state());
