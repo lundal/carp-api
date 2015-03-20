@@ -93,16 +93,32 @@ void carp_reset() {
   /* Cell Buffer A */
   fill_cells(0, 0);
 
-  /* SBlock Matrix */
-  write_lut(LUT_SELF, 0);
-  config();
-
-  /* Clears RuleNumbers BRAM and Cell Buffer B */
+  /* Cell Buffer B and Rule Numbers */
   set_rules_active(0);
   devstep();
 
-  /* Clears RuleVector, Live Count and Fitness Buffers
-   * Must be last to assure that fitness is done processing */
+  /* LUT entries */
+  for (int i = 0; i < (1 << info->type_bits); i++) {
+    write_lut(LUT_SELF, i);
+  }
+
+  /* SBlock Matrix */
+  config();
+
+  /* Counters */
+  for (int i = 0; i < info->counter_amount; i++) {
+    counter_reset(i);
+  }
+
+  /* Rule Vector, Live Count and Fitness Buffers
+   * Should come after a large delay to assure fitness is done processing */
+  reset_buffers();
+
+  /* Used for delay */
+  config();
+
+  /* In case Fitness Buffer was full, clear an additional time
+   * Should come after a medium delay to assure no pending fitness data */
   reset_buffers();
 
   buffer_flush();
