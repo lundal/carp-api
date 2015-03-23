@@ -9,6 +9,7 @@
 #include "communication.h"
 #include "pci.h"
 
+#include <stdbool.h>
 #include <stdio.h>
 #include <time.h>
 
@@ -36,10 +37,20 @@ void communication_close() {
 }
 
 void communication_send(uint32_t *buffer, int words) {
-  int space;
-  while ((space = communication_rx_space()) < words) {
+  int words_sent = 0;
+  while (true) {
+    int space = communication_rx_space();
+    int words_left = words - words_sent;
+    int words_to_send = (words_left < space) ? words_left : space;
+    for (int i = words_sent; i < words_sent + words_to_send; i++) {
+      resource0_base[i] = buffer[i];
+    }
+    words_sent += words_to_send;
+    if (words_sent >= words) {
+      return;
+    }
 #ifdef DEBUG
-    printf("Waiting for buffer space... (%d/%d)\n", space, words);
+    printf("Waiting for buffer space... (%d/%d)\n", words_sent, words);
     fflush(stdout);
     struct timespec time_to_sleep;
     time_to_sleep.tv_sec = 0;
@@ -47,22 +58,29 @@ void communication_send(uint32_t *buffer, int words) {
     nanosleep(&time_to_sleep, NULL);
 #endif
 #ifndef LOWLATENCY
-    struct timespec time_to_sleep;
-    time_to_sleep.tv_sec = 0;
-    time_to_sleep.tv_nsec = 1000;
-    nanosleep(&time_to_sleep, NULL);
+    struct timespec time_to_sleep_2;
+    time_to_sleep_2.tv_sec = 0;
+    time_to_sleep_2.tv_nsec = 1000;
+    nanosleep(&time_to_sleep_2, NULL);
 #endif
-  }
-  for (int i = 0; i < words; i++) {
-    resource0_base[i] = buffer[i];
   }
 }
 
 void communication_receive(uint32_t *buffer, int words) {
-  int count;
-  while ((count = communication_tx_count()) < words) {
+  int words_received = 0;
+  while (true) {
+    int count = communication_tx_count();
+    int words_left = words - words_received;
+    int words_to_send = (words_left < count) ? words_left : count;
+    for (int i = words_received; i < words_received + words_to_send; i++) {
+      buffer[i] = resource0_base[i];
+    }
+    words_received += words_to_send;
+    if (words_received >= words) {
+      return;
+    }
 #ifdef DEBUG
-    printf("Waiting for buffer data... (%d/%d)\n", count, words);
+    printf("Waiting for buffer data... (%d/%d)\n", words_received, words);
     fflush(stdout);
     struct timespec time_to_sleep;
     time_to_sleep.tv_sec = 0;
@@ -70,14 +88,11 @@ void communication_receive(uint32_t *buffer, int words) {
     nanosleep(&time_to_sleep, NULL);
 #endif
 #ifndef LOWLATENCY
-    struct timespec time_to_sleep;
-    time_to_sleep.tv_sec = 0;
-    time_to_sleep.tv_nsec = 1000;
-    nanosleep(&time_to_sleep, NULL);
+    struct timespec time_to_sleep_2;
+    time_to_sleep_2.tv_sec = 0;
+    time_to_sleep_2.tv_nsec = 1000;
+    nanosleep(&time_to_sleep_2, NULL);
 #endif
-  }
-  for (int i = 0; i < words; i++) {
-    buffer[i] = resource0_base[i];
   }
 }
 
