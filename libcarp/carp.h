@@ -60,9 +60,9 @@ void read_information();
 void read_rule_vectors(uint16_t amount);
 void read_rule_numbers();
 
-void read_state(uint8_t x, uint8_t y, uint8_t z);
+void read_state(uint8_t z, uint8_t y, uint8_t x);
 void read_states();
-void read_type(uint8_t x, uint8_t y, uint8_t z);
+void read_type(uint8_t z, uint8_t y, uint8_t x);
 void read_types();
 
 void write_lut(lut_t lut, uint16_t type);
@@ -70,10 +70,10 @@ void write_rule(rule_t rule, uint32_t index);
 void set_rules_active(uint32_t amount);
 void fill_cells(uint8_t state, uint16_t type);
 
-void write_state(uint8_t x, uint8_t y, uint8_t z, uint8_t state);
-void write_states(uint8_t x, uint8_t y, uint8_t z, uint8_t states[]);
-void write_type(uint8_t x, uint8_t y, uint8_t z, uint16_t type);
-void write_types(uint8_t x, uint8_t y, uint8_t z, uint16_t types[]);
+void write_state(uint8_t z, uint8_t y, uint8_t x, uint8_t state);
+void write_states(uint8_t z, uint8_t y, uint8_t x, uint8_t states[]);
+void write_type(uint8_t z, uint8_t y, uint8_t x, uint16_t type);
+void write_types(uint8_t z, uint8_t y, uint8_t x, uint16_t types[]);
 
 void devstep();
 void runstep(uint16_t amount);

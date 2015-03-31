@@ -3,22 +3,22 @@
 void test() {
   printf("Test: Write and read type\n");
 
-  int n = info->matrix_width;
+  int w = info->matrix_width;
 
-  uint16_t types[n];
-  for (int i = 0; i < n; i++) {
-      types[i] = n % 1 << info->type_bits;
+  uint16_t types[w];
+  for (int x = 0; x < w; x++) {
+      types[x] = w % 1 << info->type_bits;
   }
 
-  for (int i = 0; i < n; i++) {
-    write_type(0,0,i, types[i]);
+  for (int x = 0; x < w; x++) {
+    write_type(0,0,x, types[x]);
   }
 
-  for (int i = 0; i < n; i++) {
-    read_type(0,0,i);
+  for (int x = 0; x < w; x++) {
+    read_type(0,0,x);
   }
 
-  for (int i = 0; i < n; i++) {
-    assert_uint32(types[i], get_type());
+  for (int x = 0; x < w; x++) {
+    assert_uint32(types[x], get_type());
   }
 }

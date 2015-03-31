@@ -30,19 +30,19 @@ void test() {
 
   set_rules_active(2);
 
-  for (int i = 0; i < 4; i++) {
-    write_state(i,0,0, (i+1) % 2); // 1 0 1 0
-    write_type(i,0,0, i);          // 0 1 2 3
+  for (int x = 0; x < 4; x++) {
+    write_state(0,0,x, (x+1) % 2); // 1 0 1 0
+    write_type(0,0,x, x);          // 0 1 2 3
   }
 
   devstep();
   swap_cell_buffers();
 
-  for (int i = 0; i < 4; i++) {
-    read_state(i,0,0);
+  for (int x = 0; x < 4; x++) {
+    read_state(0,0,x);
   }
-  for (int i = 0; i < 4; i++) {
-    read_type(i,0,0);
+  for (int x = 0; x < 4; x++) {
+    read_type(0,0,x);
   }
 
   read_rule_vectors(1);
