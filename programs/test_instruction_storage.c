@@ -5,10 +5,10 @@ void test() {
 
   int n = 4;
 
-  write_state(1,1,0, 1);
+  write_state(0,1,1, 1);
 
   store(0);
-    read_state(1,1,0);
+    read_state(0,1,1);
     break_out();
   end();
 

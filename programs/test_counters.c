@@ -5,11 +5,11 @@ void test() {
 
   int n = 5;
 
-  write_state(1,1,0, 1);
+  write_state(0,1,1, 1);
 
   store(0);
     counter_reset(0);
-    read_state(1,1,0);
+    read_state(0,1,1);
     counter_increment(0);
     jump_equal(10, 0, n);
     jump(1);

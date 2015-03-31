@@ -3,22 +3,22 @@
 void test() {
   printf("Test: Write and read state\n");
 
-  int n = info->matrix_width;
+  int w = info->matrix_width;
 
-  uint8_t states[n];
-  for (int i = 0; i < n; i++) {
-      states[i] = n % 1 << info->state_bits;
+  uint8_t states[w];
+  for (int x = 0; x < w; x++) {
+      states[x] = w % 1 << info->state_bits;
   }
 
-  for (int i = 0; i < n; i++) {
-    write_state(0,0,i, states[i]);
+  for (int x = 0; x < w; x++) {
+    write_state(0,0,x, states[x]);
   }
 
-  for (int i = 0; i < n; i++) {
-    read_state(0,0,i);
+  for (int x = 0; x < w; x++) {
+    read_state(0,0,x);
   }
 
-  for (int i = 0; i < n; i++) {
-    assert_uint32(states[i], get_state());
+  for (int x = 0; x < w; x++) {
+    assert_uint32(states[x], get_state());
   }
 }

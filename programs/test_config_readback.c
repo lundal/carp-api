@@ -4,7 +4,7 @@ void test() {
   printf("Test: Config Readback\n");
 
   for (int i = 0; i < 4; i++) {
-    write_state(i,i,0, 1);
+    write_state(0,i,i, 1);
   }
 
   swap_cell_buffers();
@@ -15,7 +15,7 @@ void test() {
   swap_cell_buffers();
 
   for (int i = 0; i < 4; i++) {
-    read_state(i,i,0);
+    read_state(0,i,i);
   }
 
   for (int i = 0; i < 4; i++) {
