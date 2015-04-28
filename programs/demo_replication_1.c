@@ -78,8 +78,8 @@ void init() {
   rule_t rule_create_8 = {
     .z_negative = {.state_check = false, .state_value = 0, .type_check = false, .type_value = 0},
     .z_positive = {.state_check = false, .state_value = 0, .type_check = false, .type_value = 0},
-    .y_negative = {.state_check = false, .state_value = 0, .type_check = true,  .type_value = 1},
-    .y_positive = {.state_check = false, .state_value = 0, .type_check = false, .type_value = 0},
+    .y_negative = {.state_check = false, .state_value = 0, .type_check = false, .type_value = 0},
+    .y_positive = {.state_check = false, .state_value = 0, .type_check = true,  .type_value = 7},
     .x_negative = {.state_check = false, .state_value = 0, .type_check = false, .type_value = 0},
     .x_positive = {.state_check = false, .state_value = 0, .type_check = false, .type_value = 0},
     .self       = {.state_check = false, .state_value = 0, .type_check = true,  .type_value = 0},
