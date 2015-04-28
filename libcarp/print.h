@@ -9,7 +9,6 @@
 
 void print_information(carp_info_t *info);
 void print_matrix(matrix_t *matrix, uint8_t value_bits);
-void print_matrix_postscript(matrix_t *matrix, char *filename, uint8_t scale);
 void print_rule_vectors(bool **rule_vectors, uint16_t vector_amount, uint32_t rule_amount);
 void print_rule_vector(bool *rule_vector, uint32_t rule_amount);
 

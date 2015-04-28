@@ -1,5 +1,6 @@
 #include "carp.h"
 #include "print.h"
+#include "postscript.h"
 
 carp_info_t *info;
 
@@ -253,7 +254,20 @@ void init() {
   write_type(0,4,4, 1);
 }
 
-void step() {
+uint32_t colorfunction (uint32_t value) {
+  if (value <= 0) {
+    return 0x000000;
+  }
+  if (value <= 8) {
+    return 0x00FF00;
+  }
+  if (value <= 9) {
+    return 0xFF0000;
+  }
+  if (value <= 0xD) {
+    return 0x00FFFF;
+  }
+  return 0x000000;
 }
 
 void demo() {
@@ -270,7 +284,7 @@ void demo() {
 
     matrix_t *type_matrix = get_types();
     print_matrix(type_matrix, info->type_bits);
-    print_matrix_postscript(type_matrix, filename, 10);
+    postscript_from_matrix(type_matrix, &colorfunction, filename);
     matrix_dispose(type_matrix);
 
     devstep();
