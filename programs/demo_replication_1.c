@@ -256,7 +256,7 @@ void init() {
 
 uint32_t colorfunction (uint32_t value) {
   if (value <= 0) {
-    return 0x000000;
+    return 0xFFFFFF;
   }
   if (value <= 8) {
     return 0x00FF00;
@@ -267,7 +267,7 @@ uint32_t colorfunction (uint32_t value) {
   if (value <= 0xD) {
     return 0x00FFFF;
   }
-  return 0x000000;
+  return 0xFFFFFF;
 }
 
 void demo() {
