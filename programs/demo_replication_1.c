@@ -230,6 +230,7 @@ void init() {
   write_rule(rule_create_6, ++index);
   write_rule(rule_create_7, ++index);
   write_rule(rule_create_8, ++index);
+  write_rule(rule_create_9, ++index);
 
   write_rule(rule_create_A, ++index);
   write_rule(rule_create_7_from_A, ++index);
@@ -265,7 +266,7 @@ void step() {
 
 void demo() {
   printf("Demo: Replication 1\n");
-  printf("- Simple replicator using 20 rules and 12 types\n");
+  printf("- Simple replicator using 21 rules and 12 types\n");
 
   init();
 
