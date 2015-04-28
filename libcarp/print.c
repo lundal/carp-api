@@ -41,6 +41,75 @@ void print_matrix(matrix_t *matrix, uint8_t value_bits) {
   fflush(stdout);
 }
 
+void print_matrix_postscript(matrix_t *matrix, uint8_t value_bits, char *filename, int scale) {
+  FILE *file = fopen(filename, "wb");
+
+  fprintf(file, "%%!PC-Adobe-3.0 EPSF-3,0\n");
+  fprintf(file, "%%BoundingBox: 0 0 %d %d \n", matrix->width*scale, matrix->height*scale);
+
+  fprintf(file, "/cell {\n");
+  fprintf(file, "%d 0 rlineto\n", scale);
+  fprintf(file, "0 %d rlineto\n", scale);
+  fprintf(file, "-%d 0 rlineto\n", scale);
+  fprintf(file, "closepath\n");
+  fprintf(file, "gsave\n");
+  fprintf(file, "fill\n");
+  fprintf(file, "grestore\n");
+  fprintf(file, "0 0 0 setrgbcolor\n");
+  fprintf(file, "stroke\n");
+  fprintf(file, "} def\n");
+
+  for (int z = 0; z < 1; z++) {
+    for (int y = 0; y < matrix->height; y++) {
+      for (int x = 0; x < matrix->width; x++) {
+        uint32_t value = matrix->values[z][y][x];
+
+        int red, blue, green;
+
+        switch (value) {
+          default:
+          case 0:
+            red = 1;
+            green = 1;
+            blue = 1;
+            break;
+          case 1:
+          case 2:
+          case 3:
+          case 4:
+          case 5:
+          case 6:
+          case 7:
+          case 8:
+            red = 0;
+            green = 1;
+            blue = 0;
+            break;
+          case 9:
+            red = 1;
+            green = 0;
+            blue = 0;
+            break;
+          case 0xA:
+          case 0xB:
+          case 0xC:
+          case 0xD:
+            red = 0;
+            green = 1;
+            blue = 1;
+            break;
+        }
+
+        fprintf(file, "newpath\n");
+        fprintf(file, "%d %d moveto\n", x*scale, y*scale);
+        fprintf(file, "%d %d %d setrgbcolor\n", red, green, blue);
+        fprintf(file, "cell\n");
+      }
+    }
+  }
+  fclose(file);
+}
+
 void print_rule_vectors(bool **rule_vectors, uint16_t vector_amount, uint32_t rule_amount) {
   for (int i = 0; i < vector_amount; i++) {
     print_rule_vector(rule_vectors[i], rule_amount);
