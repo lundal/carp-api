@@ -254,24 +254,27 @@ void init() {
 }
 
 void step() {
-  devstep();
-
-  swap_cell_buffers();
-
-  read_types();
-  matrix_t *type_matrix = get_types();
-  print_matrix(type_matrix, info->type_bits);
-  matrix_dispose(type_matrix);
 }
 
 void demo() {
   printf("Demo: Replication 1\n");
-  printf("- Simple replicator using 21 rules and 12 types\n");
+  printf("- Simple replicator using 21 rules and 13 types\n");
 
   init();
 
-  for (int i = 0; i < 10; i++) {
-    step();
+  for (int i = 0; i <= 20; i++) {
+    read_types();
+
+    char filename[20];
+    sprintf(filename, "%02d.ps", i);
+
+    matrix_t *type_matrix = get_types();
+    print_matrix(type_matrix, info->type_bits);
+    print_matrix_postscript(type_matrix, filename, 10);
+    matrix_dispose(type_matrix);
+
+    devstep();
+    swap_cell_buffers();
   }
 }
 
