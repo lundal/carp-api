@@ -41,11 +41,11 @@ void print_matrix(matrix_t *matrix, uint8_t value_bits) {
   fflush(stdout);
 }
 
-void print_matrix_postscript(matrix_t *matrix, uint8_t value_bits, char *filename, int scale) {
+void print_matrix_postscript(matrix_t *matrix, char *filename, uint8_t scale) {
   FILE *file = fopen(filename, "wb");
 
   fprintf(file, "%%!PC-Adobe-3.0 EPSF-3,0\n");
-  fprintf(file, "%%BoundingBox: 0 0 %d %d \n", matrix->width*scale, matrix->height*scale);
+  fprintf(file, "%%%%BoundingBox: 0 0 %d %d \n", matrix->width*scale, matrix->height*scale);
 
   fprintf(file, "/cell {\n");
   fprintf(file, "%d 0 rlineto\n", scale);
