@@ -32,7 +32,7 @@ void postscript_from_matrix(matrix_t *matrix, uint32_t (*colorfunction)(uint32_t
         int blue = rgb >> 0 & 0xFF;
 
         fprintf(file, "newpath\n");
-        fprintf(file, "%d %d moveto\n", x*scale, y*scale);
+        fprintf(file, "%d %d moveto\n", x*scale, (matrix->height - y - 1)*scale);
         fprintf(file, "%d %d %d setrgbcolor\n", red, green, blue);
         fprintf(file, "cell\n");
       }
