@@ -79,11 +79,11 @@ void init() {
     .z_negative = {.state_check = false, .state_value = 0, .type_check = false, .type_value = 0},
     .z_positive = {.state_check = false, .state_value = 0, .type_check = false, .type_value = 0},
     .y_negative = {.state_check = false, .state_value = 0, .type_check = false, .type_value = 0},
-    .y_positive = {.state_check = false, .state_value = 0, .type_check = true,  .type_value = 8},
+    .y_positive = {.state_check = false, .state_value = 0, .type_check = true,  .type_value = 1},
     .x_negative = {.state_check = false, .state_value = 0, .type_check = false, .type_value = 0},
     .x_positive = {.state_check = false, .state_value = 0, .type_check = false, .type_value = 0},
     .self       = {.state_check = false, .state_value = 0, .type_check = true,  .type_value = 0},
-    .result     = {.state_change = false, .state_value = 0, .type_change = true, .type_value = 1},
+    .result     = {.state_change = false, .state_value = 0, .type_change = true, .type_value = 8},
   };
   // A
   rule_t rule_create_A = {
