@@ -85,6 +85,16 @@ void init() {
     .self       = {.state_check = false, .state_value = 0, .type_check = true,  .type_value = 0},
     .result     = {.state_change = false, .state_value = 0, .type_change = true, .type_value = 8},
   };
+  rule_t rule_create_9 = {
+    .z_negative = {.state_check = false, .state_value = 0, .type_check = false, .type_value = 0},
+    .z_positive = {.state_check = false, .state_value = 0, .type_check = false, .type_value = 0},
+    .y_negative = {.state_check = false, .state_value = 0, .type_check = true,  .type_value = 2},
+    .y_positive = {.state_check = false, .state_value = 0, .type_check = true,  .type_value = 6},
+    .x_negative = {.state_check = false, .state_value = 0, .type_check = true,  .type_value = 8},
+    .x_positive = {.state_check = false, .state_value = 0, .type_check = true,  .type_value = 4},
+    .self       = {.state_check = false, .state_value = 0, .type_check = true,  .type_value = 0},
+    .result     = {.state_change = false, .state_value = 0, .type_change = true, .type_value = 9},
+  };
   // A
   rule_t rule_create_A = {
     .z_negative = {.state_check = false, .state_value = 0, .type_check = false, .type_value = 0},
