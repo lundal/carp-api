@@ -27,13 +27,13 @@ void postscript_from_matrix(matrix_t *matrix, uint32_t (*colorfunction)(uint32_t
 
         uint32_t rgb = (*colorfunction)(value);
 
-        int red = rgb >> 16 & 0xFF;
-        int green = rgb >> 8 & 0xFF;
-        int blue = rgb >> 0 & 0xFF;
+        float red   = (float)(rgb >> 16 & 0xFF) / (float)0xFF;
+        float green = (float)(rgb >>  8 & 0xFF) / (float)0xFF;
+        float blue  = (float)(rgb >>  0 & 0xFF) / (float)0xFF;
 
         fprintf(file, "newpath\n");
         fprintf(file, "%d %d moveto\n", x*scale, (matrix->height - y - 1)*scale);
-        fprintf(file, "%d %d %d setrgbcolor\n", red, green, blue);
+        fprintf(file, "%4.2f %4.2f %4.2f setrgbcolor\n", red, green, blue);
         fprintf(file, "cell\n");
       }
     }
