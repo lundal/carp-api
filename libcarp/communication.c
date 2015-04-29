@@ -1,7 +1,8 @@
 /*****************************************************************************
  * Communication interface
  *
- * An abstraction layer above the pci interface
+ * An abstraction layer above the PCI interface.
+ * Resource 0 is used for data and resource 1 is used for special requests.
  *
  * Per Thomas Lundal 2014
  *****************************************************************************/
