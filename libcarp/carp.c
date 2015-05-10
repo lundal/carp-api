@@ -461,8 +461,8 @@ void readback() {
   buffer_insert(INSTRUCTION_READBACK);
 }
 
-void swap_cell_buffers() {
-  buffer_insert(INSTRUCTION_SWAP_CELL_BUFFERS);
+void swap_cell_storage() {
+  buffer_insert(INSTRUCTION_SWAP_CELL_STORAGE);
 }
 
 void reset_buffers() {

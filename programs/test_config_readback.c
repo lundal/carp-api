@@ -7,12 +7,12 @@ void test() {
     write_state(0,i,i, 1);
   }
 
-  swap_cell_buffers();
+  swap_cell_storage();
 
   config();
   readback();
 
-  swap_cell_buffers();
+  swap_cell_storage();
 
   for (int i = 0; i < 4; i++) {
     read_state(0,i,i);

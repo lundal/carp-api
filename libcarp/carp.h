@@ -80,7 +80,7 @@ void runstep(uint16_t amount);
 void config();
 void readback();
 
-void swap_cell_buffers();
+void swap_cell_storage();
 void reset_buffers();
 
 void read_fitness();

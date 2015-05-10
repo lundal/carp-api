@@ -36,7 +36,7 @@ void test() {
   }
 
   devstep();
-  swap_cell_buffers();
+  swap_cell_storage();
 
   for (int x = 0; x < 4; x++) {
     read_state(0,0,x);

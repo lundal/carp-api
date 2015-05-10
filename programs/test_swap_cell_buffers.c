@@ -9,7 +9,7 @@ void test() {
   write_state(0,0,0, state);
   write_type(0,0,0, type);
 
-  swap_cell_buffers();
+  swap_cell_storage();
 
   read_state(0,0,0);
   read_type(0,0,0);
@@ -17,7 +17,7 @@ void test() {
   assert_uint32(0, get_state());
   assert_uint32(0, get_type());
 
-  swap_cell_buffers();
+  swap_cell_storage();
 
   read_state(0,0,0);
   read_type(0,0,0);

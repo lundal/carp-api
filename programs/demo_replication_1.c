@@ -288,7 +288,7 @@ void demo() {
     matrix_dispose(type_matrix);
 
     devstep();
-    swap_cell_buffers();
+    swap_cell_storage();
   }
 }
 

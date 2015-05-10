@@ -21,13 +21,13 @@ void test() {
   write_state(0,2,2, 1);
   write_state(0,3,1, 1);
 
-  swap_cell_buffers();
+  swap_cell_storage();
   config();
 
   runstep(1);
   readback();
 
-  swap_cell_buffers();
+  swap_cell_storage();
   read_state(0,0,1);
   read_state(0,1,1);
   read_state(0,2,1);
@@ -36,7 +36,7 @@ void test() {
   runstep(1);
   readback();
 
-  swap_cell_buffers();
+  swap_cell_storage();
   read_state(0,0,1);
   read_state(0,1,1);
   read_state(0,2,1);
