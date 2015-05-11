@@ -100,7 +100,7 @@ void init() {
   rule_t rule_create_A = {
     .z_negative = {.state_check = false, .state_value = 0, .type_check = false, .type_value = 0},
     .z_positive = {.state_check = false, .state_value = 0, .type_check = false, .type_value = 0},
-    .y_negative = {.state_check = false, .state_value = 0, .type_check = true,  .type_value = 0},
+    .y_negative = {.state_check = false, .state_value = 0, .type_check = false,  .type_value = 0},
     .y_positive = {.state_check = false, .state_value = 0, .type_check = true,  .type_value = 1},
     .x_negative = {.state_check = false, .state_value = 0, .type_check = false, .type_value = 0},
     .x_positive = {.state_check = false, .state_value = 0, .type_check = false, .type_value = 0},
@@ -117,16 +117,6 @@ void init() {
     .self       = {.state_check = false, .state_value = 0, .type_check = true,  .type_value = 0},
     .result     = {.state_change = false, .state_value = 0, .type_change = true, .type_value = 7},
   };
-  rule_t rule_destroy_A = {
-    .z_negative = {.state_check = false, .state_value = 0, .type_check = false, .type_value = 0},
-    .z_positive = {.state_check = false, .state_value = 0, .type_check = false, .type_value = 0},
-    .y_negative = {.state_check = false, .state_value = 0, .type_check = false, .type_value = 0},
-    .y_positive = {.state_check = false, .state_value = 0, .type_check = false, .type_value = 0},
-    .x_negative = {.state_check = false, .state_value = 0, .type_check = false, .type_value = 0},
-    .x_positive = {.state_check = false, .state_value = 0, .type_check = false, .type_value = 0},
-    .self       = {.state_check = false, .state_value = 0, .type_check = true,  .type_value = 0xA},
-    .result     = {.state_change = false, .state_value = 0, .type_change = true, .type_value = 0},
-  };
   // B
   rule_t rule_create_B = {
     .z_negative = {.state_check = false, .state_value = 0, .type_check = false, .type_value = 0},
@@ -134,7 +124,7 @@ void init() {
     .y_negative = {.state_check = false, .state_value = 0, .type_check = false, .type_value = 0},
     .y_positive = {.state_check = false, .state_value = 0, .type_check = false, .type_value = 0},
     .x_negative = {.state_check = false, .state_value = 0, .type_check = true,  .type_value = 3},
-    .x_positive = {.state_check = false, .state_value = 0, .type_check = true,  .type_value = 0},
+    .x_positive = {.state_check = false, .state_value = 0, .type_check = false,  .type_value = 0},
     .self       = {.state_check = false, .state_value = 0, .type_check = true,  .type_value = 0},
     .result     = {.state_change = false, .state_value = 0, .type_change = true, .type_value = 0xB},
   };
@@ -148,22 +138,12 @@ void init() {
     .self       = {.state_check = false, .state_value = 0, .type_check = true,  .type_value = 0},
     .result     = {.state_change = false, .state_value = 0, .type_change = true, .type_value = 1},
   };
-  rule_t rule_destroy_B = {
-    .z_negative = {.state_check = false, .state_value = 0, .type_check = false, .type_value = 0},
-    .z_positive = {.state_check = false, .state_value = 0, .type_check = false, .type_value = 0},
-    .y_negative = {.state_check = false, .state_value = 0, .type_check = false, .type_value = 0},
-    .y_positive = {.state_check = false, .state_value = 0, .type_check = false, .type_value = 0},
-    .x_negative = {.state_check = false, .state_value = 0, .type_check = false, .type_value = 0},
-    .x_positive = {.state_check = false, .state_value = 0, .type_check = false, .type_value = 0},
-    .self       = {.state_check = false, .state_value = 0, .type_check = true,  .type_value = 0xB},
-    .result     = {.state_change = false, .state_value = 0, .type_change = true, .type_value = 0},
-  };
   // C
   rule_t rule_create_C = {
     .z_negative = {.state_check = false, .state_value = 0, .type_check = false, .type_value = 0},
     .z_positive = {.state_check = false, .state_value = 0, .type_check = false, .type_value = 0},
     .y_negative = {.state_check = false, .state_value = 0, .type_check = true,  .type_value = 5},
-    .y_positive = {.state_check = false, .state_value = 0, .type_check = true,  .type_value = 0},
+    .y_positive = {.state_check = false, .state_value = 0, .type_check = false,  .type_value = 0},
     .x_negative = {.state_check = false, .state_value = 0, .type_check = false, .type_value = 0},
     .x_positive = {.state_check = false, .state_value = 0, .type_check = false, .type_value = 0},
     .self       = {.state_check = false, .state_value = 0, .type_check = true,  .type_value = 0},
@@ -179,23 +159,13 @@ void init() {
     .self       = {.state_check = false, .state_value = 0, .type_check = true,  .type_value = 0},
     .result     = {.state_change = false, .state_value = 0, .type_change = true, .type_value = 3},
   };
-  rule_t rule_destroy_C = {
-    .z_negative = {.state_check = false, .state_value = 0, .type_check = false, .type_value = 0},
-    .z_positive = {.state_check = false, .state_value = 0, .type_check = false, .type_value = 0},
-    .y_negative = {.state_check = false, .state_value = 0, .type_check = false, .type_value = 0},
-    .y_positive = {.state_check = false, .state_value = 0, .type_check = false, .type_value = 0},
-    .x_negative = {.state_check = false, .state_value = 0, .type_check = false, .type_value = 0},
-    .x_positive = {.state_check = false, .state_value = 0, .type_check = false, .type_value = 0},
-    .self       = {.state_check = false, .state_value = 0, .type_check = true,  .type_value = 0xC},
-    .result     = {.state_change = false, .state_value = 0, .type_change = true, .type_value = 0},
-  };
   // D
   rule_t rule_create_D = {
     .z_negative = {.state_check = false, .state_value = 0, .type_check = false, .type_value = 0},
     .z_positive = {.state_check = false, .state_value = 0, .type_check = false, .type_value = 0},
     .y_negative = {.state_check = false, .state_value = 0, .type_check = false, .type_value = 0},
     .y_positive = {.state_check = false, .state_value = 0, .type_check = false, .type_value = 0},
-    .x_negative = {.state_check = false, .state_value = 0, .type_check = true,  .type_value = 0},
+    .x_negative = {.state_check = false, .state_value = 0, .type_check = false,  .type_value = 0},
     .x_positive = {.state_check = false, .state_value = 0, .type_check = true,  .type_value = 7},
     .self       = {.state_check = false, .state_value = 0, .type_check = true,  .type_value = 0},
     .result     = {.state_change = false, .state_value = 0, .type_change = true, .type_value = 0xD},
@@ -209,16 +179,6 @@ void init() {
     .x_positive = {.state_check = false, .state_value = 0, .type_check = true,  .type_value = 0xD},
     .self       = {.state_check = false, .state_value = 0, .type_check = true,  .type_value = 0},
     .result     = {.state_change = false, .state_value = 0, .type_change = true, .type_value = 5},
-  };
-  rule_t rule_destroy_D = {
-    .z_negative = {.state_check = false, .state_value = 0, .type_check = false, .type_value = 0},
-    .z_positive = {.state_check = false, .state_value = 0, .type_check = false, .type_value = 0},
-    .y_negative = {.state_check = false, .state_value = 0, .type_check = false, .type_value = 0},
-    .y_positive = {.state_check = false, .state_value = 0, .type_check = false, .type_value = 0},
-    .x_negative = {.state_check = false, .state_value = 0, .type_check = false, .type_value = 0},
-    .x_positive = {.state_check = false, .state_value = 0, .type_check = false, .type_value = 0},
-    .self       = {.state_check = false, .state_value = 0, .type_check = true,  .type_value = 0xD},
-    .result     = {.state_change = false, .state_value = 0, .type_change = true, .type_value = 0},
   };
 
   int index = 0;
@@ -235,19 +195,15 @@ void init() {
 
   write_rule(rule_create_A, ++index);
   write_rule(rule_create_7_from_A, ++index);
-  write_rule(rule_destroy_A, ++index);
 
   write_rule(rule_create_B, ++index);
   write_rule(rule_create_1_from_B, ++index);
-  write_rule(rule_destroy_B, ++index);
 
   write_rule(rule_create_C, ++index);
   write_rule(rule_create_3_from_C, ++index);
-  write_rule(rule_destroy_C, ++index);
 
   write_rule(rule_create_D, ++index);
   write_rule(rule_create_5_from_D, ++index);
-  write_rule(rule_destroy_D, ++index);
 
   set_rules_active(index);
 
@@ -262,7 +218,7 @@ uint32_t colorfunction (uint32_t value) {
     return 0x00FF00;
   }
   if (value <= 9) {
-    return 0xFF0000;
+    return 0xFF6666;
   }
   if (value <= 0xD) {
     return 0x00FFFF;
@@ -271,8 +227,8 @@ uint32_t colorfunction (uint32_t value) {
 }
 
 void demo() {
-  printf("Demo: Replication 1\n");
-  printf("- Simple replicator using 21 rules and 13 types\n");
+  printf("Demo: Replicator\n");
+  printf("- Simple replicator using 17 rules and 13 types\n");
 
   init();
 

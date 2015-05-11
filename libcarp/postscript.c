@@ -3,7 +3,7 @@
 
 void postscript_from_matrix(matrix_t *matrix, uint32_t (*colorfunction)(uint32_t), char *filename) {
   FILE *file = fopen(filename, "wb");
-  int scale = 10;
+  int scale = 32;
 
   fprintf(file, "%%!PC-Adobe-3.0 EPSF-3,0\n");
   fprintf(file, "%%%%BoundingBox: 0 0 %d %d \n", matrix->width*scale, matrix->height*scale);
