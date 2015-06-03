@@ -248,7 +248,6 @@ void demo() {
   }
 }
 
-carp_info_t *info;
 int main() {
   info = carp_connect();
   carp_reset();
