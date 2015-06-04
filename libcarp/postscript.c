@@ -1,7 +1,7 @@
-#include "print.h"
+#include "postscript.h"
 #include <stdio.h>
 
-void postscript_from_matrix(matrix_t *matrix, uint32_t (*colorfunction)(uint32_t), char *filename) {
+void postscript_from_matrix_layer(matrix_t *matrix, uint8_t layer, uint32_t (*colorfunction)(uint32_t), char *filename) {
   FILE *file = fopen(filename, "wb");
   int scale = 32;
 
@@ -20,23 +20,24 @@ void postscript_from_matrix(matrix_t *matrix, uint32_t (*colorfunction)(uint32_t
   fprintf(file, "stroke\n");
   fprintf(file, "} def\n");
 
-  for (int z = 0; z < 1; z++) {
-    for (int y = 0; y < matrix->height; y++) {
-      for (int x = 0; x < matrix->width; x++) {
-        uint32_t value = matrix->values[z][y][x];
+  int z = layer;
 
-        uint32_t rgb = (*colorfunction)(value);
+  for (int y = 0; y < matrix->height; y++) {
+    for (int x = 0; x < matrix->width; x++) {
+      uint32_t value = matrix->values[z][y][x];
 
-        float red   = (float)(rgb >> 16 & 0xFF) / (float)0xFF;
-        float green = (float)(rgb >>  8 & 0xFF) / (float)0xFF;
-        float blue  = (float)(rgb >>  0 & 0xFF) / (float)0xFF;
+      uint32_t rgb = (*colorfunction)(value);
 
-        fprintf(file, "newpath\n");
-        fprintf(file, "%d %d moveto\n", x*scale, (matrix->height - y - 1)*scale);
-        fprintf(file, "%4.2f %4.2f %4.2f setrgbcolor\n", red, green, blue);
-        fprintf(file, "cell\n");
-      }
+      float red   = (float)(rgb >> 16 & 0xFF) / (float)0xFF;
+      float green = (float)(rgb >>  8 & 0xFF) / (float)0xFF;
+      float blue  = (float)(rgb >>  0 & 0xFF) / (float)0xFF;
+
+      fprintf(file, "newpath\n");
+      fprintf(file, "%d %d moveto\n", x*scale, (matrix->height - y - 1)*scale);
+      fprintf(file, "%4.2f %4.2f %4.2f setrgbcolor\n", red, green, blue);
+      fprintf(file, "cell\n");
     }
   }
+
   fclose(file);
 }

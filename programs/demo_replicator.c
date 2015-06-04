@@ -240,7 +240,7 @@ void demo() {
 
     matrix_t *type_matrix = get_types();
     print_matrix(type_matrix, info->type_bits);
-    postscript_from_matrix(type_matrix, &colorfunction, filename);
+    postscript_from_matrix_layer(type_matrix, 0, &colorfunction, filename);
     matrix_dispose(type_matrix);
 
     devstep();
