@@ -75,8 +75,8 @@ void write_states(uint8_t z, uint8_t y, uint8_t x, uint8_t states[]);
 void write_type(uint8_t z, uint8_t y, uint8_t x, uint16_t type);
 void write_types(uint8_t z, uint8_t y, uint8_t x, uint16_t types[]);
 
-void devstep();
-void runstep(uint16_t amount);
+void develop();
+void step(uint16_t amount);
 void config();
 void readback();
 

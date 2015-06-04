@@ -95,7 +95,7 @@ void carp_reset() {
 
   /* Cell Buffer B and Rule Numbers */
   set_rules_active(0);
-  devstep();
+  develop();
 
   /* LUT entries */
   for (int i = 0; i < (1 << info->type_bits); i++) {
@@ -441,12 +441,12 @@ void write_types(uint8_t z, uint8_t y, uint8_t x, uint16_t types[]) {
   bitvector_dispose(types_bitvector);
 }
 
-void devstep() {
-  buffer_insert(INSTRUCTION_DEVSTEP);
+void develop() {
+  buffer_insert(INSTRUCTION_DEVELOP);
 }
 
-void runstep(uint16_t amount) {
-  uint32_t instruction = INSTRUCTION_RUNSTEP;
+void step(uint16_t amount) {
+  uint32_t instruction = INSTRUCTION_STEP;
 
   instruction |= amount << 16;
 

@@ -21,8 +21,8 @@
 #define INSTRUCTION_WRITE_TYPE_ONE    0x0E
 #define INSTRUCTION_WRITE_TYPE_ROW    0x0F
 
-#define INSTRUCTION_DEVSTEP           0x10
-#define INSTRUCTION_RUNSTEP           0x11
+#define INSTRUCTION_DEVELOP           0x10
+#define INSTRUCTION_STEP              0x11
 #define INSTRUCTION_CONFIG            0x12
 #define INSTRUCTION_READBACK          0x13
 

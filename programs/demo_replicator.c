@@ -243,7 +243,7 @@ void demo() {
     postscript_from_matrix_layer(type_matrix, 0, &colorfunction, filename);
     matrix_dispose(type_matrix);
 
-    devstep();
+    develop();
     swap_cell_storage();
   }
 }

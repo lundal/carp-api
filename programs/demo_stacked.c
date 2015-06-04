@@ -13,7 +13,7 @@ lut_t lut_to_2D(lut_t lut) {
 void swap_run_swap() {
   swap_cell_storage();
   config();
-  runstep(7);
+  step(7);
   readback();
   swap_cell_storage();
 }

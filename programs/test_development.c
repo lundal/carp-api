@@ -35,7 +35,7 @@ void test() {
     write_type(0,0,x, x);          // 0 1 2 3
   }
 
-  devstep();
+  develop();
   swap_cell_storage();
 
   for (int x = 0; x < 4; x++) {

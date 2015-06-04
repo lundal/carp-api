@@ -24,7 +24,7 @@ void test() {
   swap_cell_storage();
   config();
 
-  runstep(1);
+  step(1);
   readback();
 
   swap_cell_storage();
@@ -33,7 +33,7 @@ void test() {
   read_state(0,2,1);
   read_state(0,3,1);
 
-  runstep(1);
+  step(1);
   readback();
 
   swap_cell_storage();
