@@ -1,7 +1,7 @@
 #include "testframework.cinclude"
 
 void test() {
-  printf("Test: Swap Cell Buffers\n");
+  printf("Test: Swap Cell Storage\n");
 
   uint8_t state = 1;
   uint16_t type = 3;
