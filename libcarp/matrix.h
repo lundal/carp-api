@@ -1,3 +1,11 @@
+/*****************************************************************************
+ * Matrix
+ *
+ * Data structure for states, types and rule numbers
+ *
+ * Per Thomas Lundal 2015
+ *****************************************************************************/
+
 #ifndef MATRIX_H
 #define MATRIX_H
 

@@ -1,3 +1,11 @@
+/*****************************************************************************
+ * Instructions
+ *
+ * Contains instruction opcodes
+ *
+ * Per Thomas Lundal 2015
+ *****************************************************************************/
+
 #ifndef INSTRUCTION_H
 #define INSTRUCTION_H
 

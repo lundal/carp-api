@@ -1,3 +1,11 @@
+/*****************************************************************************
+ * Matrix
+ *
+ * Data structure for states, types and rule numbers
+ *
+ * Per Thomas Lundal 2015
+ *****************************************************************************/
+
 #include "matrix.h"
 
 #include <stdlib.h>

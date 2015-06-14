@@ -1,3 +1,12 @@
+/*****************************************************************************
+ * PostScript
+ *
+ * Creates PostScript files from matrices
+ *
+ * Kjetil Aamodt 2005
+ * Per Thomas Lundal 2015
+ *****************************************************************************/
+
 #include "postscript.h"
 #include <stdio.h>
 

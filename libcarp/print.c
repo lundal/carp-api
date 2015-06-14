@@ -1,3 +1,13 @@
+/*****************************************************************************
+ * Print
+ *
+ * Formats various data structures as text
+ *
+ * Asbjørn Djupdal 2003
+ * Kjetil Aamodt 2005
+ * Per Thomas Lundal 2015
+ *****************************************************************************/
+
 #include "print.h"
 #include "utility.h"
 #include <stdio.h>
