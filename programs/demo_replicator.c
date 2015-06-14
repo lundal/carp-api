@@ -215,13 +215,13 @@ uint32_t colorfunction (uint32_t value) {
     return 0xFFFFFF;
   }
   if (value <= 8) {
-    return 0x00FF00;
+    return 0x33FF33;
   }
   if (value <= 9) {
     return 0xFF6666;
   }
   if (value <= 0xD) {
-    return 0x00FFFF;
+    return 0xFFFF33;
   }
   return 0xFFFFFF;
 }
